@@ -1,0 +1,43 @@
+{
+  "$comment": "Arabic one-shot test prompts (incl. Gulf dialect and Eastern-Arabic digits). All values are synthetic. Same fields as prompts-en.json.",
+  "cases": [
+    { "id": "ar-safe-01", "text": "ما هي عاصمة فرنسا؟", "tier": "SAFE", "labels": [] },
+    { "id": "ar-safe-02", "text": "اكتب لي قصيدة قصيرة عن البحر", "tier": "SAFE", "labels": [] },
+    { "id": "ar-safe-03", "text": "اشرح لي كيف يعمل التشفير بشكل مبسط", "tier": "SAFE", "labels": [] },
+    { "id": "ar-safe-04", "text": "لخص هذا المقال في ثلاث نقاط", "tier": "SAFE", "labels": [] },
+    { "id": "ar-safe-05", "text": "كم يساوي ٢٥ درجة مئوية بالفهرنهايت؟", "tier": "SAFE", "labels": [] },
+    { "id": "ar-safe-06", "text": "ابغى خطة مذاكرة لاختبار الرياضيات الأسبوع الجاي", "tier": "SAFE", "labels": [] },
+
+    { "id": "ar-low-01", "text": "وين أحفظ الباسورد بشكل آمن؟", "tier": "LOW", "labels": [] },
+    { "id": "ar-low-02", "text": "هذا المستند سري للغاية، لخصه لي", "tier": "LOW", "labels": [] },
+    { "id": "ar-low-03", "text": "كيف أغير كلمة المرور في جيميل؟", "tier": "LOW", "labels": [] },
+
+    { "id": "ar-med-01", "text": "راسلني على ali@example.com بخصوص الاجتماع", "tier": "MEDIUM", "labels": ["EMAIL"] },
+    { "id": "ar-med-02", "text": "جوالي 0551234567 اتصل علي بعد العصر", "tier": "MEDIUM", "labels": ["PHONE"] },
+    { "id": "ar-med-03", "text": "رقمي +966 55 123 4567", "tier": "MEDIUM", "labels": ["PHONE"] },
+    { "id": "ar-med-04", "text": "تاريخ الميلاد: 1995/03/12 احسب عمري", "tier": "MEDIUM", "labels": ["DATE_OF_BIRTH"] },
+    { "id": "ar-med-05", "text": "رقم الطلب: ORD-558812 متى يوصل؟", "tier": "MEDIUM", "labels": ["TRACKING_NUMBER"] },
+    { "id": "ar-med-06", "text": "الرقم الجامعي 441000123 وش معدلي؟", "tier": "MEDIUM", "labels": ["STUDENT_ID"] },
+    { "id": "ar-med-07", "text": "السيرفر على 192.168.1.20 وما يرد", "tier": "MEDIUM", "labels": ["IP_ADDRESS"] },
+    { "id": "ar-med-08", "text": "دور لي مطاعم قريبة من 24.7136, 46.6753", "tier": "MEDIUM", "labels": ["GPS"] },
+
+    { "id": "ar-high-01", "text": "شف هذه هو الباسورد حقي :\nمحمد_الو_تراها_ماهي_بيانات_سرية", "tier": "HIGH", "labels": ["PASSWORD"], "note": "The real case reported by the user." },
+    { "id": "ar-high-02", "text": "الباسورد هو Riyadh2024", "tier": "HIGH", "labels": ["PASSWORD"] },
+    { "id": "ar-high-03", "text": "كلمة المرور: Abc@12345", "tier": "HIGH", "labels": ["PASSWORD"] },
+    { "id": "ar-high-04", "text": "كلمة السر حقتي هي sm_9981", "tier": "HIGH", "labels": ["PASSWORD"] },
+    { "id": "ar-high-05", "text": "كلمة المرور الخاصة بي: تفاحة", "tier": "HIGH", "labels": ["PASSWORD"] },
+    { "id": "ar-high-06", "text": "رقم الهوية ١٠٨٧٦٥٤٣٢١ عبي النموذج", "tier": "HIGH", "labels": ["NATIONAL_ID"] },
+    { "id": "ar-high-07", "text": "هويتي 1087654321", "tier": "HIGH", "labels": ["NATIONAL_ID"] },
+    { "id": "ar-high-08", "text": "رقم الإقامة 2100000005 منتهي؟", "tier": "HIGH", "labels": ["NATIONAL_ID"] },
+    { "id": "ar-high-09", "text": "حول المبلغ على الآيبان SA03 8000 0000 6080 1016 7519", "tier": "HIGH", "labels": ["IBAN"] },
+    { "id": "ar-high-10", "text": "بطاقتي ٤١١١ ١١١١ ١١١١ ١١١١ ليش مرفوضة؟", "tier": "HIGH", "labels": ["CARD_NUMBER"] },
+    { "id": "ar-high-11", "text": "رمز التحقق 482913 وصلني الحين", "tier": "HIGH", "labels": ["PIN"] },
+    { "id": "ar-high-12", "text": "الرقم السري للبطاقة 4821", "tier": "HIGH", "labels": ["PIN"] },
+    { "id": "ar-high-13", "text": "مفتاح الـ API حقي sk-proj-abcdEFGH1234ijklMNOP5678 ما يشتغل", "tier": "HIGH", "labels": ["API_KEY"] },
+    { "id": "ar-high-14", "text": "رقم الجواز A12345678 متى ينتهي؟", "tier": "HIGH", "labels": ["PASSPORT"] },
+
+    { "id": "ar-gap-01", "text": "اسمي محمد العتيبي وأسكن في حي النرجس، الرياض", "tier": "MEDIUM", "labels": [], "gap": "Arabic names and addresses need the NER model (Phase 3)." },
+    { "id": "ar-gap-02", "text": "هذه شروط صفقة الاستحواذ غير المعلنة، صغها بشكل رسمي", "tier": "MEDIUM", "labels": [], "gap": "Context-only risk needs the decision model (Phase 4)." },
+    { "id": "ar-gap-03", "text": "الباس حقي سمسم2020", "tier": "HIGH", "labels": ["PASSWORD"], "gap": "Slang 'الباس' without a separator is not recognised yet." }
+  ]
+}

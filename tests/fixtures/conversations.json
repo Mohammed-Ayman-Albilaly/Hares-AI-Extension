@@ -1,0 +1,108 @@
+{
+  "$comment": "Multi-turn conversations. Each turn is analysed with the tail of the previously SENT message. send: what the user sends after the decision ('original' or 'revised'; default original, revised for HIGH). text '$REVISED_PREVIOUS' = the revised text of the previous turn pasted back. crosses: true = the value must be flagged as continuing the previous message. revised: exact expected revised text (checks placeholder consistency).",
+  "conversations": [
+    {
+      "id": "conv-en-split-password",
+      "lang": "en",
+      "title": "Password announced in one message, value in the next",
+      "turns": [
+        { "text": "Can you help me log in to my server?", "tier": "SAFE" },
+        { "text": "my password is", "tier": "LOW" },
+        { "text": "Hunter2!x", "tier": "HIGH", "labels": ["PASSWORD"], "crosses": true, "revised": "[PASSWORD_1]" }
+      ]
+    },
+    {
+      "id": "conv-en-split-card",
+      "lang": "en",
+      "title": "Card number split across two messages",
+      "turns": [
+        { "text": "my card number is 4111 1111", "tier": "SAFE" },
+        { "text": "1111 1111 and it expires 09/27", "tier": "HIGH", "labels": ["CARD_NUMBER"], "crosses": true }
+      ]
+    },
+    {
+      "id": "conv-en-placeholders",
+      "lang": "en",
+      "title": "Same value keeps the same placeholder across messages",
+      "turns": [
+        { "text": "Email sara@example.com about the launch", "tier": "MEDIUM", "send": "revised", "revised": "Email [EMAIL_1] about the launch" },
+        { "text": "Also cc ali@example.com", "tier": "MEDIUM", "send": "revised", "revised": "Also cc [EMAIL_2]" },
+        { "text": "Actually only email sara@example.com", "tier": "MEDIUM", "revised": "Actually only email [EMAIL_1]" }
+      ]
+    },
+    {
+      "id": "conv-en-revised-pasted-back",
+      "lang": "en",
+      "title": "Revised text pasted back is not flagged again (no loop)",
+      "turns": [
+        { "text": "Fix my config: password is Hunter2! and email ali@example.com", "tier": "HIGH" },
+        { "text": "$REVISED_PREVIOUS", "maxTier": "LOW", "labels": [] }
+      ]
+    },
+    {
+      "id": "conv-en-no-false-join",
+      "lang": "en",
+      "title": "Unrelated numbers in consecutive messages are not joined",
+      "turns": [
+        { "text": "The order total is 4111", "tier": "SAFE" },
+        { "text": "1111 people attended the event", "tier": "SAFE" }
+      ]
+    },
+    {
+      "id": "conv-en-history-does-not-leak",
+      "lang": "en",
+      "title": "A keyword in the previous message does not flag an unrelated next message",
+      "turns": [
+        { "text": "What's a good password manager?", "tier": "LOW" },
+        { "text": "thanks, also explain how DNS works", "tier": "SAFE" }
+      ]
+    },
+    {
+      "id": "conv-ar-split-password",
+      "lang": "ar",
+      "title": "الباسورد في رسالة والقيمة في الرسالة اللي بعدها",
+      "turns": [
+        { "text": "ابغاك تساعدني ادخل حسابي", "tier": "SAFE" },
+        { "text": "الباسورد حقي :", "tier": "LOW" },
+        { "text": "محمد_الو_تراها_ماهي_بيانات_سرية", "tier": "HIGH", "labels": ["PASSWORD"], "crosses": true }
+      ]
+    },
+    {
+      "id": "conv-ar-split-card",
+      "lang": "ar",
+      "title": "رقم بطاقة بالأرقام العربية مقسوم على رسالتين",
+      "turns": [
+        { "text": "رقم بطاقتي ٤١١١ ١١١١", "tier": "SAFE" },
+        { "text": "١١١١ ١١١١", "tier": "HIGH", "labels": ["CARD_NUMBER"], "crosses": true }
+      ]
+    },
+    {
+      "id": "conv-ar-otp",
+      "lang": "ar",
+      "title": "رمز التحقق يُذكر ثم يُرسل في رسالة منفصلة",
+      "turns": [
+        { "text": "وصلني رمز التحقق", "tier": "SAFE" },
+        { "text": "482913", "tier": "HIGH", "labels": ["PIN"], "crosses": true }
+      ]
+    },
+    {
+      "id": "conv-ar-placeholders",
+      "lang": "ar",
+      "title": "نفس الإيميل ياخذ نفس البليسهولدر عبر المحادثة",
+      "turns": [
+        { "text": "أرسل التقرير إلى sara@example.com", "tier": "MEDIUM", "send": "revised", "revised": "أرسل التقرير إلى [EMAIL_1]" },
+        { "text": "وأرسل نسخة إلى ali@example.com", "tier": "MEDIUM", "send": "revised", "revised": "وأرسل نسخة إلى [EMAIL_2]" },
+        { "text": "لا، فقط إلى sara@example.com", "tier": "MEDIUM", "revised": "لا، فقط إلى [EMAIL_1]" }
+      ]
+    },
+    {
+      "id": "conv-mixed-iban",
+      "lang": "mixed",
+      "title": "English then Arabic, IBAN in the second message",
+      "turns": [
+        { "text": "Hi, I need help with a bank transfer", "tier": "SAFE" },
+        { "text": "الآيبان حقي SA03 8000 0000 6080 1016 7519", "tier": "HIGH", "labels": ["IBAN"] }
+      ]
+    }
+  ]
+}

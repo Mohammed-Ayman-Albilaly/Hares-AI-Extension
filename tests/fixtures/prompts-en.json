@@ -1,0 +1,51 @@
+{
+  "$comment": "English one-shot test prompts. All values are synthetic (checksum-valid fakes). tier = expected tier; labels = placeholder labels that must appear; gap = known limitation (test is skipped and reported).",
+  "cases": [
+    { "id": "en-safe-01", "text": "What is the capital of France?", "tier": "SAFE", "labels": [] },
+    { "id": "en-safe-02", "text": "Write a Python function that reverses a string.", "tier": "SAFE", "labels": [] },
+    { "id": "en-safe-03", "text": "Summarize this article about climate change in 3 bullet points.", "tier": "SAFE", "labels": [] },
+    { "id": "en-safe-04", "text": "Convert 25 Celsius to Fahrenheit and explain the formula.", "tier": "SAFE", "labels": [] },
+    { "id": "en-safe-05", "text": "My order arrived late, write a polite complaint email to the store.", "tier": "SAFE", "labels": [] },
+    { "id": "en-safe-06", "text": "Change the button color to #ff00aa and the border radius to 8px.", "tier": "SAFE", "labels": [] },
+    { "id": "en-safe-07", "text": "Upgrade the package to version 1.2.3.4 please", "tier": "SAFE", "labels": [], "gap": "Known false positive: a 4-part version number looks like an IPv4 address." },
+
+    { "id": "en-low-01", "text": "I need a password reset link for my account", "tier": "LOW", "labels": [] },
+    { "id": "en-low-02", "text": "Where should I store an api_key safely in a React app?", "tier": "LOW", "labels": [] },
+    { "id": "en-low-03", "text": "This document is confidential, summarize it.", "tier": "LOW", "labels": [] },
+
+    { "id": "en-med-01", "text": "Please reply to sara@example.com about the meeting", "tier": "MEDIUM", "labels": ["EMAIL"] },
+    { "id": "en-med-02", "text": "Call me on 0551234567 after 5pm", "tier": "MEDIUM", "labels": ["PHONE"] },
+    { "id": "en-med-03", "text": "Our London office number is +44 20 7946 0958", "tier": "MEDIUM", "labels": ["PHONE"] },
+    { "id": "en-med-04", "text": "The staging server is at 10.0.0.12, why is it slow?", "tier": "MEDIUM", "labels": ["IP_ADDRESS"] },
+    { "id": "en-med-05", "text": "My laptop MAC address is 00:1A:2B:3C:4D:5E", "tier": "MEDIUM", "labels": ["MAC_ADDRESS"] },
+    { "id": "en-med-06", "text": "Look up record 3f2a9c1e-5b7d-4e8a-9c21-7d4e5f6a8b90 in the logs", "tier": "MEDIUM", "labels": ["UUID"] },
+    { "id": "en-med-07", "text": "Open C:\\Users\\ali\\Desktop\\salaries.xlsx and explain the totals", "tier": "MEDIUM", "labels": ["FILE_PATH"] },
+    { "id": "en-med-08", "text": "Why is my .env file not loading in Vite?", "tier": "MEDIUM", "labels": ["SECRET_FILE"] },
+    { "id": "en-med-09", "text": "Find restaurants near 24.7136, 46.6753", "tier": "MEDIUM", "labels": ["GPS"] },
+    { "id": "en-med-10", "text": "Patient DOB: 1990-05-12, what vaccines are due?", "tier": "MEDIUM", "labels": ["DATE_OF_BIRTH"] },
+    { "id": "en-med-11", "text": "Where is my parcel? tracking number: 1Z999AA10123456784", "tier": "MEDIUM", "labels": ["TRACKING_NUMBER"] },
+    { "id": "en-med-12", "text": "Decode this VIN 1HGCM82633A004352 for me", "tier": "MEDIUM", "labels": ["VIN"] },
+    { "id": "en-med-13", "text": "Read https://docs.python.org/3/library/json.html and summarize it", "tier": "MEDIUM", "labels": ["URL"], "note": "Per the PDF every URL is MEDIUM; noisy — see consultant item R5." },
+
+    { "id": "en-high-01", "text": "Is this card valid? 4111 1111 1111 1111", "tier": "HIGH", "labels": ["CARD_NUMBER"] },
+    { "id": "en-high-02", "text": "the cvv: 123 keeps getting rejected", "tier": "HIGH", "labels": ["CVV"] },
+    { "id": "en-high-03", "text": "Send the salary to SA03 8000 0000 6080 1016 7519", "tier": "HIGH", "labels": ["IBAN"] },
+    { "id": "en-high-04", "text": "My national ID is 1087654321, fill the form", "tier": "HIGH", "labels": ["NATIONAL_ID"] },
+    { "id": "en-high-05", "text": "passport number: A12345678 expires next year", "tier": "HIGH", "labels": ["PASSPORT"] },
+    { "id": "en-high-06", "text": "Is 123-45-6789 a valid SSN format?", "tier": "HIGH", "labels": ["SSN"] },
+    { "id": "en-high-07", "text": "Fix my config: password is Hunter2! and email ali@example.com", "tier": "HIGH", "labels": ["PASSWORD", "EMAIL"] },
+    { "id": "en-high-08", "text": "my password for gmail is Hunter2!", "tier": "HIGH", "labels": ["PASSWORD"] },
+    { "id": "en-high-09", "text": "Why does sk-proj-abcdEFGH1234ijklMNOP5678 return 401?", "tier": "HIGH", "labels": ["API_KEY"] },
+    { "id": "en-high-10", "text": "aws_access_key_id = AKIAIOSFODNN7EXAMPLE", "tier": "HIGH", "labels": ["API_KEY"] },
+    { "id": "en-high-11", "text": "git push fails with token ghp_abcdefghijklmnopqrstuvwxyz0123456789", "tier": "HIGH", "labels": ["GITHUB_TOKEN"] },
+    { "id": "en-high-12", "text": "Decode this: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.dozjgNryP4J3jVmNHl0w5N_XgL0n3I9PlFUP0THsR8U", "tier": "HIGH", "labels": ["JWT"] },
+    { "id": "en-high-13", "text": "-----BEGIN RSA PRIVATE KEY-----\nMIIEowIBAAKCAQEAfakefakefake\n-----END RSA PRIVATE KEY-----\nwhy does ssh reject this?", "tier": "HIGH", "labels": ["PRIVATE_KEY"] },
+    { "id": "en-high-14", "text": "connect with postgres://admin:S3cret@db.internal:5432/prod", "tier": "HIGH", "labels": ["CONNECTION_STRING"] },
+    { "id": "en-high-15", "text": "DB_PASSWORD=SuperSecret123 is in my env, is that ok?", "tier": "HIGH", "labels": ["ENV_SECRET"] },
+    { "id": "en-high-16", "text": "curl -H \"Authorization: Bearer abcdef1234567890abcdef\" https://api.example.com", "tier": "HIGH", "labels": ["AUTH_HEADER"] },
+    { "id": "en-high-17", "text": "my OTP is 482913, why did login fail?", "tier": "HIGH", "labels": ["PIN"] },
+
+    { "id": "en-gap-01", "text": "My name is John Carter and I live at 12 Baker Street, London", "tier": "MEDIUM", "labels": [], "gap": "Names and street addresses need the NER model (Phase 3)." },
+    { "id": "en-gap-02", "text": "Here are our unreleased Q3 merger terms with Acme, rewrite them formally", "tier": "MEDIUM", "labels": [], "gap": "Context-only risk needs the decision model (Phase 4)." }
+  ]
+}
