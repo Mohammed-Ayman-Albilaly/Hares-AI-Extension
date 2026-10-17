@@ -20,7 +20,15 @@ export interface PromptLogEvent {
   id: string;
   at: string;
   platform: string;
+  /** Tier under the organisation's policy. A user exception never lowers it. */
   tier: Tier;
+  /** Tier the extension actually enforced on the device. */
+  enforcedTier: Tier;
+  /** Categories enforced below their policy tier because of a user exception. */
+  exceptedCategories: CategoryId[];
+  /** Which policy produced the decision. */
+  departmentId: string;
+  policyVersion: number;
   categories: CategoryId[];
   detectionCount: number;
   action: UserAction;

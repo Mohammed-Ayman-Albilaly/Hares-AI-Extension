@@ -7,6 +7,8 @@
  * working when the model stages fail.
  */
 
+import { DEFAULT_POLICY } from '../policy/defaults';
+import type { CustomKeyword, Policy } from '../policy/types';
 import { mergeDetections } from './merge';
 import { PATTERNS, type PatternSpec } from './patterns';
 import type { Detection } from './types';
@@ -36,7 +38,48 @@ function compile(patterns: readonly PatternSpec[]): CompiledPattern[] {
   });
 }
 
-let compiledDefault: CompiledPattern[] | null = null;
+/** Escape text for literal use inside a RegExp. */
+function escapeRegExp(text: string): string {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+/**
+ * A policy custom keyword as a literal, case-insensitive pattern. Word
+ * boundaries are added only on Latin word edges (JS `\b` does not understand
+ * Arabic letters).
+ */
+function keywordPattern(keyword: CustomKeyword, index: number): PatternSpec {
+  const body = escapeRegExp(keyword.text).replace(/\s+/g, String.raw`\s+`);
+  const start = /^\w/.test(keyword.text) ? String.raw`\b` : '';
+  const end = /\w$/.test(keyword.text) ? String.raw`\b` : '';
+  return {
+    id: `custom-keyword-${index}`,
+    category: keyword.category,
+    label: keyword.label,
+    source: `${start}${body}${end}`,
+    flags: 'i',
+  };
+}
+
+/** Patterns in effect under a policy: built-ins minus disabled ones, plus custom keywords. */
+export function patternsForPolicy(policy: Policy): PatternSpec[] {
+  const disabled = new Set(policy.rules?.disabledPatterns ?? []);
+  const builtIn = PATTERNS.filter((p) => !disabled.has(p.id));
+  const custom = (policy.rules?.customKeywords ?? []).map(keywordPattern);
+  return [...builtIn, ...custom];
+}
+
+/** Compiled patterns are cached per policy object (policies are replaced, never mutated). */
+const compiledByPolicy = new WeakMap<Policy, CompiledPattern[]>();
+
+function compiledFor(policy: Policy): CompiledPattern[] {
+  let compiled = compiledByPolicy.get(policy);
+  if (!compiled) {
+    compiled = compile(patternsForPolicy(policy));
+    compiledByPolicy.set(policy, compiled);
+  }
+  return compiled;
+}
 
 /** Placeholders written by the vault, e.g. `[EMAIL_1]`, `[API_KEY_12]`. */
 const PLACEHOLDER_RE = /\[[A-Z][A-Z0-9_]*_\d+\]/g;
@@ -49,12 +92,8 @@ function placeholderSpans(text: string): Array<[number, number]> {
   return [...text.matchAll(PLACEHOLDER_RE)].map((m) => [m.index, m.index + m[0].length]);
 }
 
-export function detectWithRules(
-  text: string,
-  patterns: readonly PatternSpec[] = PATTERNS,
-): Detection[] {
-  const compiled =
-    patterns === PATTERNS ? (compiledDefault ??= compile(PATTERNS)) : compile(patterns);
+export function detectWithRules(text: string, policy: Policy = DEFAULT_POLICY): Detection[] {
+  const compiled = compiledFor(policy);
   const normalized = normalizeDigits(text);
   const placeholders = placeholderSpans(text);
   const found: Detection[] = [];

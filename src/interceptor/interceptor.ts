@@ -19,6 +19,7 @@ import type { PlatformAdapter } from '../adapters/types';
 import { queueLogEvent, type UserAction } from '../logging/events';
 import { analyzePrompt, type AnalysisResult } from '../pipeline/analyze';
 import { ConversationTracker } from '../pipeline/conversation';
+import { PolicyState } from '../policy/store';
 import { isDialogOpen, showDecisionDialog } from '../ui/dialog';
 import { showToast } from '../ui/toast';
 import { ApprovalStore } from './approval';
@@ -26,6 +27,10 @@ import { ApprovalStore } from './approval';
 export function installInterceptor(adapter: PlatformAdapter): void {
   const approvals = new ApprovalStore();
   const conversations = new ConversationTracker();
+  // Department policy + user exceptions; starts on the built-in default and
+  // switches as soon as the stored policy is loaded (and on every change).
+  const policyState = new PolicyState();
+  void policyState.start();
   let busy = false;
 
   function isInComposer(target: EventTarget | null): boolean {
@@ -90,7 +95,11 @@ export function installInterceptor(adapter: PlatformAdapter): void {
       id: crypto.randomUUID(),
       at: new Date().toISOString(),
       platform: adapter.id,
-      tier: analysis.decision.tier,
+      tier: analysis.decision.policyTier,
+      enforcedTier: analysis.decision.tier,
+      exceptedCategories: analysis.decision.exceptedCategories,
+      departmentId: policyState.policy.departmentId,
+      policyVersion: policyState.policy.version,
       categories: analysis.decision.categories,
       detectionCount: analysis.detections.length,
       action,
@@ -124,13 +133,20 @@ export function installInterceptor(adapter: PlatformAdapter): void {
       const conversation = conversations.current();
       const analysis = analyzePrompt(text, conversation.vault, {
         historyTail: conversation.historyTail(),
+        policy: policyState.policy,
+        exceptions: policyState.exceptions,
       });
       const { tier } = analysis.decision;
 
       if (tier === 'SAFE' || tier === 'LOW') {
         busy = false; // release before re-sending so the click is not swallowed
         await resend(text);
-        if (tier === 'LOW') showToast('Low risk: possibly sensitive wording noticed.', 'LOW');
+        if (analysis.decision.exceptedLabels.length > 0) {
+          const names = analysis.decision.exceptedLabels.join(', ');
+          showToast(`Sent under your personal exception (${names}). Still logged as ${analysis.decision.policyTier}.`, 'LOW', 4500);
+        } else if (tier === 'LOW') {
+          showToast('Low risk: possibly sensitive wording noticed.', 'LOW');
+        }
         log(analysis, 'auto_sent');
         return;
       }

@@ -19,6 +19,8 @@ import type { Detection } from '../detectors/types';
 import { PlaceholderVault } from '../masking/vault';
 import type { ClassifyResult } from '../model/contract';
 import { decide, type Decision } from '../policy/decision';
+import { activeExceptions, DEFAULT_POLICY, detectionTier } from '../policy/defaults';
+import type { Policy, UserExceptions } from '../policy/types';
 
 /** One detected item as shown to the user — never carries the raw value. */
 export interface FindingSummary {
@@ -41,7 +43,11 @@ export interface AnalysisResult {
   latencyMs: number;
 }
 
-function summarize(detections: readonly Detection[], vault: PlaceholderVault): FindingSummary[] {
+function summarize(
+  detections: readonly Detection[],
+  vault: PlaceholderVault,
+  policy: Policy,
+): FindingSummary[] {
   const seen = new Set<string>();
   const findings: FindingSummary[] = [];
   for (const d of detections) {
@@ -54,7 +60,7 @@ function summarize(detections: readonly Detection[], vault: PlaceholderVault): F
     findings.push({
       category: d.category,
       categoryName: CATEGORIES[d.category].name,
-      tier: CATEGORIES[d.category].tier,
+      tier: detectionTier(d, policy),
       placeholder,
       crossesMessages: d.crossesMessages === true,
     });
@@ -68,13 +74,13 @@ function summarize(detections: readonly Detection[], vault: PlaceholderVault): F
  * The previous tail is joined to the prompt; only the part of each detection
  * inside the current prompt is kept (the rest was already sent).
  */
-function detectAcrossMessages(prompt: string, historyTail: string): Detection[] {
+function detectAcrossMessages(prompt: string, historyTail: string, policy: Policy): Detection[] {
   // Joined with a space (not a newline) so a number split across messages
   // ("4111 1111" + "1111 1111") still matches as one value.
   const offset = historyTail.length + 1;
   const combined = `${historyTail} ${prompt}`;
   const result: Detection[] = [];
-  for (const d of detectWithRules(combined)) {
+  for (const d of detectWithRules(combined, policy)) {
     if (d.end <= offset) continue; // entirely in the previous message
     const start = Math.max(d.start, offset) - offset;
     const end = d.end - offset;
@@ -88,6 +94,10 @@ export interface AnalyzeOptions {
   context?: ClassifyResult | null;
   /** Tail of the last message sent in this conversation. */
   historyTail?: string;
+  /** Organisation policy for the user's department (default: built-in table). */
+  policy?: Policy;
+  /** User exceptions on this device (filtered against what the policy allows). */
+  exceptions?: UserExceptions | null;
 }
 
 export function analyzePrompt(
@@ -96,21 +106,27 @@ export function analyzePrompt(
   options: AnalyzeOptions = {},
 ): AnalysisResult {
   const started = performance.now();
-  const own = detectWithRules(prompt);
-  const detections = options.historyTail
-    ? mergeDetections([...own, ...detectAcrossMessages(prompt, options.historyTail)]).map(
+  const policy = options.policy ?? DEFAULT_POLICY;
+  const own = detectWithRules(prompt, policy);
+  const merged = options.historyTail
+    ? mergeDetections([...own, ...detectAcrossMessages(prompt, options.historyTail, policy)]).map(
         // A span found on its own is not "cross-message", even if the joined text also found it.
         (d) => (own.some((o) => o.start === d.start && o.end === d.end) ? { ...d, crossesMessages: undefined } : d),
       )
     : own;
+  // A category the policy sets to SAFE is ignored entirely: not shown, not masked.
+  const detections = merged.filter((d) => detectionTier(d, policy) !== 'SAFE');
   const context = options.context;
   const { masked } = vault.mask(prompt, detections);
-  const decision = decide(detections, context);
+  const decision = decide(detections, context, {
+    policy,
+    exceptions: activeExceptions(options.exceptions),
+  });
   return {
     original: prompt,
     revised: masked,
     detections,
-    findings: summarize(detections, vault),
+    findings: summarize(detections, vault, policy),
     decision,
     latencyMs: Math.round(performance.now() - started),
   };

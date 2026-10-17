@@ -11,10 +11,16 @@
  *
  * Sending the original is never allowed on HIGH; sending the masked prompt is
  * allowed on every tier that has something masked.
+ *
+ * Two tiers come out of a decision:
+ *  - `policyTier`: what the organisation's policy says. This is what the logs
+ *    record and the platform dashboards show — a user exception never lowers it.
+ *  - `tier`: what the extension enforces on this device. A category the user
+ *    exempted (and the policy allows them to exempt) counts as LOW here: it is
+ *    sent without a dialog, with the quiet toast as a reminder.
  */
 
 import {
-  CATEGORIES,
   TIER_RANK,
   UNMASKED_CATEGORIES,
   maxTier,
@@ -23,6 +29,15 @@ import {
 } from '../detectors/categories';
 import type { Detection } from '../detectors/types';
 import type { ClassifyResult } from '../model/contract';
+import {
+  DEFAULT_POLICY,
+  NO_EXCEPTIONS,
+  detectionTier as tierOfDetection,
+  isExempted,
+  policyTier as tierUnderPolicy,
+  type ActiveExceptions,
+} from './defaults';
+import type { Policy } from './types';
 
 export type Action = 'send' | 'confirm_send' | 'send_masked' | 'edit' | 'cancel';
 
@@ -30,12 +45,19 @@ export type Action = 'send' | 'confirm_send' | 'send_masked' | 'edit' | 'cancel'
 export type Presentation = 'none' | 'notice' | 'confirm' | 'block';
 
 export interface Decision {
+  /** Tier enforced on this device (after the user's allowed exceptions). */
   tier: Tier;
+  /** Tier under the organisation's policy — what the logs record. */
+  policyTier: Tier;
+  /** Detected categories the user exempted, so they were not enforced at their policy tier. */
+  exceptedCategories: CategoryId[];
+  /** Detected types (labels) the user exempted, e.g. API_KEY. */
+  exceptedLabels: string[];
   presentation: Presentation;
   actions: Action[];
   /** Distinct categories detected, highest tier first. */
   categories: CategoryId[];
-  /** Tier implied by detections alone. */
+  /** Tier implied by detections alone, under the policy. */
   detectionTier: Tier;
   /** Tier implied by the context model alone (capped at MEDIUM). */
   contextTier: Tier;
@@ -61,16 +83,43 @@ const PRESENTATION: Record<Tier, Presentation> = {
   HIGH: 'block',
 };
 
+export interface DecideOptions {
+  policy?: Policy;
+  /** The user's unexpired exceptions; only what the policy allows is applied. */
+  exceptions?: ActiveExceptions;
+}
+
+function minTier(a: Tier, b: Tier): Tier {
+  return TIER_RANK[a] <= TIER_RANK[b] ? a : b;
+}
+
 export function decide(
   detections: readonly Detection[],
   context?: ClassifyResult | null,
+  options: DecideOptions = {},
 ): Decision {
-  const detectionTier = detections.reduce<Tier>(
-    (tier, d) => maxTier(tier, CATEGORIES[d.category].tier),
-    'SAFE',
-  );
+  const policy = options.policy ?? DEFAULT_POLICY;
+  const exceptions = options.exceptions ?? NO_EXCEPTIONS;
+
+  let detectionTier: Tier = 'SAFE';
+  let enforcedDetectionTier: Tier = 'SAFE';
+  const excepted = new Set<CategoryId>();
+  const exceptedLabels = new Set<string>();
+  for (const d of detections) {
+    const t = tierOfDetection(d, policy);
+    detectionTier = maxTier(detectionTier, t);
+    if (TIER_RANK[t] > TIER_RANK.LOW && isExempted(d, policy, exceptions)) {
+      excepted.add(d.category);
+      exceptedLabels.add(d.label);
+      enforcedDetectionTier = maxTier(enforcedDetectionTier, minTier(t, 'LOW'));
+    } else {
+      enforcedDetectionTier = maxTier(enforcedDetectionTier, t);
+    }
+  }
+
   const contextTier = contextTierOf(context);
-  const tier = maxTier(detectionTier, contextTier);
+  const policyTier = maxTier(detectionTier, contextTier);
+  const tier = maxTier(enforcedDetectionTier, contextTier);
   const canMask = detections.some((d) => !UNMASKED_CATEGORIES.has(d.category));
 
   const actions: Action[] = [];
@@ -81,8 +130,18 @@ export function decide(
   if (tier === 'MEDIUM' || tier === 'HIGH') actions.push('cancel');
 
   const categories = [...new Set(detections.map((d) => d.category))].sort(
-    (a, b) => TIER_RANK[CATEGORIES[b].tier] - TIER_RANK[CATEGORIES[a].tier],
+    (a, b) => TIER_RANK[tierUnderPolicy(b, policy)] - TIER_RANK[tierUnderPolicy(a, policy)],
   );
 
-  return { tier, presentation: PRESENTATION[tier], actions, categories, detectionTier, contextTier };
+  return {
+    tier,
+    policyTier,
+    exceptedCategories: [...excepted],
+    exceptedLabels: [...exceptedLabels],
+    presentation: PRESENTATION[tier],
+    actions,
+    categories,
+    detectionTier,
+    contextTier,
+  };
 }
