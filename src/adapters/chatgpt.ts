@@ -1,21 +1,17 @@
-import { closestAny, queryFirst, type PlatformAdapter } from './types';
+import { createAdapter } from './types';
 
-const COMPOSER = [
-  '#prompt-textarea[contenteditable="true"]',
-  '#prompt-textarea',
-  'form div.ProseMirror[contenteditable="true"]',
-  'form textarea',
-] as const;
-
-const SEND_BUTTON = [
-  'button[data-testid="send-button"]',
-  '#composer-submit-button',
-  'form button[aria-label*="Send" i]',
-] as const;
-
-export const chatgptAdapter: PlatformAdapter = {
+/** ChatGPT (chatgpt.com): ProseMirror composer `#prompt-textarea`. */
+export const chatgptAdapter = createAdapter({
   id: 'chatgpt',
-  getComposer: () => queryFirst(COMPOSER),
-  getSendButton: () => queryFirst(SEND_BUTTON),
-  isSendButton: (target) => closestAny(target, SEND_BUTTON) !== null,
-};
+  composer: [
+    '#prompt-textarea[contenteditable="true"]',
+    '#prompt-textarea',
+    'form div.ProseMirror[contenteditable="true"]',
+    'form textarea',
+  ],
+  sendButton: [
+    'button[data-testid="send-button"]',
+    '#composer-submit-button',
+    'form button[aria-label*="Send" i]',
+  ],
+});

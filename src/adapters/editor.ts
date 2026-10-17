@@ -4,8 +4,8 @@
  * ChatGPT and Claude use ProseMirror, Gemini uses Quill, and some fallbacks are
  * plain <textarea>s. Writing `innerText` directly does not update the editor's
  * own state, so the site would still send the old text. Instead we select all
- * and go through paths the editors listen to — a synthetic paste first, then
- * `insertText` — and verify by reading the text back.
+ * and go through paths the editors listen to — `insertText` first, then a
+ * synthetic paste — and verify by reading the text back.
  */
 
 import { normalizeForCompare } from '../interceptor/approval';
@@ -35,8 +35,13 @@ function matches(el: HTMLElement, text: string): boolean {
   return normalizeForCompare(readComposerText(el)) === normalizeForCompare(text);
 }
 
+/**
+ * Let the editor process the change. A timer, not requestAnimationFrame: rAF
+ * stops completely while the tab is hidden, which would hang the send if the
+ * user switches tabs right after pressing Enter.
+ */
 function nextFrame(): Promise<void> {
-  return new Promise((resolve) => requestAnimationFrame(() => resolve()));
+  return new Promise((resolve) => setTimeout(resolve, 20));
 }
 
 function setTextareaValue(el: HTMLTextAreaElement | HTMLInputElement, text: string): void {
@@ -71,7 +76,9 @@ export async function replaceComposerText(el: HTMLElement, text: string): Promis
     return matches(el, text);
   }
 
-  for (const attempt of [tryPaste, tryInsertText]) {
+  // insertText first: Claude and ChatGPT turn long pastes into file attachments,
+  // so a paste could add a duplicate copy. Paste is only the fallback.
+  for (const attempt of [tryInsertText, tryPaste]) {
     selectAllIn(el);
     attempt(el, text);
     await nextFrame();
