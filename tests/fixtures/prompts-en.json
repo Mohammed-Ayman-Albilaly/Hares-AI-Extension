@@ -45,7 +45,7 @@
     { "id": "en-high-16", "text": "curl -H \"Authorization: Bearer abcdef1234567890abcdef\" https://api.example.com", "tier": "HIGH", "labels": ["AUTH_HEADER"] },
     { "id": "en-high-17", "text": "my OTP is 482913, why did login fail?", "tier": "HIGH", "labels": ["PIN"] },
 
-    { "id": "en-gap-01", "text": "My name is John Carter and I live at 12 Baker Street, London", "tier": "MEDIUM", "labels": [], "gap": "Names and street addresses need the NER model (Phase 3)." },
+    { "id": "en-gap-01", "text": "My name is John Carter and I live at 12 Baker Street, London", "tier": "MEDIUM", "labels": [], "gap": "Rules-only suite: names/addresses are found by the detection model (Phase 3, measured in eval/ner.eval.ts), not by the rules." },
     { "id": "en-gap-02", "text": "Here are our unreleased Q3 merger terms with Acme, rewrite them formally", "tier": "MEDIUM", "labels": [], "gap": "Context-only risk needs the decision model (Phase 4)." }
   ]
 }

@@ -1,0 +1,311 @@
+{
+  "model": {
+    "id": "Horizon-Labs/pii-redactor-small",
+    "revision": "8bfbc15e90a044607264a21c3669385b4c3d748d",
+    "dtype": "q8"
+  },
+  "minScore": 0.7,
+  "runtime": "node-cpu",
+  "loadMs": 3387,
+  "summary": {
+    "en": {
+      "recall": 1,
+      "precision": 1,
+      "normalPromptsFlagged": "0/4",
+      "famousNamesFlagged": "0/3",
+      "p50ms": 90,
+      "maxMs": 215
+    },
+    "ar": {
+      "recall": 1,
+      "precision": 0.92,
+      "normalPromptsFlagged": "0/4",
+      "famousNamesFlagged": "0/3",
+      "p50ms": 152,
+      "maxMs": 429
+    },
+    "mixed": {
+      "recall": 1,
+      "precision": 1,
+      "normalPromptsFlagged": "0/1",
+      "famousNamesFlagged": "0/1",
+      "p50ms": 71,
+      "maxMs": 170
+    }
+  },
+  "rows": [
+    {
+      "id": "en-01",
+      "kind": "positive",
+      "expected": "PERSON:John Carter | STREET_ADDRESS:12 Baker Street",
+      "predicted": "PERSON:John Carter(1.00) | STREET_ADDRESS:12 Baker Street(0.99) | LOCATION:London(0.57)[off]",
+      "ok": "✓"
+    },
+    {
+      "id": "en-02",
+      "kind": "positive",
+      "expected": "PERSON:Sarah Mitchell",
+      "predicted": "PERSON:Sarah Mitchell(0.98)",
+      "ok": "✓"
+    },
+    {
+      "id": "en-03",
+      "kind": "positive",
+      "expected": "PERSON:Michael O'Brien",
+      "predicted": "PERSON:Michael O'Brien(1.00) | AGE:54(0.99)[off]",
+      "ok": "✓"
+    },
+    {
+      "id": "en-04",
+      "kind": "positive",
+      "expected": "PERSON:Priya Raman",
+      "predicted": "PERSON:Priya Raman(0.99)",
+      "ok": "✓"
+    },
+    {
+      "id": "en-05",
+      "kind": "positive",
+      "expected": "STREET_ADDRESS:4521 Oak Avenue",
+      "predicted": "STREET_ADDRESS:4521 Oak Avenue, Apt 7(1.00) | LOCATION:Springfield(0.94)[off] | LOCATION:IL(0.41)[off] | POSTCODE:62704(0.97)[off]",
+      "ok": "✓"
+    },
+    {
+      "id": "en-06",
+      "kind": "positive",
+      "expected": "PERSON:David Kim",
+      "predicted": "PERSON:David Kim(1.00)",
+      "ok": "✓"
+    },
+    {
+      "id": "en-07",
+      "kind": "positive",
+      "expected": "USERNAME:j.carter88",
+      "predicted": "USERNAME:j.carter88(1.00)",
+      "ok": "✓"
+    },
+    {
+      "id": "en-08",
+      "kind": "positive",
+      "expected": "PERSON:Laura Chen",
+      "predicted": "PERSON:Laura Chen(1.00)",
+      "ok": "✓"
+    },
+    {
+      "id": "en-09",
+      "kind": "positive",
+      "expected": "STREET_ADDRESS:88 Elm Road",
+      "predicted": "STREET_ADDRESS:88 Elm Road(1.00)",
+      "ok": "✓"
+    },
+    {
+      "id": "en-10",
+      "kind": "positive",
+      "expected": "PERSON:Ahmed Al-Harbi",
+      "predicted": "PERSON:Ahmed Al-Harbi(1.00)",
+      "ok": "✓"
+    },
+    {
+      "id": "en-11",
+      "kind": "negative",
+      "expected": "",
+      "predicted": "",
+      "ok": "✓"
+    },
+    {
+      "id": "en-12",
+      "kind": "negative",
+      "expected": "",
+      "predicted": "",
+      "ok": "✓"
+    },
+    {
+      "id": "en-13",
+      "kind": "negative",
+      "expected": "",
+      "predicted": "",
+      "ok": "✓"
+    },
+    {
+      "id": "en-14",
+      "kind": "negative",
+      "expected": "",
+      "predicted": "",
+      "ok": "✓"
+    },
+    {
+      "id": "en-15",
+      "kind": "public",
+      "expected": "",
+      "predicted": "",
+      "ok": "✓"
+    },
+    {
+      "id": "en-16",
+      "kind": "public",
+      "expected": "",
+      "predicted": "PERSON:Steve Jobs(0.65)[off]",
+      "ok": "✓"
+    },
+    {
+      "id": "en-17",
+      "kind": "public",
+      "expected": "",
+      "predicted": "",
+      "ok": "✓"
+    },
+    {
+      "id": "ar-01",
+      "kind": "positive",
+      "expected": "PERSON:محمد العتيبي | STREET_ADDRESS:حي النرجس",
+      "predicted": "PERSON:محمد العتيبي(0.97) | STREET_ADDRESS:حي النرجس(0.85) | LOCATION:الرياض(0.97)[off]",
+      "ok": "✓"
+    },
+    {
+      "id": "ar-02",
+      "kind": "positive",
+      "expected": "PERSON:سارة القحطاني",
+      "predicted": "PERSON:سارة القحطاني(0.91)",
+      "ok": "✓"
+    },
+    {
+      "id": "ar-03",
+      "kind": "positive",
+      "expected": "PERSON:خالد الشمري",
+      "predicted": "PERSON:خالد الشمري(1.00) | AGE:54(1.00)[off]",
+      "ok": "✓"
+    },
+    {
+      "id": "ar-04",
+      "kind": "positive",
+      "expected": "PERSON:فهد الدوسري",
+      "predicted": "PERSON:فهد الدوسري(0.98)",
+      "ok": "✓"
+    },
+    {
+      "id": "ar-05",
+      "kind": "positive",
+      "expected": "STREET_ADDRESS:شارع الأمير سلطان",
+      "predicted": "STREET_ADDRESS:شارع الأمير سلطان(0.82) | STREET_ADDRESS:12(0.99) | LOCATION:جدة(0.94)[off]",
+      "ok": "✗"
+    },
+    {
+      "id": "ar-06",
+      "kind": "positive",
+      "expected": "PERSON:نورة السبيعي",
+      "predicted": "PERSON:نورة السبيعي(0.99)",
+      "ok": "✓"
+    },
+    {
+      "id": "ar-07",
+      "kind": "positive",
+      "expected": "USERNAME:mohd_9",
+      "predicted": "USERNAME:mohd_9(0.90)",
+      "ok": "✓"
+    },
+    {
+      "id": "ar-08",
+      "kind": "positive",
+      "expected": "PERSON:عبدالله الحربي",
+      "predicted": "PERSON:عبدالله الحربي(0.99)",
+      "ok": "✓"
+    },
+    {
+      "id": "ar-09",
+      "kind": "positive",
+      "expected": "STREET_ADDRESS:شارع التحلية رقم 45",
+      "predicted": "STREET_ADDRESS:شارع التحلية رقم 45(0.83)",
+      "ok": "✓"
+    },
+    {
+      "id": "ar-10",
+      "kind": "positive",
+      "expected": "PERSON:ريم العنزي",
+      "predicted": "PERSON:ريم العنزي(1.00)",
+      "ok": "✓"
+    },
+    {
+      "id": "ar-11",
+      "kind": "negative",
+      "expected": "",
+      "predicted": "",
+      "ok": "✓"
+    },
+    {
+      "id": "ar-12",
+      "kind": "negative",
+      "expected": "",
+      "predicted": "",
+      "ok": "✓"
+    },
+    {
+      "id": "ar-13",
+      "kind": "negative",
+      "expected": "",
+      "predicted": "",
+      "ok": "✓"
+    },
+    {
+      "id": "ar-14",
+      "kind": "negative",
+      "expected": "",
+      "predicted": "",
+      "ok": "✓"
+    },
+    {
+      "id": "ar-15",
+      "kind": "public",
+      "expected": "",
+      "predicted": "",
+      "ok": "✓"
+    },
+    {
+      "id": "ar-16",
+      "kind": "public",
+      "expected": "",
+      "predicted": "",
+      "ok": "✓"
+    },
+    {
+      "id": "ar-17",
+      "kind": "public",
+      "expected": "",
+      "predicted": "",
+      "ok": "✓"
+    },
+    {
+      "id": "mx-01",
+      "kind": "positive",
+      "expected": "PERSON:محمد العتيبي",
+      "predicted": "PERSON:محمد العتيبي(0.99)",
+      "ok": "✓"
+    },
+    {
+      "id": "mx-02",
+      "kind": "positive",
+      "expected": "PERSON:Sarah Mitchell",
+      "predicted": "PERSON:Sarah Mitchell(1.00) | LOCATION:الرياض(0.82)[off]",
+      "ok": "✓"
+    },
+    {
+      "id": "mx-03",
+      "kind": "positive",
+      "expected": "PERSON:نورة السبيعي | STREET_ADDRESS:شارع التحلية رقم 45",
+      "predicted": "PERSON:نورة السبيعي(0.98) | STREET_ADDRESS:شارع التحلية رقم 45(0.88)",
+      "ok": "✓"
+    },
+    {
+      "id": "mx-04",
+      "kind": "negative",
+      "expected": "",
+      "predicted": "",
+      "ok": "✓"
+    },
+    {
+      "id": "mx-05",
+      "kind": "public",
+      "expected": "",
+      "predicted": "",
+      "ok": "✓"
+    }
+  ]
+}

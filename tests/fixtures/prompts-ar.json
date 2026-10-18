@@ -36,7 +36,7 @@
     { "id": "ar-high-13", "text": "مفتاح الـ API حقي sk-proj-abcdEFGH1234ijklMNOP5678 ما يشتغل", "tier": "HIGH", "labels": ["API_KEY"] },
     { "id": "ar-high-14", "text": "رقم الجواز A12345678 متى ينتهي؟", "tier": "HIGH", "labels": ["PASSPORT"] },
 
-    { "id": "ar-gap-01", "text": "اسمي محمد العتيبي وأسكن في حي النرجس، الرياض", "tier": "MEDIUM", "labels": [], "gap": "Arabic names and addresses need the NER model (Phase 3)." },
+    { "id": "ar-gap-01", "text": "اسمي محمد العتيبي وأسكن في حي النرجس، الرياض", "tier": "MEDIUM", "labels": [], "gap": "Rules-only suite: Arabic names/addresses are found by the detection model (Phase 3, measured in eval/ner.eval.ts), not by the rules." },
     { "id": "ar-gap-02", "text": "هذه شروط صفقة الاستحواذ غير المعلنة، صغها بشكل رسمي", "tier": "MEDIUM", "labels": [], "gap": "Context-only risk needs the decision model (Phase 4)." },
     { "id": "ar-gap-03", "text": "الباس حقي سمسم2020", "tier": "HIGH", "labels": ["PASSWORD"], "gap": "Slang 'الباس' without a separator is not recognised yet." }
   ]

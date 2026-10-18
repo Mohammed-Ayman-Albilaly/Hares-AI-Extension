@@ -51,7 +51,7 @@ For MEDIUM/HIGH also check that **Send revised** puts the placeholder version in
 | en-high-15 | DB_PASSWORD=SuperSecret123 is in my env, is that ok? | HIGH — [ENV_SECRET_n] |  | ☐ |
 | en-high-16 | curl -H "Authorization: Bearer abcdef1234567890abcdef" https://api.example.com | HIGH — [AUTH_HEADER_n] |  | ☐ |
 | en-high-17 | my OTP is 482913, why did login fail? | HIGH — [PIN_n] |  | ☐ |
-| en-gap-01 | My name is John Carter and I live at 12 Baker Street, London | MEDIUM | ⚠️ Known gap: Names and street addresses need the NER model (Phase 3). | ☐ |
+| en-gap-01 | My name is John Carter and I live at 12 Baker Street, London | MEDIUM | ⚠️ Known gap: Rules-only suite: names/addresses are found by the detection model (Phase 3, measured in eval/ner.eval.ts), not by the rules. | ☐ |
 | en-gap-02 | Here are our unreleased Q3 merger terms with Acme, rewrite them formally | MEDIUM | ⚠️ Known gap: Context-only risk needs the decision model (Phase 4). | ☐ |
 
 ## Arabic — single messages
@@ -89,7 +89,7 @@ For MEDIUM/HIGH also check that **Send revised** puts the placeholder version in
 | ar-high-12 | الرقم السري للبطاقة 4821 | HIGH — [PIN_n] |  | ☐ |
 | ar-high-13 | مفتاح الـ API حقي sk-proj-abcdEFGH1234ijklMNOP5678 ما يشتغل | HIGH — [API_KEY_n] |  | ☐ |
 | ar-high-14 | رقم الجواز A12345678 متى ينتهي؟ | HIGH — [PASSPORT_n] |  | ☐ |
-| ar-gap-01 | اسمي محمد العتيبي وأسكن في حي النرجس، الرياض | MEDIUM | ⚠️ Known gap: Arabic names and addresses need the NER model (Phase 3). | ☐ |
+| ar-gap-01 | اسمي محمد العتيبي وأسكن في حي النرجس، الرياض | MEDIUM | ⚠️ Known gap: Rules-only suite: Arabic names/addresses are found by the detection model (Phase 3, measured in eval/ner.eval.ts), not by the rules. | ☐ |
 | ar-gap-02 | هذه شروط صفقة الاستحواذ غير المعلنة، صغها بشكل رسمي | MEDIUM | ⚠️ Known gap: Context-only risk needs the decision model (Phase 4). | ☐ |
 | ar-gap-03 | الباس حقي سمسم2020 | HIGH — [PASSWORD_n] | ⚠️ Known gap: Slang 'الباس' without a separator is not recognised yet. | ☐ |
 
