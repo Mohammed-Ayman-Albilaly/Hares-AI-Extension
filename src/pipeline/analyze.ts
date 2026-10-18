@@ -98,6 +98,8 @@ export interface AnalyzeOptions {
   policy?: Policy;
   /** User exceptions on this device (filtered against what the policy allows). */
   exceptions?: UserExceptions | null;
+  /** Detections from the detection model for this prompt (offsets in `prompt`). */
+  modelDetections?: readonly Detection[];
 }
 
 export function analyzePrompt(
@@ -107,7 +109,9 @@ export function analyzePrompt(
 ): AnalysisResult {
   const started = performance.now();
   const policy = options.policy ?? DEFAULT_POLICY;
-  const own = detectWithRules(prompt, policy);
+  // Rules + model for this message; on overlap the merge prefers higher tier,
+  // then specific over generic, then rules over the model.
+  const own = mergeDetections([...detectWithRules(prompt, policy), ...(options.modelDetections ?? [])]);
   const merged = options.historyTail
     ? mergeDetections([...own, ...detectAcrossMessages(prompt, options.historyTail, policy)]).map(
         // A span found on its own is not "cross-message", even if the joined text also found it.

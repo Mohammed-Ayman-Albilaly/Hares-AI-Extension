@@ -18,6 +18,9 @@ import {
   TARGET,
   type ClassifyRequest,
   type ClassifyResponse,
+  type DetectRequest,
+  type DetectResponse,
+  type WorkerDetectResult,
   type ProbeMessage,
   type ProbeResponse,
   type WorkerClassifyResult,
@@ -67,6 +70,12 @@ browser.runtime.onMessage.addListener((message, _sender, sendResponse) => {
     return true;
   }
 
+  const detect = message as DetectRequest | undefined;
+  if (detect?.target === TARGET.OFFSCREEN && detect?.type === MSG.DETECT) {
+    void detectViaWorker(detect).then(sendResponse);
+    return true;
+  }
+
   return;
 });
 
@@ -83,7 +92,37 @@ function getWorker(): Worker {
   return worker;
 }
 
+// Create the worker right away: it starts loading the detection model, so the
+// model is ready (or downloading) before the user's first message.
+getWorker();
+
 const PROBE_TIMEOUT_MS = 5_000;
+/** The worker answers at once while loading, so this only bounds a stuck run. */
+const DETECT_TIMEOUT_MS = 10_000;
+
+/** Relay a DETECT request to the worker. Never rejects: errors become a response. */
+function detectViaWorker(request: DetectRequest): Promise<DetectResponse> {
+  return new Promise((resolve) => {
+    const w = getWorker();
+    const onMessage = (event: MessageEvent<WorkerDetectResult>) => {
+      const data = event.data;
+      if (data?.type !== MSG.DETECT_RESULT || data.id !== request.id) return;
+      cleanup();
+      const { ok, status, entities, latencyMs, error } = data;
+      resolve({ ok, status, entities, latencyMs, error });
+    };
+    const timeout = setTimeout(() => {
+      cleanup();
+      resolve({ ok: false, status: 'error', error: 'detection timed out' });
+    }, DETECT_TIMEOUT_MS);
+    const cleanup = () => {
+      clearTimeout(timeout);
+      w.removeEventListener('message', onMessage);
+    };
+    w.addEventListener('message', onMessage);
+    w.postMessage({ type: MSG.DETECT, id: request.id, text: request.text });
+  });
+}
 const CLASSIFY_TIMEOUT_MS = 120_000;
 
 function probeWorker(probe: ProbeMessage): Promise<ProbeResponse> {

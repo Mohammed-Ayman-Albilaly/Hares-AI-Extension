@@ -9,6 +9,7 @@
  */
 
 import type { ClassifyResult } from '../model/contract';
+import type { EntitySpan } from '../ner/spans';
 
 /** Which extension context a runtime message is addressed to. */
 export const TARGET = {
@@ -26,6 +27,8 @@ export const MSG = {
   PROBE_RESULT: 'hares/probe-result',
   CLASSIFY: 'hares/classify',
   CLASSIFY_RESULT: 'hares/classify-result',
+  DETECT: 'hares/detect',
+  DETECT_RESULT: 'hares/detect-result',
 } as const;
 
 export type MessageType = (typeof MSG)[keyof typeof MSG];
@@ -149,4 +152,42 @@ export function isClassifyRequest(value: unknown): value is ClassifyRequest {
     typeof candidate['id'] === 'string' &&
     typeof candidate['prompt'] === 'string'
   );
+}
+
+// --- Detection model (Phase 3) ---------------------------------------------
+
+/** Load state of the detection model inside the worker. */
+export type ModelStatus = 'idle' | 'loading' | 'ready' | 'error';
+
+/**
+ * Detection request over chrome.runtime IPC (content script -> background ->
+ * offscreen). The text only travels between the extension's own contexts.
+ */
+export interface DetectRequest {
+  target: MessageTarget;
+  type: typeof MSG.DETECT;
+  id: string;
+  text: string;
+}
+
+/** Detection response back up the chain. `entities` only when status is 'ready'. */
+export interface DetectResponse {
+  ok: boolean;
+  status: ModelStatus;
+  entities?: EntitySpan[];
+  latencyMs?: number;
+  error?: string;
+}
+
+/** Detection request posted to the dedicated Web Worker. */
+export interface WorkerDetectRequest {
+  type: typeof MSG.DETECT;
+  id: string;
+  text: string;
+}
+
+/** Detection result posted back from the dedicated Web Worker. */
+export interface WorkerDetectResult extends DetectResponse {
+  type: typeof MSG.DETECT_RESULT;
+  id: string;
 }

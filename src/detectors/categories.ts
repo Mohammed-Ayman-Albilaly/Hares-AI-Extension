@@ -42,6 +42,7 @@ export const CATEGORIES = {
   EDUCATION: { name: 'Education-Related Identifiers', tier: 'MEDIUM' },
   UNIVERSAL_ID: { name: 'Universal Identifiers', tier: 'LOW' }, // not in PDF tier list
   REGIONAL: { name: 'Region-Specific Banking & Identity Data', tier: 'HIGH' }, // not in PDF tier list
+  PERSONAL_NAME: { name: 'Personal Names', tier: 'MEDIUM' }, // not in PDF; found by the detection model
 } as const satisfies Record<string, { name: string; tier: Tier }>;
 
 export type CategoryId = keyof typeof CATEGORIES;

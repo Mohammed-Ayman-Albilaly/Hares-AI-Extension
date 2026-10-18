@@ -33,6 +33,8 @@ export interface PromptLogEvent {
   detectionCount: number;
   action: UserAction;
   analysisMs: number;
+  /** Detection model outcome: 'ready' = used; otherwise rules only ('loading', 'timeout', 'error'…). */
+  detector: string;
 }
 
 const QUEUE_KEY = 'hares.logQueue';

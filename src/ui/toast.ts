@@ -31,3 +31,21 @@ export function showToast(message: string, kind: ToastKind = 'info', durationMs 
     setTimeout(() => host.remove(), 260);
   }, durationMs);
 }
+
+/**
+ * A quiet status toast that stays until dismissed (e.g. "checking…" while the
+ * detection model runs). Returns the dismiss function.
+ */
+export function showStatus(message: string): () => void {
+  const { host, root } = createShadowHost('hares-status');
+  const toast = document.createElement('div');
+  toast.className = 'toast show';
+  toast.setAttribute('role', 'status');
+  toast.setAttribute('aria-live', 'polite');
+  const text = document.createElement('span');
+  text.textContent = message;
+  text.dir = 'auto';
+  toast.append(text);
+  root.append(toast);
+  return () => host.remove();
+}

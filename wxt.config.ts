@@ -1,6 +1,6 @@
 import { defineConfig } from 'wxt';
 import type { Plugin } from 'vite';
-import { copyFileSync, mkdirSync } from 'node:fs';
+import { copyFileSync, existsSync, mkdirSync, readdirSync, rmSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -30,6 +30,15 @@ function localOrtWasmAssets(): Plugin {
       mkdirSync(dest, { recursive: true });
       for (const file of files) {
         copyFileSync(resolve(src, file), resolve(dest, file));
+      }
+      // Vite also emits a hashed copy of the 21 MB runtime under assets/. The
+      // worker loads it from wasm/ (wasmPaths), so the hashed copy is unused
+      // and only doubles the package size.
+      const assets = resolve(outDir, 'assets');
+      if (existsSync(assets)) {
+        for (const file of readdirSync(assets)) {
+          if (/^ort-wasm-simd-threaded\.jsep-.*\.wasm$/.test(file)) rmSync(resolve(assets, file));
+        }
       }
     },
   };

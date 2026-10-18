@@ -16,6 +16,8 @@ import {
   TARGET,
   type ClassifyRequest,
   type ClassifyResponse,
+  type DetectRequest,
+  type DetectResponse,
   type ProbeMessage,
   type ProbeResponse,
 } from '../src/messaging/protocol';
@@ -71,9 +73,37 @@ export default defineBackground(() => {
       return true;
     }
 
+    const detect = message as DetectRequest | undefined;
+    if (detect?.target === TARGET.BACKGROUND && detect?.type === MSG.DETECT) {
+      void handleDetect(detect).then(sendResponse);
+      return true;
+    }
+
     return;
   });
+
+  // Create the offscreen document (and so start loading the detection model)
+  // when the browser starts or the extension is installed/updated, instead of
+  // on the user's first message.
+  browser.runtime.onStartup.addListener(() => void ensureOffscreenDocument().catch(() => {}));
+  browser.runtime.onInstalled.addListener(() => void ensureOffscreenDocument().catch(() => {}));
 });
+
+/** Forward a DETECT request to the offscreen document. Never rejects. */
+async function handleDetect(request: DetectRequest): Promise<DetectResponse> {
+  try {
+    await ensureOffscreenDocument();
+    const response = (await browser.runtime.sendMessage({
+      target: TARGET.OFFSCREEN,
+      type: MSG.DETECT,
+      id: request.id,
+      text: request.text,
+    })) as DetectResponse | undefined;
+    return response ?? { ok: false, status: 'error', error: 'no response from offscreen document' };
+  } catch (error) {
+    return { ok: false, status: 'error', error: error instanceof Error ? error.message : String(error) };
+  }
+}
 
 async function handleProbe(probe: ProbeMessage): Promise<ProbeResponse> {
   await ensureOffscreenDocument();

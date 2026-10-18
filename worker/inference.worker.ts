@@ -1,6 +1,11 @@
 /**
- * Hares AI — Phase 2 dedicated Web Worker: inference runtime.
+ * Hares AI — dedicated Web Worker: local inference runtime.
  *
+ * Phase 3: on start it loads the DETECTION model (worker/ner.ts) and answers
+ * DETECT requests. The zero-shot classifier below (decision model, Phase 4) is
+ * no longer loaded at start-up; it loads lazily on the first CLASSIFY request.
+ *
+ * Original Phase 2 notes:
  * Phase 2 establishes the local ONNX inference runtime inside the existing
  * Phase 1 worker. It loads the pinned multilingual zero-shot model via
  * Transformers.js (ONNX Runtime Web), preferring the WebGPU execution provider
@@ -26,6 +31,8 @@ import {
   type WorkerProbeResult,
 } from '../src/messaging/protocol';
 import type { ClassifyResult } from '../src/model/contract';
+import type { WorkerDetectRequest, WorkerDetectResult } from '../src/messaging/protocol';
+import { loadNer, runNer } from './ner';
 import {
   HYPOTHESES,
   HYPOTHESIS_TEMPLATE,
@@ -61,11 +68,11 @@ const runtime = {
 
 // The worker has no `window`, so type `self` explicitly for messaging.
 const scope = self as unknown as {
-  postMessage(message: WorkerProbeResult | WorkerClassifyResult): void;
+  postMessage(message: WorkerProbeResult | WorkerClassifyResult | WorkerDetectResult): void;
   addEventListener(
     type: 'message',
     listener: (
-      event: MessageEvent<WorkerProbeMessage | WorkerClassifyRequest>,
+      event: MessageEvent<WorkerProbeMessage | WorkerClassifyRequest | WorkerDetectRequest>,
     ) => void,
   ): void;
 };
@@ -88,6 +95,10 @@ scope.addEventListener('message', (event) => {
 
   if (message?.type === MSG.CLASSIFY) {
     void handleClassify(message);
+  }
+
+  if (message?.type === MSG.DETECT) {
+    void handleDetect(message);
   }
 });
 
@@ -276,8 +287,22 @@ async function handleClassify(request: WorkerClassifyRequest): Promise<void> {
   }
 }
 
-// Bootstrap the runtime as soon as the worker is created by the offscreen
-// document. The worker is a single shared instance, so this runs exactly once.
-void initializeRuntime().catch((error: unknown) => {
-  console.error('[hares] worker bootstrap init failed:', error);
-});
+async function handleDetect(request: WorkerDetectRequest): Promise<void> {
+  try {
+    const result = await runNer(request.text);
+    scope.postMessage({ type: MSG.DETECT_RESULT, id: request.id, ok: result.status === 'ready', ...result });
+  } catch (error) {
+    scope.postMessage({
+      type: MSG.DETECT_RESULT,
+      id: request.id,
+      ok: false,
+      status: 'error',
+      error: error instanceof Error ? error.message : String(error),
+    });
+  }
+}
+
+// Start loading the detection model as soon as the worker exists, so it is
+// ready (or downloading) before the user sends their first message. The
+// decision model loads lazily (Phase 4).
+void loadNer();

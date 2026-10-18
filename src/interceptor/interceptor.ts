@@ -21,7 +21,9 @@ import { analyzePrompt, type AnalysisResult } from '../pipeline/analyze';
 import { ConversationTracker } from '../pipeline/conversation';
 import { PolicyState } from '../policy/store';
 import { isDialogOpen, showDecisionDialog } from '../ui/dialog';
-import { showToast } from '../ui/toast';
+import { showStatus, showToast } from '../ui/toast';
+import { requestEntities, type DetectorOutcome } from '../ner/client';
+import { entitiesToDetections } from '../ner/mapping';
 import { ApprovalStore } from './approval';
 
 export function installInterceptor(adapter: PlatformAdapter): void {
@@ -32,6 +34,25 @@ export function installInterceptor(adapter: PlatformAdapter): void {
   const policyState = new PolicyState();
   void policyState.start();
   let busy = false;
+  /** Tell the user once per page that the detector is still downloading. */
+  let toldModelLoading = false;
+
+  /** Ask the detection model, showing "checking…" if it takes more than 300 ms. */
+  async function modelDetectionsFor(text: string) {
+    let dismiss: (() => void) | null = null;
+    const indicator = setTimeout(() => {
+      dismiss = showStatus('Hares AI: checking…');
+    }, 300);
+    const result = await requestEntities(text);
+    clearTimeout(indicator);
+    (dismiss as (() => void) | null)?.();
+    if (result.outcome === 'loading' && !toldModelLoading) {
+      toldModelLoading = true;
+      showToast('Hares AI is still downloading its name & address detector. Checked with rules only for now.', 'info', 5000);
+    }
+    const detections = entitiesToDetections(text, result.entities, policyState.policy.detector?.enabledLabels);
+    return { outcome: result.outcome, detections };
+  }
 
   function isInComposer(target: EventTarget | null): boolean {
     const composer = adapter.getComposer();
@@ -90,6 +111,8 @@ export function installInterceptor(adapter: PlatformAdapter): void {
     return true;
   }
 
+  let lastDetector: DetectorOutcome = 'idle';
+
   function log(analysis: AnalysisResult, action: UserAction): void {
     void queueLogEvent({
       id: crypto.randomUUID(),
@@ -104,6 +127,7 @@ export function installInterceptor(adapter: PlatformAdapter): void {
       detectionCount: analysis.detections.length,
       action,
       analysisMs: analysis.latencyMs,
+      detector: lastDetector,
     });
   }
 
@@ -131,7 +155,10 @@ export function installInterceptor(adapter: PlatformAdapter): void {
     busy = true;
     try {
       const conversation = conversations.current();
+      const model = await modelDetectionsFor(text);
+      lastDetector = model.outcome;
       const analysis = analyzePrompt(text, conversation.vault, {
+        modelDetections: model.detections,
         historyTail: conversation.historyTail(),
         policy: policyState.policy,
         exceptions: policyState.exceptions,
