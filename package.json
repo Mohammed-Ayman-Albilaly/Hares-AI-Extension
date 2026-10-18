@@ -14,7 +14,8 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "test": "vitest run",
-    "postinstall": "wxt prepare"
+    "postinstall": "wxt prepare",
+    "eval": "vitest run -c vitest.eval.config.ts"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
