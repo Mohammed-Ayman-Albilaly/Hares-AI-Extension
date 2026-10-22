@@ -55,8 +55,7 @@ export function installInterceptor(adapter: PlatformAdapter): void {
   }
 
   function isInComposer(target: EventTarget | null): boolean {
-    const composer = adapter.getComposer();
-    return !!composer && target instanceof Node && composer.contains(target);
+    return adapter.isComposer(target);
   }
 
   /** Decide whether this send attempt may pass untouched; otherwise hold it. */

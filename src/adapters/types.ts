@@ -12,6 +12,8 @@ export interface PlatformAdapter {
   id: 'chatgpt' | 'claude' | 'gemini';
   /** The editable element the user types into, or null if not on the page. */
   getComposer(): HTMLElement | null;
+  /** Is this event target inside an element that looks like the composer? */
+  isComposer(target: EventTarget | null): boolean;
   /** The send button, or null if not rendered. */
   getSendButton(): HTMLElement | null;
   /** Does this event target belong to the send button? */
@@ -91,20 +93,56 @@ export interface AdapterSpec {
   sendButton: readonly string[];
 }
 
-/** Build an adapter: known selectors first, generic fallbacks second. */
+/**
+ * Build an adapter: known selectors first, generic fallbacks second.
+ *
+ * The send button is looked up INSIDE the composer's own form first: sites
+ * like ChatGPT have several forms on the page (sign-in, feedback…) whose
+ * buttons can also say "Send"/"Submit".
+ */
 export function createAdapter(spec: AdapterSpec): PlatformAdapter {
-  const getComposer = (): HTMLElement | null =>
-    queryFirst(spec.composer) ?? queryFirst(GENERIC_COMPOSER);
-  const getSendButton = (): HTMLElement | null =>
-    queryFirst(spec.sendButton) ?? findSendButtonNear(getComposer());
+  const allComposers = [...spec.composer, ...GENERIC_COMPOSER];
+
+  /**
+   * The composer is the element the user is actually typing in when that
+   * matches a composer selector; otherwise the first VISIBLE match. Sites keep
+   * old, hidden editors in the page after a redesign (ChatGPT, 2026-10), and
+   * picking the hidden one made every Enter look like it came from elsewhere.
+   */
+  const getComposer = (): HTMLElement | null => {
+    const active = document.activeElement;
+    const focused = active ? closestAny(active, allComposers) : null;
+    if (focused) return focused;
+    for (const selector of allComposers) {
+      for (const el of document.querySelectorAll<HTMLElement>(selector)) {
+        if (isVisible(el)) return el;
+      }
+    }
+    return null;
+  };
+
+  const getSendButton = (): HTMLElement | null => {
+    const composer = getComposer();
+    const form = composer?.closest('form');
+    return (
+      (form ? queryFirst(spec.sendButton, form) : null) ??
+      findSendButtonNear(composer) ??
+      queryFirst(spec.sendButton)
+    );
+  };
+
   return {
     id: spec.id,
     getComposer,
+    isComposer: (target) => closestAny(target, allComposers) !== null,
     getSendButton,
     isSendButton(target) {
-      if (closestAny(target, spec.sendButton)) return true;
       const button = closestAny(target, ['button', '[role="button"]']);
-      return !!button && button === getSendButton();
+      if (!button) return false;
+      if (button === getSendButton()) return true;
+      // A known send-button selector, but only next to the composer.
+      const form = getComposer()?.closest('form');
+      return !!form && form.contains(button) && closestAny(button, spec.sendButton) === button;
     },
   };
 }
