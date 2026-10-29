@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { createPolicySync } from '../../src/backend/policy-sync';
+import { createPolicySync, type SyncAttempt } from '../../src/backend/policy-sync';
 import { Session } from '../../src/backend/session';
 import { loginErrorMessage, signedOutMessage } from '../../src/backend/messages';
 import { CATEGORY_CODES } from '../../src/contract/categories';
@@ -122,6 +122,7 @@ describe('policy sync', () => {
     const session = new Session({ api: { baseUrl: 'http://api.test/api', fetch }, local, session: new MemoryArea() });
     const saved: Array<{ policy: Policy; etag: string | null }> = [];
     let checked = 0;
+    const attempts: SyncAttempt[] = [];
     const sync = createPolicySync({
       session,
       getEtag: async () => etag,
@@ -132,8 +133,11 @@ describe('policy sync', () => {
       onChecked: () => {
         checked += 1;
       },
+      onAttempt: (attempt) => {
+        attempts.push(attempt);
+      },
     });
-    return { session, sync, requests, saved, checked: () => checked };
+    return { session, sync, requests, saved, attempts, checked: () => checked };
   }
 
   const policyCalls = (requests: RecordedRequest[]) => requests.filter((r) => r.url.endsWith('/policy/bundle'));
@@ -161,6 +165,27 @@ describe('policy sync', () => {
     expect(policyCalls(t.requests)[0]!.headers['If-None-Match']).toBe('"v7-d1"');
     expect(t.saved).toHaveLength(0);
     expect(t.checked()).toBe(1);
+  });
+
+  it('records every check with its HTTP status', async () => {
+    const updated = setup(() => ({ body: bundle(), headers: { ETag: '"e1"' } }));
+    await updated.session.login('a@example.test', 'x');
+    await updated.sync();
+    expect(updated.attempts).toMatchObject([{ result: 'UPDATED', status: 200, etag: '"e1"' }]);
+
+    const same = setup(() => ({ status: 304 }), '"e1"');
+    await same.session.login('a@example.test', 'x');
+    await same.sync();
+    expect(same.attempts).toMatchObject([{ result: 'UNCHANGED', status: 304, etag: '"e1"' }]);
+
+    const down = setup(() => apiError(503, 'UNAVAILABLE'));
+    await down.session.login('a@example.test', 'x');
+    await down.sync();
+    expect(down.attempts).toMatchObject([{ result: 'FAILED', status: 503 }]);
+
+    const signedOut = setup(() => ({ body: bundle() }));
+    await signedOut.sync();
+    expect(signedOut.attempts).toMatchObject([{ result: 'SIGNED_OUT', status: null }]);
   });
 
   it('sends no If-None-Match when no policy is stored', async () => {

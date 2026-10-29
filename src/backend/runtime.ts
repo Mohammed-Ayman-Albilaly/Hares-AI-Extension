@@ -26,7 +26,8 @@ import { ApiError } from './api';
 import { ServerClock } from './clock';
 import { API_BASE_URL, POLICY_REFRESH_MINUTES } from './config';
 import { Outbox } from './outbox';
-import { createPolicySync } from './policy-sync';
+import { createPolicySync, type SyncAttempt } from './policy-sync';
+import { ensureAlarm, isCheckDue } from './schedule';
 import { Session } from './session';
 import { createUploader } from './uploader';
 
@@ -35,6 +36,10 @@ const POLICY_ALARM = 'hares-policy-refresh';
 const UPLOAD_ALARM = 'hares-upload';
 /** Time allowed to send the queue before signing out. */
 const SIGN_OUT_FLUSH_MS = 5000;
+/** Result of the latest policy check (any outcome), kept to catch up after a missed alarm. */
+export const POLICY_CHECK_KEY = 'hares.policyCheck';
+/** A check older than this is run when the service worker wakes, in case its alarm was missed. */
+const POLICY_STALE_MS = POLICY_REFRESH_MINUTES * 60_000;
 /** The queue of an earlier version, before events were uploaded. */
 const LEGACY_QUEUE_KEY = 'hares.logQueue';
 
@@ -67,6 +72,11 @@ export const syncPolicy = createPolicySync({
     return stored[POLICY_KEY] && typeof etag === 'string' ? etag : null;
   },
   save: (policy, etag) => replacePolicy(policy, etag),
+  async onAttempt(attempt: SyncAttempt) {
+    const record = { at: new Date(attempt.at).toISOString(), result: attempt.result, status: attempt.status, etag: attempt.etag };
+    console.info(`[hares] policy check: HTTP ${attempt.status ?? '-'} ${attempt.result} (ETag ${attempt.etag ?? 'none'})`);
+    await browser.storage.local.set({ [POLICY_CHECK_KEY]: record });
+  },
   async onChecked() {
     await browser.storage.local.set({ [POLICY_FETCHED_AT_KEY]: new Date().toISOString() });
     // A successful check is when uploads paused by DEPARTMENT_INACTIVE try again.
@@ -78,6 +88,13 @@ function flushQuietly(): Promise<void> {
   return uploader.flush().catch((error: unknown) => {
     console.warn('[hares] upload failed:', error instanceof Error ? error.message : error);
   });
+}
+
+/** Check the policy now if the last check is older than the refresh period. */
+async function syncPolicyIfDue(): Promise<void> {
+  const stored = await browser.storage.local.get(POLICY_CHECK_KEY);
+  const last = (stored[POLICY_CHECK_KEY] as { at?: unknown } | undefined)?.at;
+  if (isCheckDue(last, Date.now(), POLICY_STALE_MS)) await syncPolicy();
 }
 
 function failure(error: unknown): AuthResponse {
@@ -136,22 +153,41 @@ export function installBackend(): void {
       return true;
     }
     if (m.type === MSG.LOG_EVENT) {
-      void handleLogEvent(m as LogEventMessage).then(sendResponse);
+      handleLogEvent(m as LogEventMessage)
+        .catch((error: unknown) => {
+          console.warn('[hares] could not queue the event:', error instanceof Error ? error.message : error);
+          return { ok: false };
+        })
+        .then(sendResponse);
       return true;
     }
     return;
   });
 
   browser.alarms.onAlarm.addListener((alarm) => {
+    console.info(`[hares] alarm fired: ${alarm.name}`);
     if (alarm.name === POLICY_ALARM) void syncPolicy();
     if (alarm.name === UPLOAD_ALARM) void flushQuietly();
   });
-  // Creating an alarm with an existing name replaces it, so this is safe on every start.
-  void browser.alarms.create(POLICY_ALARM, { periodInMinutes: POLICY_REFRESH_MINUTES });
-  void browser.alarms.create(UPLOAD_ALARM, { periodInMinutes: 1 });
+  // Alarms survive the service worker being stopped, but not always a browser
+  // restart. Create them when missing; never re-create a running one, which
+  // would restart its period on every wake-up.
+  const alarmsApi = {
+    get: (name: string) => browser.alarms.get(name),
+    create: (name: string, info: { periodInMinutes: number }) => browser.alarms.create(name, info),
+  };
+  void Promise.all([
+    ensureAlarm(alarmsApi, POLICY_ALARM, POLICY_REFRESH_MINUTES),
+    ensureAlarm(alarmsApi, UPLOAD_ALARM, 1),
+  ])
+    .then(([policyCreated]) => console.info(`[hares] alarms ready (policy alarm ${policyCreated ? 'created' : 'already running'})`))
+    .catch((error: unknown) => console.warn('[hares] could not set up alarms:', error instanceof Error ? error.message : error));
 
-  void clock.load();
-  void browser.storage.local.remove(LEGACY_QUEUE_KEY);
+  // If an alarm was missed (browser asleep, worker killed), catch up on wake-up.
+  void syncPolicyIfDue().catch(() => undefined);
+
+  void clock.load().catch(() => undefined);
+  void browser.storage.local.remove(LEGACY_QUEUE_KEY).catch(() => undefined);
 
   const onStart = (): void => {
     void syncPolicy();

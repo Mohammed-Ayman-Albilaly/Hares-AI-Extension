@@ -89,7 +89,7 @@ export async function apiRequest<T = unknown>(
 
   let response: Response;
   try {
-    response = await deps.fetch(`${deps.baseUrl}${path}`, { method: init.method ?? 'GET', headers, body });
+    response = await deps.fetch(`${deps.baseUrl}${path}`, { method: init.method ?? 'GET', headers, body, cache: 'no-store' });
   } catch {
     throw new ApiError(0, 'NETWORK_ERROR', 'Cannot reach the server');
   }
