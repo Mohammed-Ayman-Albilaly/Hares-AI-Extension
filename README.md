@@ -94,6 +94,12 @@ After that, the model loads from your disk in a few seconds every time the brows
 
 Open (or **refresh**, if already open) **chatgpt.com**, **claude.ai** or **gemini.google.com**, sign in as usual, and start typing.
 
+### Step 5 — Sign in to your organisation (optional)
+
+Click the **Hares AI** icon in the toolbar and sign in with your Hares AI account. Your organisation's policy is then applied and each checked message is reported to the platform (without its text). Without signing in, the extension protects you with its built-in policy and reports nothing.
+
+By default the extension talks to the development API at `http://localhost:3000/api`. To build for another server, set `WXT_API_BASE_URL` first, for example `WXT_API_BASE_URL=https://api.example.com/api npm run build` (PowerShell: `$env:WXT_API_BASE_URL = "..."; npm run build`). Details: [docs/backend-integration.md](docs/backend-integration.md).
+
 ### Updating to a newer version
 
 ```bash
@@ -147,10 +153,11 @@ The full checklist (English, Arabic and multi-message conversations) is in **[do
 ## Privacy
 
 - **Your messages stay on your device.** Detection runs inside the browser (in the page and in an extension worker).
-- **The only network traffic** the extension makes is downloading the detection model from Hugging Face (`huggingface.co`, `*.hf.co`) the first time. No message text is included in that request.
+- **Network traffic** is limited to two things: downloading the detection model from Hugging Face (`huggingface.co`, `*.hf.co`) the first time, and, only if you sign in, talking to the Hares AI platform API (sign-in, policy, activity log). No message text is included in any request.
 - **The placeholder memory** (which `[EMAIL_1]` is which email) lives only in the open tab's memory and disappears when you close it.
-- **Activity log:** each checked message produces a log entry **without the text** (level, data types, platform, your choice, time). Today it is kept locally in the extension (`chrome.storage.local`, key `hares.logQueue`); later it will be sent to the organisation's platform.
-- **Permissions:** `storage` (settings and logs), `offscreen` (runs the model in the background), and access only to the three AI platforms plus Hugging Face for the model download.
+- **Activity log:** while you are signed in, each checked message produces a log entry **without the text**: risk level, action, the categories of data found (such as `CONTACT_INFO`), platform, your choice, the rule that matched (if any) and the time. Entries wait in the extension (`chrome.storage.local`, at most 500) and are sent to the platform. If you are not signed in, nothing is recorded.
+- **Sign-in:** your password is sent once to sign in and is never stored. The extension keeps session tokens only.
+- **Permissions:** `storage` (settings, session and the log queue), `offscreen` (runs the model in the background), `alarms` (checks the policy every 5 minutes), and access only to the three AI platforms, Hugging Face for the model download, and the platform API.
 
 ---
 
@@ -162,6 +169,9 @@ The full checklist (English, Arabic and multi-message conversations) is in **[do
 | `detection model failed to load: Failed to fetch` in the offscreen console | The download was interrupted or blocked. The extension retries automatically (15 s, 1 min, 5 min, then every 15 min). If it keeps failing, open `https://huggingface.co/Horizon-Labs/pii-redactor-small/resolve/main/config.json` in the same browser — if that page does not load, a VPN, proxy, antivirus or network policy is blocking Hugging Face |
 | Names are not detected, but emails/passwords are | The model is still downloading (see Step 3). Rules work meanwhile |
 | "Revised message copied" notice | The site did not accept the automatic replacement. Paste with **Ctrl+V** and send. Please report which site |
+| "Wrong email or password", or the account is waiting for approval | Use the account from your administrator. A new account must be approved first |
+| Popup says "Cannot reach the Hares AI server" | The API URL of this build is wrong or the server is down (see Step 5). Protection with the built-in policy continues |
+| The popup shows events waiting to upload | They are sent automatically when the server is reachable (within a minute). While your department is inactive, uploads pause and protection continues |
 | A platform changed its design and sending is not intercepted | Report it with the lines starting with `[hares]` from that tab's Console (F12) |
 
 When reporting a problem, include: browser and version, which site, the exact test message (fake data), what you expected, and what happened.
@@ -222,7 +232,7 @@ node scripts/gen-manual-tests.mjs
 | — Department policies and user exceptions | ✅ Done (no settings screen yet) |
 | 4. Decision model (sensitive *context* with no specific value, e.g. unreleased deal terms) | ⏳ Next |
 | 5. Fixes from testing, wider evaluation, docs | ⏳ |
-| Platform integration (sign-in, policy sync, sending logs) | ⏳ Later |
+| Platform integration (sign-in, policy sync, sending logs) | ✅ Built; tested against a mocked API, joint test with the platform pending |
 
 **Known limitations**
 
@@ -232,7 +242,8 @@ node scripts/gen-manual-tests.mjs
 - Deliberate evasion (spacing out digits, base64, splitting across many messages) is out of scope.
 - The detection model's Arabic results come from a small test set (41 cases); a wider evaluation is planned.
 - Placeholder numbers do not restart in a new chat (e.g. the first phone number in a second chat can be `[PHONE_2]`). Meaning is unaffected; fix planned for Phase 5.
-- No settings screen yet: policies and user exceptions are set from the extension's storage (see [docs/policy.md](docs/policy.md)).
+- User exceptions have no settings screen yet; the organisation's policy does not offer them (see [docs/policy.md](docs/policy.md)).
+- TOPIC rules from the platform are not enforced.
 
 ---
 
@@ -241,7 +252,8 @@ node scripts/gen-manual-tests.mjs
 | Document | Content |
 |---|---|
 | [docs/coverage-and-models.md](docs/coverage-and-models.md) | What is detected today, what each model adds, model details and measurements (Arabic) |
-| [docs/policy.md](docs/policy.md) | Department policies and user exceptions (for the platform team) |
+| [docs/policy.md](docs/policy.md) | Policy shape, user exceptions and the log event fields (for the platform team) |
+| [docs/backend-integration.md](docs/backend-integration.md) | How the extension uses the platform API: sign-in, policy bundle, events, joint test steps |
 | [docs/testing/manual-tests.md](docs/testing/manual-tests.md) | Manual test checklist |
 | [docs/requirements-mvp.md](docs/requirements-mvp.md) | Requirements |
 | [docs/system-design.md](docs/system-design.md) | System design |
