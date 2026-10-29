@@ -8,6 +8,7 @@
  * contract over the same channel.
  */
 
+import type { EventDraft } from '../logging/event';
 import type { ClassifyResult } from '../model/contract';
 import type { EntitySpan } from '../ner/spans';
 
@@ -31,6 +32,7 @@ export const MSG = {
   DETECT_RESULT: 'hares/detect-result',
   AUTH_LOGIN: 'hares/auth-login',
   AUTH_LOGOUT: 'hares/auth-logout',
+  LOG_EVENT: 'hares/log-event',
 } as const;
 
 export type MessageType = (typeof MSG)[keyof typeof MSG];
@@ -217,4 +219,13 @@ export interface AuthResponse {
   message?: string;
   /** Seconds to wait before trying again (RATE_LIMITED). */
   retryAfterSeconds?: number;
+}
+
+// --- Activity log (content script -> background) ---------------------------
+
+/** One activity-log event (metadata only, never prompt text) for the background to queue and upload. */
+export interface LogEventMessage {
+  target: MessageTarget;
+  type: typeof MSG.LOG_EVENT;
+  event: EventDraft;
 }

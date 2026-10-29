@@ -8,7 +8,9 @@
 
 import { browser } from 'wxt/browser';
 import { loginErrorMessage, signedOutMessage } from '../../src/backend/messages';
+import { OUTBOX_KEY } from '../../src/backend/outbox';
 import { AUTH_STATE_KEY, type AuthState, type SignOutReason } from '../../src/backend/session';
+import { UPLOAD_STATE_KEY, type UploadState } from '../../src/backend/uploader';
 import {
   MSG,
   TARGET,
@@ -86,7 +88,7 @@ function renderSignedOut(reason: SignOutReason | undefined): void {
 }
 
 async function renderSignedIn(email: string): Promise<void> {
-  const stored = await browser.storage.local.get([POLICY_KEY, POLICY_FETCHED_AT_KEY]);
+  const stored = await browser.storage.local.get([POLICY_KEY, POLICY_FETCHED_AT_KEY, OUTBOX_KEY, UPLOAD_STATE_KEY]);
   const policy = stored[POLICY_KEY] as { version?: number } | undefined;
   const checkedAt = stored[POLICY_FETCHED_AT_KEY];
 
@@ -100,6 +102,10 @@ async function renderSignedIn(email: string): Promise<void> {
     details.append(el('dt', 'Checked'), el('dd', new Date(checkedAt).toLocaleTimeString()));
   }
 
+  const waiting = Array.isArray(stored[OUTBOX_KEY]) ? (stored[OUTBOX_KEY] as unknown[]).length : 0;
+  details.append(el('dt', 'Waiting'), el('dd', waiting === 0 ? 'Nothing to upload' : `${waiting} event${waiting === 1 ? '' : 's'} to upload`));
+  const paused = (stored[UPLOAD_STATE_KEY] as UploadState | undefined)?.paused === true;
+
   const signOut = el('button', 'Sign out', 'secondary');
   signOut.type = 'button';
   signOut.addEventListener('click', () => {
@@ -107,7 +113,13 @@ async function renderSignedIn(email: string): Promise<void> {
     void send({ target: TARGET.BACKGROUND, type: MSG.AUTH_LOGOUT });
   });
 
-  app.replaceChildren(el('h1', 'Hares AI'), el('p', 'Protection is on.'), details, signOut);
+  app.replaceChildren(
+    el('h1', 'Hares AI'),
+    el('p', 'Protection is on.'),
+    ...(paused ? [el('p', 'Uploads are paused: your department is inactive. Protection continues.', 'notice')] : []),
+    details,
+    signOut,
+  );
 }
 
 async function render(): Promise<void> {

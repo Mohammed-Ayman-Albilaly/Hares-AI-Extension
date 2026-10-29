@@ -16,7 +16,8 @@
 
 import { readComposerText, replaceComposerText, waitForEnabled } from '../adapters/editor';
 import type { PlatformAdapter } from '../adapters/types';
-import { queueLogEvent, type UserAction } from '../logging/events';
+import { buildEventDraft, type UserAction } from '../logging/event';
+import { reportEvent } from '../logging/report';
 import { analyzePrompt, type AnalysisResult } from '../pipeline/analyze';
 import { ConversationTracker } from '../pipeline/conversation';
 import { PolicyState } from '../policy/store';
@@ -112,22 +113,18 @@ export function installInterceptor(adapter: PlatformAdapter): void {
 
   let lastDetector: DetectorOutcome = 'idle';
 
-  function log(analysis: AnalysisResult, action: UserAction): void {
-    void queueLogEvent({
-      id: crypto.randomUUID(),
-      at: new Date().toISOString(),
+  /** One event per analysed send: metadata only, never the text. */
+  function log(analysis: AnalysisResult, userAction: UserAction): void {
+    const event = buildEventDraft({
+      decision: analysis.decision,
+      detections: analysis.detections,
       platform: adapter.id,
-      tier: analysis.decision.policyTier,
-      enforcedTier: analysis.decision.tier,
-      exceptedCategories: analysis.decision.exceptedCategories,
-      departmentId: policyState.policy.departmentId,
-      policyVersion: policyState.policy.version,
-      categories: analysis.decision.categories,
-      detectionCount: analysis.detections.length,
-      action,
-      analysisMs: analysis.latencyMs,
       detector: lastDetector,
+      userAction,
+      now: Date.now(),
+      logId: crypto.randomUUID(),
     });
+    if (event) void reportEvent(event);
   }
 
   async function sendRevised(analysis: AnalysisResult): Promise<void> {
@@ -185,7 +182,7 @@ export function installInterceptor(adapter: PlatformAdapter): void {
       } else if (choice === 'revised') {
         await sendRevised(analysis);
       } else {
-        log(analysis, 'cancelled');
+        log(analysis, choice === 'edit' ? 'edited' : 'cancelled');
         adapter.getComposer()?.focus();
       }
     } catch (error) {

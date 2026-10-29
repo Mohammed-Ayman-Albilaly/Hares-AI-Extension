@@ -13,10 +13,11 @@
 import type { AnalysisResult } from '../pipeline/analyze';
 import { createShadowHost } from './styles';
 
-export type DialogChoice = 'original' | 'revised' | 'cancel';
+/** `edit`: the Edit button. `dismiss`: Escape or a click outside the dialog. Both go back to the composer. */
+export type DialogChoice = 'original' | 'revised' | 'edit' | 'dismiss';
 
 /** Default button on MEDIUM. 'revised' is the safe default; 'original' = Confirm. */
-export const DEFAULT_MEDIUM_CHOICE: Exclude<DialogChoice, 'cancel'> = 'revised';
+export const DEFAULT_MEDIUM_CHOICE: Exclude<DialogChoice, 'edit' | 'dismiss'> = 'revised';
 
 const ENTER_GUARD_MS = 300;
 const PLACEHOLDER_SPLIT = /(\[[A-Z][A-Z0-9_]*_\d+\])/;
@@ -63,10 +64,10 @@ export function showDecisionDialog(analysis: AnalysisResult): Promise<DialogChoi
   const buttons: ButtonSpec[] = [];
   if (!isHigh) buttons.push({ choice: 'original', label: 'Confirm', className: '' });
   if (canRevise) buttons.push({ choice: 'revised', label: 'Send revised', className: '' });
-  buttons.push({ choice: 'cancel', label: 'Edit', className: 'ghost' });
+  buttons.push({ choice: 'edit', label: 'Edit', className: 'ghost' });
 
   const defaultChoice: DialogChoice = isHigh
-    ? canRevise ? 'revised' : 'cancel'
+    ? canRevise ? 'revised' : 'edit'
     : canRevise ? DEFAULT_MEDIUM_CHOICE : 'original';
 
   return new Promise((resolve) => {
@@ -159,7 +160,7 @@ export function showDecisionDialog(analysis: AnalysisResult): Promise<DialogChoi
         if (spec) finish(spec.choice);
       } else if (key === 'Escape') {
         event.preventDefault();
-        finish('cancel');
+        finish('dismiss');
       } else {
         event.preventDefault();
       }
@@ -173,7 +174,7 @@ export function showDecisionDialog(analysis: AnalysisResult): Promise<DialogChoi
     window.addEventListener('keyup', swallow, true);
     window.addEventListener('keypress', swallow, true);
     backdrop.addEventListener('mousedown', (event) => {
-      if (event.target === backdrop) finish('cancel');
+      if (event.target === backdrop) finish('dismiss');
     });
 
     function finish(choice: DialogChoice): void {

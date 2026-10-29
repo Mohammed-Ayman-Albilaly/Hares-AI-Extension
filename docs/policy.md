@@ -75,16 +75,30 @@ Stored in `chrome.storage.local` under `hares.userExceptions`:
 |---|---|
 | An exception applies **only** if the policy marks that label or category `userOverridable: true` | Otherwise the extension becomes optional |
 | An exempted item is enforced as **LOW**: sent without a dialog, with a toast "Sent under your personal exception (API_KEY)" | The user is still reminded |
-| The log keeps the **policy tier** (`tier`), plus `enforcedTier` and `exceptedCategories` | The admin dashboard sees what really happened |
+| The log keeps the **policy outcome** (`action`, `risk_level`); an exception never lowers it | The admin dashboard sees what really happened |
 | It lowers only the exempted type. Other data in the same message is enforced normally | Exempting API keys must not let a card number through |
 | Optional `until` expiry | Temporary exceptions |
 
 The user-facing screen for managing exceptions (extension popup) is not built yet.
 
-## 4. Log event fields (no prompt text)
+## 4. Log events (no prompt text)
 
-`tier` (policy) · `enforcedTier` · `exceptedCategories` · `departmentId` · `policyVersion` · `categories` · `detectionCount` · `action` (`auto_sent` / `sent_original` / `sent_revised` / `copied_revised` / `cancelled`) · `platform` · `analysisMs` · `at` · `id`.
-Source: [src/logging/events.ts](../src/logging/events.ts). Events are queued locally today; sending them to the backend is the integration step.
+One event per analysed send, uploaded with `POST /logs` while the user is signed in. Source: [src/logging/event.ts](../src/logging/event.ts).
+
+| Field | Value |
+|---|---|
+| `log_id` | UUID created with the event; every retry sends the same one |
+| `event_time` | UTC with `Z`, device time corrected by the server's `Date` header |
+| `platform` | `CHATGPT` / `CLAUDE` / `GEMINI` |
+| `risk_level` | highest risk among the detections (`NONE` if nothing matched); the bundle's `risk_level` of the category, or the built-in tier if it is missing |
+| `action` | the policy outcome: `BLOCKED` (BLOCK) / `WARNED` (WARN) / `ALLOWED` (ALLOW or nothing matched). A user exception never lowers it |
+| `categories` | distinct contract codes (the 24); organisation rules add none |
+| `classification_source` | `LOCAL_AI` (rules + local model), `LOCAL` (model switched off), `LOCAL_ONLY_FALLBACK` (model should have run but could not) |
+| `user_decision` | `NONE` (no dialog), `SUBMITTED_ANYWAY` (Confirm), `REVISION_USED` (Send revised, also when it had to be copied), `EDITED` (Edit button), `CANCELLED` (Escape / click outside) |
+| `rule_id` | the matched rule with the strictest action, then the highest risk, then first in the bundle; `null` if none |
+| `schema_version` | `1` |
+
+`user_id` and `department_id` are never sent (they come from the token). Events are queued in `storage.local` (at most 500, oldest dropped), uploaded one at a time from the background, and dropped without being sent if the user is not signed in. Backoff, 429, 403 `DEPARTMENT_INACTIVE` and 400 handling are described in [src/backend/uploader.ts](../src/backend/uploader.ts).
 
 ## 5. Safety rules for the platform
 
