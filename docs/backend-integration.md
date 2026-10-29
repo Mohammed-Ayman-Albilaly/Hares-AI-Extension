@@ -24,6 +24,13 @@ PowerShell: `$env:WXT_API_BASE_URL = "http://localhost:3000/api"; npm run build`
 | Sign out | Sends the waiting events (up to 5 s), `POST /extension/logout`, then clears tokens, policy and queue | [runtime.ts](../src/backend/runtime.ts) |
 | Policy | `GET /policy/bundle` with `If-None-Match` on browser start, after sign-in and every 5 minutes. `304` keeps the stored one. Any failure keeps the last good policy; with none ever received, the built-in default applies | [policy-sync.ts](../src/backend/policy-sync.ts) |
 | Events | One `POST /logs` per analysed send, only while signed in | [uploader.ts](../src/backend/uploader.ts) |
+| Alarms | `hares-policy-refresh` (5 min) and `hares-upload` (1 min). Created only when missing, never re-created on a wake-up (that would restart the period). If the last policy check is older than 5 minutes when the service worker wakes, it checks at once | [schedule.ts](../src/backend/schedule.ts) |
+
+## Seeing what the extension does
+
+Open the service worker console (`chrome://extensions` → Hares AI → *service worker*). Each policy check prints one line, for example `[hares] policy check: HTTP 304 UNCHANGED (ETag "v7-d1")`, and each alarm prints `[hares] alarm fired: hares-policy-refresh`. The latest check is also stored under `hares.policyCheck` (`at`, `result`, `status`, `etag`) in `chrome.storage.local`. In the page console, each send attempt prints `[hares] send attempt via Enter|send button|form submit: …` (no text).
+
+If the extension is reloaded while a chat page stays open, the old script on that page stops quietly, shows one notice asking for a refresh, and logs no error.
 
 ## Reading the policy bundle
 

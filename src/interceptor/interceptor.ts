@@ -98,6 +98,7 @@ export function installInterceptor(adapter: PlatformAdapter): void {
 
     event.preventDefault();
     event.stopImmediatePropagation();
+    lastTrigger = event.type === 'keydown' ? 'Enter' : event.type === 'click' ? 'send button' : 'form submit';
     void handle(text);
   }
 
@@ -132,6 +133,8 @@ export function installInterceptor(adapter: PlatformAdapter): void {
   }
 
   let lastDetector: DetectorOutcome = 'idle';
+  /** What the user did to send, for the console trace of each reported event. */
+  let lastTrigger = 'unknown';
 
   /** One event per analysed send: metadata only, never the text. */
   function log(analysis: AnalysisResult, userAction: UserAction): void {
@@ -144,7 +147,10 @@ export function installInterceptor(adapter: PlatformAdapter): void {
       now: Date.now(),
       logId: crypto.randomUUID(),
     });
-    if (event) void reportEvent(event);
+    if (!event) return;
+    // Events exist only for a send attempt (Enter, the send button or a form submit); typing alone never reaches here.
+    console.info(`[hares] send attempt via ${lastTrigger}: ${event.action}, risk ${event.risk_level}, decision ${event.user_decision} (event ${event.log_id})`);
+    void reportEvent(event);
   }
 
   async function sendRevised(analysis: AnalysisResult): Promise<void> {
