@@ -1,7 +1,7 @@
 /**
  * Hares AI — model entity spans → Detection objects (same shape as the rules).
  *
- * Applies, in order: the policy's enabled model types, the minimum score, and
+ * Applies, in order: the model types that are on, the minimum score, and
  * the same checksum validators the rules use where a type has one (a "credit
  * card" the model sees must still pass Luhn), so the model cannot raise a false
  * HIGH on a random number.
@@ -9,7 +9,7 @@
 
 import type { Detection } from '../detectors/types';
 import { card, saudiId } from '../detectors/validators';
-import { enabledModelLabels, MODEL_LABELS } from './labels';
+import { ENABLED_MODEL_LABELS, MODEL_LABELS } from './labels';
 import { MIN_SCORE } from './runner';
 import type { EntitySpan } from './spans';
 
@@ -25,13 +25,11 @@ function passesValidation(type: string, value: string): boolean {
 export function entitiesToDetections(
   text: string,
   entities: readonly EntitySpan[],
-  enabledLabels?: readonly string[],
 ): Detection[] {
-  const enabled = enabledModelLabels(enabledLabels);
   const detections: Detection[] = [];
   for (const e of entities) {
     const mapping = MODEL_LABELS[e.type];
-    if (!mapping || !enabled.has(e.type) || e.score < MIN_SCORE) continue;
+    if (!mapping || !ENABLED_MODEL_LABELS.has(e.type) || e.score < MIN_SCORE) continue;
     if (e.start < 0 || e.end > text.length || e.end <= e.start) continue;
     const value = text.slice(e.start, e.end);
     if (!passesValidation(e.type, value)) continue;

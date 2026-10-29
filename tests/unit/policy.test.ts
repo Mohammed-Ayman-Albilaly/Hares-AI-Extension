@@ -139,3 +139,46 @@ describe('validatePolicy', () => {
     expect(warnings.length).toBeGreaterThan(0);
   });
 });
+
+describe('disabled category', () => {
+  it('a switched-off type does not hide an enforced one it overlaps', () => {
+    // The ID-number rule and the phone rule both match the digits; with ID
+    // numbers off, the phone detection must still be found.
+    const text = 'call 0551234567';
+    const off: Policy = { version: 1, departmentId: 'x', categories: { PERSONAL_IDENTITY: { tier: 'SAFE' } } };
+    expect(detectWithRules(text, off).map((d) => d.label)).toContain('PHONE');
+  });
+
+  it('a name from the model is MEDIUM by default even though its category is HIGH', () => {
+    const a = analyzePrompt('Write to Sarah Mitchell', new PlaceholderVault(), {
+      modelDetections: [
+        { category: 'PERSONAL_IDENTITY', label: 'PERSON', value: 'Sarah Mitchell', start: 9, end: 23, source: 'ner', confidence: 0.9 },
+      ],
+    });
+    expect(a.decision.tier).toBe('MEDIUM');
+  });
+
+  it('switching a category off ignores the model labels mapped to it too', () => {
+    const policy: Policy = { version: 1, departmentId: 'x', categories: { PERSONAL_IDENTITY: { tier: 'SAFE' } } };
+    const a = analyzePrompt('Write to Sarah Mitchell', new PlaceholderVault(), {
+      policy,
+      modelDetections: [
+        { category: 'PERSONAL_IDENTITY', label: 'PERSON', value: 'Sarah Mitchell', start: 9, end: 23, source: 'ner', confidence: 0.9 },
+      ],
+    });
+    expect(a.detections).toEqual([]);
+    expect(a.decision.tier).toBe('SAFE');
+  });
+
+  it('a switched-off model detection does not mask over an enforced rule detection', () => {
+    const text = 'mail sara@example.com';
+    const policy: Policy = { version: 1, departmentId: 'x', categories: { PERSONAL_IDENTITY: { tier: 'SAFE' } } };
+    const a = analyzePrompt(text, new PlaceholderVault(), {
+      policy,
+      modelDetections: [
+        { category: 'PERSONAL_IDENTITY', label: 'PERSON', value: 'sara@example.com', start: 5, end: 21, source: 'ner', confidence: 0.99 },
+      ],
+    });
+    expect(a.revised).toBe('mail [EMAIL_1]');
+  });
+});

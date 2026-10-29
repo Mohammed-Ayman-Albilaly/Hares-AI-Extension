@@ -111,15 +111,17 @@ export function analyzePrompt(
   const policy = options.policy ?? DEFAULT_POLICY;
   // Rules + model for this message; on overlap the merge prefers higher tier,
   // then specific over generic, then rules over the model.
-  const own = mergeDetections([...detectWithRules(prompt, policy), ...(options.modelDetections ?? [])]);
+  // Types the policy switches off are dropped before overlap resolution, in
+  // the rules (inside detectWithRules) and in the model's results alike.
+  const modelDetections = (options.modelDetections ?? []).filter((d) => detectionTier(d, policy) !== 'SAFE');
+  const own = mergeDetections([...detectWithRules(prompt, policy), ...modelDetections]);
   const merged = options.historyTail
     ? mergeDetections([...own, ...detectAcrossMessages(prompt, options.historyTail, policy)]).map(
         // A span found on its own is not "cross-message", even if the joined text also found it.
         (d) => (own.some((o) => o.start === d.start && o.end === d.end) ? { ...d, crossesMessages: undefined } : d),
       )
     : own;
-  // A category the policy sets to SAFE is ignored entirely: not shown, not masked.
-  const detections = merged.filter((d) => detectionTier(d, policy) !== 'SAFE');
+  const detections = merged;
   const context = options.context;
   const { masked } = vault.mask(prompt, detections);
   const decision = decide(detections, context, {

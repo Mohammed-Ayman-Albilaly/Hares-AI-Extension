@@ -50,7 +50,7 @@ export function installInterceptor(adapter: PlatformAdapter): void {
       toldModelLoading = true;
       showToast('Hares AI is still downloading its name & address detector. Checked with rules only for now.', 'info', 5000);
     }
-    const detections = entitiesToDetections(text, result.entities, policyState.policy.detector?.enabledLabels);
+    const detections = entitiesToDetections(text, result.entities);
     return { outcome: result.outcome, detections };
   }
 

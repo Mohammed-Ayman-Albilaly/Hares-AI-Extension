@@ -42,10 +42,24 @@ export const CATEGORIES = {
   EDUCATION: { name: 'Education-Related Identifiers', tier: 'MEDIUM' },
   UNIVERSAL_ID: { name: 'Universal Identifiers', tier: 'LOW' }, // not in PDF tier list
   REGIONAL: { name: 'Region-Specific Banking & Identity Data', tier: 'HIGH' }, // not in PDF tier list
-  PERSONAL_NAME: { name: 'Personal Names', tier: 'MEDIUM' }, // not in PDF; found by the detection model
 } as const satisfies Record<string, { name: string; tier: Tier }>;
 
 export type CategoryId = keyof typeof CATEGORIES;
+
+/**
+ * Types whose built-in tier is lower than their category's. A person's name is
+ * reported under PERSONAL_IDENTITY (the backend has no separate code for it)
+ * but a name alone must not be blocked like a national ID number.
+ */
+const LABEL_TIER_DEFAULTS: Readonly<Record<string, Tier>> = {
+  PERSON: 'MEDIUM',
+  AGE: 'MEDIUM',
+};
+
+/** Built-in tier of one detected type, before any policy is applied. */
+export function builtInTier(d: { category: CategoryId; label: string }): Tier {
+  return LABEL_TIER_DEFAULTS[d.label] ?? CATEGORIES[d.category].tier;
+}
 
 export function categoryTier(category: CategoryId): Tier {
   return CATEGORIES[category].tier;

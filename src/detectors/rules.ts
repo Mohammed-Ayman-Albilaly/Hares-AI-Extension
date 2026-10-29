@@ -7,7 +7,7 @@
  * working when the model stages fail.
  */
 
-import { DEFAULT_POLICY } from '../policy/defaults';
+import { DEFAULT_POLICY, detectionTier } from '../policy/defaults';
 import type { CustomKeyword, Policy } from '../policy/types';
 import { mergeDetections } from './merge';
 import { PATTERNS, type PatternSpec } from './patterns';
@@ -119,5 +119,7 @@ export function detectWithRules(text: string, policy: Policy = DEFAULT_POLICY): 
     }
   }
 
-  return mergeDetections(found);
+  // A type the policy switches off must not take part in overlap resolution:
+  // it could otherwise hide a detection that is still enforced.
+  return mergeDetections(found.filter((d) => detectionTier(d, policy) !== 'SAFE'));
 }

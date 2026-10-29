@@ -47,10 +47,6 @@ export interface Policy {
     /** Organisation-specific terms (project codenames, client names…). */
     customKeywords?: CustomKeyword[];
   };
-  /** Detection model (Phase 3): which model labels are active. */
-  detector?: {
-    enabledLabels?: string[];
-  };
   /** Decision model (Phase 4): its "prompt" — hypotheses or examples per tier. */
   decision?: {
     enabled?: boolean;

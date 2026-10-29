@@ -11,7 +11,7 @@
 import { AutoModelForTokenClassification, AutoTokenizer } from '@huggingface/transformers';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { it } from 'vitest';
-import { enabledModelLabels } from '../src/ner/labels';
+import { ENABLED_MODEL_LABELS } from '../src/ner/labels';
 import { detectEntities, MIN_SCORE, NER_MODEL, type NerModel, type NerTokenizer } from '../src/ner/runner';
 import cases from '../tests/fixtures/ner-cases.json';
 
@@ -26,7 +26,7 @@ it('evaluates the detection model', async () => {
     dtype: NER_MODEL.dtype,
   })) as unknown as NerModel;
   const loadMs = Math.round(performance.now() - loadStart);
-  const enabled = enabledModelLabels();
+  const enabled = ENABLED_MODEL_LABELS;
 
   // Warm-up (first call compiles kernels).
   await detectEntities(tokenizer, model, 'warm up');

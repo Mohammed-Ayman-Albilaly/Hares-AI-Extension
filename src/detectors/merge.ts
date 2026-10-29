@@ -8,7 +8,7 @@
  * overlaps nothing already accepted, then sort by start offset.
  */
 
-import { CATEGORIES, TIER_RANK, type CategoryId } from './categories';
+import { TIER_RANK, builtInTier, type CategoryId } from './categories';
 import type { Detection } from './types';
 
 /** Catch-all categories that lose to any specific match of the same tier. */
@@ -16,7 +16,7 @@ const GENERIC: ReadonlySet<CategoryId> = new Set(['NUMERIC', 'WEB_LINK', 'KEYWOR
 
 function priority(d: Detection): number[] {
   return [
-    TIER_RANK[CATEGORIES[d.category].tier],
+    TIER_RANK[builtInTier(d)],
     GENERIC.has(d.category) ? 0 : 1,
     d.source === 'rule' ? 1 : 0,
     d.end - d.start,

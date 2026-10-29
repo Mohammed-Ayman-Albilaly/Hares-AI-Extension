@@ -120,10 +120,6 @@ export function validatePolicy(input: unknown): ValidationResult {
     };
   }
 
-  if (isObject(input.detector)) {
-    policy.detector = { enabledLabels: strings(input.detector.enabledLabels, 100, 40) };
-  }
-
   if (isObject(input.decision)) {
     const d = input.decision;
     const decision: NonNullable<Policy['decision']> = {};

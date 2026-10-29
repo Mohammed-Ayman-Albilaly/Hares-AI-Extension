@@ -35,7 +35,6 @@ Labels are more precise than categories: `API_KEY` and `PASSWORD` both belong to
 | `labels` | `{ [LABEL]: { tier?, userOverridable? } }` | Override one type (API_KEY, PASSWORD, EMAIL, NATIONAL_ID…) |
 | `rules.disabledPatterns` | string[] | Built-in pattern ids to switch off (ids in [patterns.ts](../src/detectors/patterns.ts), e.g. `url`) |
 | `rules.customKeywords` | `{ text, category, label }[]` | Organisation terms (project codenames, client names), English or Arabic. **Literal text, never regex** |
-| `detector.enabledLabels` | string[] | Detection model types to keep (Phase 3) |
 | `decision.enabled` / `hypotheses` / `examples` / `uncertaintyThreshold` | — | The decision model's "prompt" (Phase 4): one sentence per tier (zero-shot) or example prompts per tier (embedding model) |
 
 Category ids, tiers and labels: [src/detectors/categories.ts](../src/detectors/categories.ts), [src/detectors/patterns.ts](../src/detectors/patterns.ts).
@@ -101,4 +100,4 @@ Source: [src/logging/events.ts](../src/logging/events.ts). Events are queued loc
 - Sign-in in the extension, and fetching the policy for the user's department.
 - Sending queued log events to the backend.
 - Popup screen for user exceptions.
-- `detector` and `decision` fields take effect in Phases 3–4, when the models are added.
+- `decision` fields take effect in Phase 4, when the decision model is added. Which detection-model types are on is fixed in the extension (six common types stay off); a category's policy decides what happens with the rest.

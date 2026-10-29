@@ -15,15 +15,15 @@ describe('entitiesToDetections', () => {
   it('maps model types to our categories and placeholder labels', () => {
     const d = entitiesToDetections(text, [span(text, 'محمد العتيبي', 'PERSON'), span(text, 'حي النرجس', 'STREET_ADDRESS')]);
     expect(d.map((x) => [x.category, x.label, x.value, x.source])).toEqual([
-      ['PERSONAL_NAME', 'PERSON', 'محمد العتيبي', 'ner'],
+      ['PERSONAL_IDENTITY', 'PERSON', 'محمد العتيبي', 'ner'],
       ['LOCATION', 'ADDRESS', 'حي النرجس', 'ner'],
     ]);
   });
 
-  it('drops types that are off by default (city names) unless a policy enables them', () => {
-    const city = [span(text, 'الرياض', 'LOCATION')];
-    expect(entitiesToDetections(text, city)).toEqual([]);
-    expect(entitiesToDetections(text, city, ['LOCATION'])).toHaveLength(1);
+  it('drops the types that are always off (city names, plain dates, companies...)', () => {
+    for (const type of ['LOCATION', 'ORGANIZATION', 'DATE', 'AGE', 'POSTCODE', 'URL']) {
+      expect(entitiesToDetections(text, [span(text, 'الرياض', type)]), type).toEqual([]);
+    }
   });
 
   it('drops low-confidence results', () => {

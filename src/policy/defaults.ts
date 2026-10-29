@@ -6,7 +6,7 @@
  * built-in values for anything it leaves out.
  */
 
-import { CATEGORIES, type CategoryId, type Tier } from '../detectors/categories';
+import { CATEGORIES, builtInTier, type CategoryId, type Tier } from '../detectors/categories';
 import type { Policy, UserExceptions } from './types';
 
 export const DEFAULT_POLICY: Policy = {
@@ -24,7 +24,8 @@ export function detectionTier(
   d: { category: CategoryId; label: string },
   policy: Policy = DEFAULT_POLICY,
 ): Tier {
-  return policy.labels?.[d.label]?.tier ?? policyTier(d.category, policy);
+  const override = policy.labels?.[d.label]?.tier ?? policy.categories?.[d.category]?.tier;
+  return override ?? builtInTier(d);
 }
 
 /** May the user exempt this detected type under this policy? */
