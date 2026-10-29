@@ -3,6 +3,7 @@ import type { Plugin } from 'vite';
 import { copyFileSync, existsSync, mkdirSync, readdirSync, rmSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { EXTENSION_PUBLIC_KEY } from './extension-key';
 
 const rootDir = fileURLToPath(new URL('.', import.meta.url));
 
@@ -50,6 +51,8 @@ function localOrtWasmAssets(): Plugin {
 export default defineConfig({
   manifest: {
     name: 'Hares AI',
+    // Fixes the extension ID (see extension-key.ts).
+    key: EXTENSION_PUBLIC_KEY,
     description:
       'Reduces the risk of accidentally disclosing sensitive information when sending prompts to AI platforms.',
     permissions: ['offscreen', 'storage', 'alarms'],
