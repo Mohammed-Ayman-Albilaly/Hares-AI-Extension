@@ -19,6 +19,7 @@ import type { PlatformAdapter } from '../adapters/types';
 import { buildEventDraft, type UserAction } from '../logging/event';
 import { reportEvent } from '../logging/report';
 import { analyzePrompt, type AnalysisResult } from '../pipeline/analyze';
+import { isContextInvalidatedError, isExtensionContextValid } from '../runtime/context';
 import { ConversationTracker } from '../pipeline/conversation';
 import { PolicyState } from '../policy/store';
 import { isDialogOpen, showDecisionDialog } from '../ui/dialog';
@@ -59,8 +60,27 @@ export function installInterceptor(adapter: PlatformAdapter): void {
     return adapter.isComposer(target);
   }
 
+  /**
+   * The extension was reloaded or updated while this page stayed open: this
+   * copy of the script can no longer reach it. Stop intercepting (the site works
+   * as usual), say so once, and ask for a refresh. Nothing is logged as an error.
+   */
+  let retired = false;
+  function retire(): void {
+    if (retired) return;
+    retired = true;
+    window.removeEventListener('keydown', onKeyDown, true);
+    window.removeEventListener('click', onClick, true);
+    window.removeEventListener('submit', onSubmit, true);
+    showToast('Hares AI was updated. Refresh this page to turn protection back on.', 'info', 8000);
+  }
+
   /** Decide whether this send attempt may pass untouched; otherwise hold it. */
   function intercept(event: Event): void {
+    if (!isExtensionContextValid()) {
+      retire();
+      return;
+    }
     if (isDialogOpen() || busy) {
       event.preventDefault();
       event.stopImmediatePropagation();
@@ -186,6 +206,10 @@ export function installInterceptor(adapter: PlatformAdapter): void {
         adapter.getComposer()?.focus();
       }
     } catch (error) {
+      if (isContextInvalidatedError(error) || !isExtensionContextValid()) {
+        retire();
+        return;
+      }
       // Never leave the user stuck: fail visibly, and let the next Enter through.
       console.error('[hares] analysis failed:', error);
       approvals.approveOnce(text, 60_000);
