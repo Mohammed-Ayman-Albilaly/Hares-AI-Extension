@@ -98,7 +98,7 @@ Open (or **refresh**, if already open) **chatgpt.com**, **claude.ai** or **gemin
 
 Click the **Hares AI** icon in the toolbar and sign in with your Hares AI account. Your organisation's policy is then applied and each checked message is reported to the platform (without its text). Without signing in, the extension protects you with its built-in policy and reports nothing.
 
-By default the extension talks to the development API at `http://localhost:3000/api`. To build for another server, set `WXT_API_BASE_URL` first, for example `WXT_API_BASE_URL=https://api.example.com/api npm run build` (PowerShell: `$env:WXT_API_BASE_URL = "..."; npm run build`). Details: [docs/backend-integration.md](docs/backend-integration.md).
+By default the extension talks to the platform at `https://hares-ai.vercel.app/api`. The first request after a quiet period can take up to a minute (the server sleeps when unused), so the popup says "Connecting…". To build for another server, set `WXT_API_BASE_URL` first, for example `WXT_API_BASE_URL=http://localhost:3000/api npm run build` for a local backend (PowerShell: `$env:WXT_API_BASE_URL = "..."; npm run build`). Only HTTPS is accepted, apart from a server on this machine. Details: [docs/backend-integration.md](docs/backend-integration.md).
 
 ### Updating to a newer version
 

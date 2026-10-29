@@ -93,6 +93,8 @@ export class Session {
     const response = await apiRequest<unknown>(this.deps.api, '/extension/login', {
       method: 'POST',
       json: { email, password },
+      // Signing in twice is harmless, and the first request can hit a sleeping server.
+      retries: 2,
     });
     if (!isTokenPair(response.body)) throw new ApiError(response.status, 'BAD_RESPONSE', 'Unexpected answer from the server');
     await this.saveTokens(response.body);

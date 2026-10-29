@@ -6,12 +6,14 @@ How the extension talks to the Hares AI platform API. The API contract (schemas,
 
 | | |
 |---|---|
-| API base URL | Set when building: `WXT_API_BASE_URL=https://host/api npm run build`. Default: `http://localhost:3000/api` (development API) |
+| API base URL | Set when building: `WXT_API_BASE_URL=https://host/api npm run build`. Default: `https://hares-ai.vercel.app/api` (production, always through Vercel, never the host behind it). HTTPS only, except a server on this machine. For a local backend: `WXT_API_BASE_URL=http://localhost:3000/api` |
 | Extension ID | `hbcjnfojlcbfaiiiepmlhcjbmjbcpold`. Fixed by the public key in [extension-key.ts](../extension-key.ts); the same on every build. A Web Store upload would get its own ID |
 | Permissions | `storage`, `offscreen`, `alarms`; host access to the three AI sites, the model download hosts and the API origin of the build |
 | Calls | Only from the background service worker, never from a page |
 
-PowerShell: `$env:WXT_API_BASE_URL = "http://localhost:3000/api"; npm run build`
+PowerShell, local backend: `$env:WXT_API_BASE_URL = "http://localhost:3000/api"; npm run build`
+
+The server on the free plan sleeps when unused and its first answer can take up to a minute. Every request waits up to 90 seconds; sign-in repeats up to twice if the server is not ready (network error, timeout, 502/503/504). The refresh token is never repeated, because it rotates; event uploads already retry with backoff and the same `log_id`.
 
 ## What it does
 
@@ -64,8 +66,8 @@ The queue holds at most 500 events (oldest dropped). Events older than 89 days a
 
 ## Joint test with the local backend
 
-1. Run the backend (`docs/DEV-README.md` in the platform repository) and build the extension with the default URL. Load `.output/chrome-mv3` and open the popup.
-2. Sign in with `engineering.user1@example.test` (development account, see the platform's README). The popup shows `Policy: Version N`.
+1. Build with the default URL (production) and load `.output/chrome-mv3`. To test against a local backend instead, run it (`docs/DEV-README.md` in the platform repository) and build with `WXT_API_BASE_URL=http://localhost:3000/api`. Open the popup.
+2. Sign in with an account registered on the platform and approved by the System Admin. The first sign-in can take up to a minute. The popup shows `Policy: Version N`.
 3. On an AI site send:
    - a clean message (`What is the capital of France?`) → NONE / ALLOWED
    - `Please reply to sara@example.com` → confirm dialog → press Confirm → MEDIUM / WARNED / SUBMITTED_ANYWAY

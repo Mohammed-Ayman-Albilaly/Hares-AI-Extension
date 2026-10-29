@@ -24,7 +24,13 @@ import {
 } from '../policy/store';
 import { ApiError } from './api';
 import { ServerClock } from './clock';
-import { API_BASE_URL, POLICY_FRESH_WAIT_MS, POLICY_MAX_AGE_ON_SEND_MS, POLICY_REFRESH_MINUTES } from './config';
+import {
+  API_BASE_URL,
+  POLICY_FRESH_WAIT_MS,
+  POLICY_MAX_AGE_ON_SEND_MS,
+  POLICY_REFRESH_MINUTES,
+  REQUEST_TIMEOUT_MS,
+} from './config';
 import { Outbox } from './outbox';
 import { createPolicySync, type SyncAttempt } from './policy-sync';
 import { ensureAlarm, isCheckDue } from './schedule';
@@ -46,7 +52,7 @@ const LEGACY_QUEUE_KEY = 'hares.logQueue';
 export const clock = new ServerClock(browser.storage.local);
 
 export const session = new Session({
-  api: { baseUrl: API_BASE_URL, fetch: (input, init) => fetch(input, init), onServerDate: (date) => clock.observe(date) },
+  api: { baseUrl: API_BASE_URL, timeoutMs: REQUEST_TIMEOUT_MS, fetch: (input, init) => fetch(input, init), onServerDate: (date) => clock.observe(date) },
   local: browser.storage.local,
   session: browser.storage.session,
 });

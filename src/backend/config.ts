@@ -2,19 +2,23 @@
  * Hares AI — backend connection settings.
  *
  * The API base URL is fixed at build time, one build per environment:
- *   WXT_API_BASE_URL=https://api.example.com/api npm run build
- * It defaults to the local development API.
+ *   WXT_API_BASE_URL=http://localhost:3000/api npm run build   (development)
+ * It defaults to the production platform (see api-url.ts). Only HTTPS is
+ * accepted, except for a server on this machine.
  */
 
-export const DEFAULT_API_BASE_URL = 'http://localhost:3000/api';
+import { DEFAULT_API_BASE_URL, resolveApiBaseUrl } from './api-url';
 
-function fromEnv(): string | undefined {
-  const value = import.meta.env?.WXT_API_BASE_URL as string | undefined;
-  return value && value.trim().length > 0 ? value.trim() : undefined;
-}
+export { DEFAULT_API_BASE_URL };
 
-/** Base URL without a trailing slash, e.g. `http://localhost:3000/api`. */
-export const API_BASE_URL: string = (fromEnv() ?? DEFAULT_API_BASE_URL).replace(/\/+$/, '');
+/** Base URL without a trailing slash, e.g. `https://hares-ai.vercel.app/api`. */
+export const API_BASE_URL: string = resolveApiBaseUrl(import.meta.env?.WXT_API_BASE_URL as string | undefined);
+
+/**
+ * How long to wait for one answer. The server on the free plan sleeps when
+ * unused, and its first answer can take up to a minute.
+ */
+export const REQUEST_TIMEOUT_MS = 90_000;
 
 function minutesFromEnv(): number | undefined {
   const value = Number(import.meta.env?.WXT_POLICY_REFRESH_MINUTES);

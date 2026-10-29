@@ -16,7 +16,7 @@ function setup(handler: (r: RecordedRequest) => ScriptedResponse | Promise<Scrip
   const sessionArea = new MemoryArea();
   const { fetch, requests } = scriptedFetch(handler);
   const clock = { now: start };
-  const session = new Session({ api: { baseUrl: BASE, fetch }, local, session: sessionArea, now: () => clock.now });
+  const session = new Session({ api: { baseUrl: BASE, fetch, sleep: async () => undefined }, local, session: sessionArea, now: () => clock.now });
   const signedOut: SignOutReason[] = [];
   session.onSignedOut((reason) => {
     signedOut.push(reason);

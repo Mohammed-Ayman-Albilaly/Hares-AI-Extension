@@ -14,6 +14,8 @@ export function loginErrorMessage(code: string | undefined, retryAfterSeconds?: 
       return retryAfterSeconds
         ? `Too many attempts. Try again in ${retryAfterSeconds} seconds.`
         : 'Too many attempts. Try again in a moment.';
+    case 'TIMEOUT':
+      return 'The server is slow to answer (it may be waking up). Wait a moment and try again.';
     case 'NETWORK_ERROR':
       return 'Cannot reach the Hares AI server. Check your connection and try again.';
     default:

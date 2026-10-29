@@ -63,7 +63,11 @@ function renderSignedOut(reason: SignOutReason | undefined): void {
   form.addEventListener('submit', (event) => {
     event.preventDefault();
     submit.disabled = true;
+    submit.textContent = 'Signing in…';
     error.textContent = '';
+    const slow = setTimeout(() => {
+      error.textContent = 'Connecting… the first sign-in can take up to a minute.';
+    }, 5000);
     const request: AuthLoginRequest = {
       target: TARGET.BACKGROUND,
       type: MSG.AUTH_LOGIN,
@@ -72,7 +76,10 @@ function renderSignedOut(reason: SignOutReason | undefined): void {
     };
     password.value = '';
     void send(request).then((response) => {
+      clearTimeout(slow);
       submit.disabled = false;
+      submit.textContent = 'Sign in';
+      error.textContent = '';
       // On success the state change in storage re-renders the popup.
       if (!response.ok) error.textContent = loginErrorMessage(response.code, response.retryAfterSeconds);
     });

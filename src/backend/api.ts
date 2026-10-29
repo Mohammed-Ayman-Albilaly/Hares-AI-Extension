@@ -37,6 +37,10 @@ export type FetchLike = (input: string, init?: RequestInit) => Promise<Response>
 export interface ApiDeps {
   baseUrl: string;
   fetch: FetchLike;
+  /** Give up on one answer after this long (status 0, code TIMEOUT). No limit when omitted. */
+  timeoutMs?: number;
+  /** Wait between attempts; replaceable in tests. */
+  sleep?: (ms: number) => Promise<void>;
   /** Called with the `Date` header of every answer (clock correction). */
   onServerDate?: (date: string) => void;
 }
@@ -71,14 +75,39 @@ function toApiError(response: Response, body: unknown): ApiError {
   );
 }
 
+/** Answers that mean the server is not ready (asleep, restarting), as opposed to refusing the request. */
+const TRY_AGAIN_STATUSES = new Set([0, 502, 503, 504]);
+const RETRY_DELAY_MS = 3000;
+
 /**
  * Send one request. Resolves with every answer below 400, plus 304 (not
  * modified); throws `ApiError` for the rest.
+ *
+ * `retries` repeats the request when the server did not answer or is not ready
+ * (network error, timeout, 502/503/504). Use it only for requests that are safe
+ * to send twice: never for the refresh token, which rotates.
  */
 export async function apiRequest<T = unknown>(
   deps: ApiDeps,
   path: string,
-  init: { method?: string; headers?: Record<string, string>; json?: unknown } = {},
+  init: { method?: string; headers?: Record<string, string>; json?: unknown; retries?: number } = {},
+): Promise<ApiResponse<T>> {
+  const sleep = deps.sleep ?? ((ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms)));
+  for (let attempt = 0; ; attempt += 1) {
+    try {
+      return await sendOnce<T>(deps, path, init);
+    } catch (error) {
+      const again = error instanceof ApiError && TRY_AGAIN_STATUSES.has(error.status) && attempt < (init.retries ?? 0);
+      if (!again) throw error;
+      await sleep(RETRY_DELAY_MS);
+    }
+  }
+}
+
+async function sendOnce<T>(
+  deps: ApiDeps,
+  path: string,
+  init: { method?: string; headers?: Record<string, string>; json?: unknown },
 ): Promise<ApiResponse<T>> {
   const headers: Record<string, string> = { Accept: 'application/json', ...init.headers };
   let body: string | undefined;
@@ -87,11 +116,22 @@ export async function apiRequest<T = unknown>(
     body = JSON.stringify(init.json);
   }
 
+  const controller = deps.timeoutMs ? new AbortController() : undefined;
+  const timer = controller ? setTimeout(() => controller.abort(), deps.timeoutMs) : undefined;
   let response: Response;
   try {
-    response = await deps.fetch(`${deps.baseUrl}${path}`, { method: init.method ?? 'GET', headers, body, cache: 'no-store' });
+    response = await deps.fetch(`${deps.baseUrl}${path}`, {
+      method: init.method ?? 'GET',
+      headers,
+      body,
+      cache: 'no-store',
+      signal: controller?.signal,
+    });
   } catch {
+    if (controller?.signal.aborted) throw new ApiError(0, 'TIMEOUT', 'The server did not answer in time');
     throw new ApiError(0, 'NETWORK_ERROR', 'Cannot reach the server');
+  } finally {
+    clearTimeout(timer);
   }
 
   const date = response.headers.get('Date');

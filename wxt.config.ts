@@ -4,11 +4,12 @@ import { copyFileSync, existsSync, mkdirSync, readdirSync, rmSync } from 'node:f
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { EXTENSION_PUBLIC_KEY } from './extension-key';
+import { resolveApiBaseUrl } from './src/backend/api-url';
 
 const rootDir = fileURLToPath(new URL('.', import.meta.url));
 
 /** Origin of the backend API for this build (see src/backend/config.ts). */
-const apiOrigin = `${new URL(process.env.WXT_API_BASE_URL ?? 'http://localhost:3000/api').origin}/*`;
+const apiOrigin = `${new URL(resolveApiBaseUrl(process.env.WXT_API_BASE_URL)).origin}/*`;
 
 /**
  * Copy the ONNX Runtime WASM assets that Transformers.js ships into the build
