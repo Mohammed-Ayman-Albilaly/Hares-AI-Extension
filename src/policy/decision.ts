@@ -34,6 +34,7 @@ import {
   NO_EXCEPTIONS,
   detectionTier as tierOfDetection,
   isExempted,
+  detectionRisk,
   policyTier as tierUnderPolicy,
   type ActiveExceptions,
 } from './defaults';
@@ -49,6 +50,8 @@ export interface Decision {
   tier: Tier;
   /** Tier under the organisation's policy — what the logs record. */
   policyTier: Tier;
+  /** Highest risk among the detections, as reported in events (a user exception never lowers it). */
+  risk: Tier;
   /** Detected categories the user exempted, so they were not enforced at their policy tier. */
   exceptedCategories: CategoryId[];
   /** Detected types (labels) the user exempted, e.g. API_KEY. */
@@ -103,11 +106,13 @@ export function decide(
 
   let detectionTier: Tier = 'SAFE';
   let enforcedDetectionTier: Tier = 'SAFE';
+  let detectionRiskTier: Tier = 'SAFE';
   const excepted = new Set<CategoryId>();
   const exceptedLabels = new Set<string>();
   for (const d of detections) {
     const t = tierOfDetection(d, policy);
     detectionTier = maxTier(detectionTier, t);
+    detectionRiskTier = maxTier(detectionRiskTier, detectionRisk(d, policy));
     if (TIER_RANK[t] > TIER_RANK.LOW && isExempted(d, policy, exceptions)) {
       excepted.add(d.category);
       exceptedLabels.add(d.label);
@@ -136,6 +141,7 @@ export function decide(
   return {
     tier,
     policyTier,
+    risk: maxTier(detectionRiskTier, contextTier),
     exceptedCategories: [...excepted],
     exceptedLabels: [...exceptedLabels],
     presentation: PRESENTATION[tier],

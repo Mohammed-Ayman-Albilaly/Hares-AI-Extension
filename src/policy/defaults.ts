@@ -29,6 +29,18 @@ export function detectionTier(
   return override ?? builtInTier(d);
 }
 
+/**
+ * Risk of one detected type, as reported in events: the rule's own risk, else
+ * the risk the policy gives its category, else the built-in tier.
+ */
+export function detectionRisk(
+  d: { category: CategoryId; label: string; rule?: { risk: Tier; enforce: Tier } },
+  policy: Policy = DEFAULT_POLICY,
+): Tier {
+  if (d.rule) return d.rule.risk;
+  return policy.categories?.[d.category]?.risk ?? builtInTier(d);
+}
+
 /** May the user exempt this detected type under this policy? */
 export function isUserOverridable(
   d: { category: CategoryId; label: string },

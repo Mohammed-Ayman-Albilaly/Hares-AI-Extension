@@ -16,6 +16,11 @@ import type { CategoryId, Tier } from '../detectors/categories';
 export interface CategoryPolicy {
   /** Tier for this category in this department. SAFE = ignore it entirely. */
   tier?: Tier;
+  /**
+   * Risk level events report for this category (from the policy bundle). When
+   * absent, the built-in tier is the risk.
+   */
+  risk?: Tier;
   /** May a user in this department exempt this category on their own device? */
   userOverridable?: boolean;
 }

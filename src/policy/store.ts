@@ -17,6 +17,8 @@ import { validatePolicy } from './validate';
 import { CATEGORIES, type CategoryId } from '../detectors/categories';
 
 export const POLICY_KEY = 'hares.policy';
+export const POLICY_ETAG_KEY = 'hares.policyEtag';
+export const POLICY_FETCHED_AT_KEY = 'hares.policyFetchedAt';
 export const EXCEPTIONS_KEY = 'hares.userExceptions';
 
 function parseExceptions(raw: unknown): UserExceptions | null {
@@ -45,6 +47,27 @@ export async function savePolicy(raw: unknown): Promise<{ saved: boolean; warnin
   }
   await browser.storage.local.set({ [POLICY_KEY]: policy });
   return { saved: true, warnings };
+}
+
+/**
+ * Store the policy built from a backend bundle. The backend decides what is
+ * current, and it compares by ETag: a department move changes the ETag but not
+ * the global version, so unlike `savePolicy` this does not compare versions.
+ */
+export async function replacePolicy(raw: unknown, etag: string | null): Promise<boolean> {
+  const { policy } = validatePolicy(raw);
+  if (!policy) return false;
+  await browser.storage.local.set({
+    [POLICY_KEY]: policy,
+    [POLICY_ETAG_KEY]: etag,
+    [POLICY_FETCHED_AT_KEY]: new Date().toISOString(),
+  });
+  return true;
+}
+
+/** Forget the stored policy: the built-in default applies again (used on sign-out). */
+export async function clearPolicy(): Promise<void> {
+  await browser.storage.local.remove([POLICY_KEY, POLICY_ETAG_KEY, POLICY_FETCHED_AT_KEY]);
 }
 
 export async function loadPolicy(): Promise<Policy> {

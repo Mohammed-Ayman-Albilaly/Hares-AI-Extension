@@ -74,6 +74,10 @@ export function validatePolicy(input: unknown): ValidationResult {
         if (isTier(value.tier)) entry.tier = value.tier;
         else warnings.push(`categories.${key}.tier: invalid, ignored`);
       }
+      if (value.risk !== undefined) {
+        if (isTier(value.risk)) entry.risk = value.risk;
+        else warnings.push(`categories.${key}.risk: invalid, ignored`);
+      }
       if (typeof value.userOverridable === 'boolean') entry.userOverridable = value.userOverridable;
       categories[key] = entry;
     }

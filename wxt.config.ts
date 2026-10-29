@@ -6,6 +6,9 @@ import { fileURLToPath } from 'node:url';
 
 const rootDir = fileURLToPath(new URL('.', import.meta.url));
 
+/** Origin of the backend API for this build (see src/backend/config.ts). */
+const apiOrigin = `${new URL(process.env.WXT_API_BASE_URL ?? 'http://localhost:3000/api').origin}/*`;
+
 /**
  * Copy the ONNX Runtime WASM assets that Transformers.js ships into the build
  * output so the runtime never depends on a CDN fetch for runtime code. They are
@@ -49,12 +52,14 @@ export default defineConfig({
     name: 'Hares AI',
     description:
       'Reduces the risk of accidentally disclosing sensitive information when sending prompts to AI platforms.',
-    permissions: ['offscreen', 'storage'],
+    permissions: ['offscreen', 'storage', 'alarms'],
     host_permissions: [
       'https://chatgpt.com/*',
       'https://chat.openai.com/*',
       'https://claude.ai/*',
       'https://gemini.google.com/*',
+      // The backend API: sign-in, policy bundle, event upload (background only).
+      apiOrigin,
       // Phase 2 bootstrap only: fetch the pinned model artifact from Hugging
       // Face on first run. Only model/runtime files are fetched — never prompt
       // content. These are removed once Phase 12 disables remote model loading

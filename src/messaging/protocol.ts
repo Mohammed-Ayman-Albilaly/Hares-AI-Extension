@@ -29,6 +29,8 @@ export const MSG = {
   CLASSIFY_RESULT: 'hares/classify-result',
   DETECT: 'hares/detect',
   DETECT_RESULT: 'hares/detect-result',
+  AUTH_LOGIN: 'hares/auth-login',
+  AUTH_LOGOUT: 'hares/auth-logout',
 } as const;
 
 export type MessageType = (typeof MSG)[keyof typeof MSG];
@@ -190,4 +192,29 @@ export interface WorkerDetectRequest {
 export interface WorkerDetectResult extends DetectResponse {
   type: typeof MSG.DETECT_RESULT;
   id: string;
+}
+
+// --- Sign-in (popup -> background) -----------------------------------------
+
+/** Sign-in request. The password travels once, over local IPC, and is never stored. */
+export interface AuthLoginRequest {
+  target: MessageTarget;
+  type: typeof MSG.AUTH_LOGIN;
+  email: string;
+  password: string;
+}
+
+export interface AuthLogoutRequest {
+  target: MessageTarget;
+  type: typeof MSG.AUTH_LOGOUT;
+}
+
+/** Answer to a sign-in or sign-out request. */
+export interface AuthResponse {
+  ok: boolean;
+  /** Backend error code (INVALID_CREDENTIALS, ACCOUNT_NO_ACCESS, RATE_LIMITED…) or NETWORK_ERROR. */
+  code?: string;
+  message?: string;
+  /** Seconds to wait before trying again (RATE_LIMITED). */
+  retryAfterSeconds?: number;
 }

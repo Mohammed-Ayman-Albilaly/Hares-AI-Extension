@@ -22,10 +22,16 @@ import {
   type ProbeResponse,
 } from '../src/messaging/protocol';
 
+import { installBackend } from '../src/backend/runtime';
+
 const OFFSCREEN_DOCUMENT_PATH = '/offscreen.html';
 
 export default defineBackground(() => {
   console.info('[hares] background service worker started');
+
+  // Sign-in, policy sync and (later) event upload. Listeners are registered
+  // synchronously, as a service worker that wakes for an event requires.
+  installBackend();
 
   browser.runtime.onMessage.addListener((message, _sender, sendResponse) => {
     const probe = message as ProbeMessage | undefined;
