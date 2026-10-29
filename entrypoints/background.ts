@@ -23,6 +23,7 @@ import {
 } from '../src/messaging/protocol';
 
 import { installBackend } from '../src/backend/runtime';
+import { reinjectContentScripts } from '../src/runtime/reinject';
 
 const OFFSCREEN_DOCUMENT_PATH = '/offscreen.html';
 
@@ -93,6 +94,19 @@ export default defineBackground(() => {
   // on the user's first message.
   browser.runtime.onStartup.addListener(() => void ensureOffscreenDocument().catch(() => {}));
   browser.runtime.onInstalled.addListener(() => void ensureOffscreenDocument().catch(() => {}));
+
+  // Pages opened before an install, update or reload have no working copy of the
+  // content script: inject it, so nobody has to refresh the page.
+  browser.runtime.onInstalled.addListener(() => {
+    void reinjectContentScripts({
+      contentScripts: browser.runtime.getManifest().content_scripts ?? [],
+      queryTabs: (matches) => browser.tabs.query({ url: matches }),
+      inject: async (tabId, files) => {
+        // The files are paths from our own manifest; the typed API only knows the paths of the build.
+        await browser.scripting.executeScript({ target: { tabId }, files: files as never });
+      },
+    }).catch(() => undefined);
+  });
 });
 
 /** Forward a DETECT request to the offscreen document. Never rejects. */

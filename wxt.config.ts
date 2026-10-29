@@ -55,7 +55,7 @@ export default defineConfig({
     key: EXTENSION_PUBLIC_KEY,
     description:
       'Reduces the risk of accidentally disclosing sensitive information when sending prompts to AI platforms.',
-    permissions: ['offscreen', 'storage', 'alarms'],
+    permissions: ['offscreen', 'storage', 'alarms', 'scripting'],
     host_permissions: [
       'https://chatgpt.com/*',
       'https://chat.openai.com/*',

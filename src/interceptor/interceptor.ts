@@ -20,6 +20,7 @@ import { buildEventDraft, type UserAction } from '../logging/event';
 import { reportEvent } from '../logging/report';
 import { analyzePrompt, type AnalysisResult } from '../pipeline/analyze';
 import { isContextInvalidatedError, isExtensionContextValid } from '../runtime/context';
+import { claimPage, isSuperseded } from '../runtime/instance';
 import { ConversationTracker } from '../pipeline/conversation';
 import { requestFreshPolicy } from '../policy/fresh';
 import { PolicyState } from '../policy/store';
@@ -66,6 +67,7 @@ export function installInterceptor(adapter: PlatformAdapter): void {
    * copy of the script can no longer reach it. Stop intercepting (the site works
    * as usual), say so once, and ask for a refresh. Nothing is logged as an error.
    */
+  const instanceId = claimPage();
   let retired = false;
   function retire(): void {
     if (retired) return;
@@ -73,7 +75,8 @@ export function installInterceptor(adapter: PlatformAdapter): void {
     window.removeEventListener('keydown', onKeyDown, true);
     window.removeEventListener('click', onClick, true);
     window.removeEventListener('submit', onSubmit, true);
-    showToast('Hares AI was updated. Refresh this page to turn protection back on.', 'info', 8000);
+    // A newer copy was injected by the extension itself: it protects the page, nothing to tell.
+    if (!isSuperseded(instanceId)) showToast('Hares AI was updated. Refresh this page to turn protection back on.', 'info', 8000);
   }
 
   /** Decide whether this send attempt may pass untouched; otherwise hold it. */

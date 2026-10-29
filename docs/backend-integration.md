@@ -30,7 +30,7 @@ PowerShell: `$env:WXT_API_BASE_URL = "http://localhost:3000/api"; npm run build`
 
 Open the service worker console (`chrome://extensions` → Hares AI → *service worker*). Each policy check prints one line, for example `[hares] policy check: HTTP 304 UNCHANGED (ETag "v7-d1")`, and each alarm prints `[hares] alarm fired: hares-policy-refresh`. The latest check is also stored under `hares.policyCheck` (`at`, `result`, `status`, `etag`) in `chrome.storage.local`. In the page console, each send attempt prints `[hares] send attempt via Enter|send button|form submit: …` (no text).
 
-If the extension is reloaded while a chat page stays open, the old script on that page stops quietly, shows one notice asking for a refresh, and logs no error.
+When the extension is installed, updated or reloaded, the background injects the content script into the chat tabs that are already open (permission `scripting`), so they need no refresh. The old, cut-off copy in such a tab steps aside silently. Only if that injection fails does the old copy show one notice asking for a refresh, and it logs no error.
 
 ## Reading the policy bundle
 
