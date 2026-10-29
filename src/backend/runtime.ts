@@ -24,7 +24,7 @@ import {
 } from '../policy/store';
 import { ApiError } from './api';
 import { ServerClock } from './clock';
-import { API_BASE_URL, POLICY_REFRESH_MINUTES } from './config';
+import { API_BASE_URL, POLICY_FRESH_WAIT_MS, POLICY_MAX_AGE_ON_SEND_MS, POLICY_REFRESH_MINUTES } from './config';
 import { Outbox } from './outbox';
 import { createPolicySync, type SyncAttempt } from './policy-sync';
 import { ensureAlarm, isCheckDue } from './schedule';
@@ -90,11 +90,19 @@ function flushQuietly(): Promise<void> {
   });
 }
 
-/** Check the policy now if the last check is older than the refresh period. */
-async function syncPolicyIfDue(): Promise<void> {
+/** Check the policy now if the last check is older than `maxAgeMs`. */
+async function syncPolicyIfOlderThan(maxAgeMs: number): Promise<void> {
   const stored = await browser.storage.local.get(POLICY_CHECK_KEY);
   const last = (stored[POLICY_CHECK_KEY] as { at?: unknown } | undefined)?.at;
-  if (isCheckDue(last, Date.now(), POLICY_STALE_MS)) await syncPolicy();
+  if (isCheckDue(last, Date.now(), maxAgeMs)) await syncPolicy();
+}
+
+/** Before a message is scanned: a recent check is enough, an old one is redone (briefly waited for). */
+async function ensureFreshPolicy(): Promise<{ ok: boolean }> {
+  if (!(await session.isSignedIn())) return { ok: true };
+  const wait = new Promise<void>((resolve) => setTimeout(resolve, POLICY_FRESH_WAIT_MS));
+  await Promise.race([syncPolicyIfOlderThan(POLICY_MAX_AGE_ON_SEND_MS), wait]).catch(() => undefined);
+  return { ok: true };
 }
 
 function failure(error: unknown): AuthResponse {
@@ -152,6 +160,10 @@ export function installBackend(): void {
       void handleLogout().then(sendResponse);
       return true;
     }
+    if (m.type === MSG.POLICY_FRESH) {
+      void ensureFreshPolicy().then(sendResponse);
+      return true;
+    }
     if (m.type === MSG.LOG_EVENT) {
       handleLogEvent(m as LogEventMessage)
         .catch((error: unknown) => {
@@ -184,7 +196,7 @@ export function installBackend(): void {
     .catch((error: unknown) => console.warn('[hares] could not set up alarms:', error instanceof Error ? error.message : error));
 
   // If an alarm was missed (browser asleep, worker killed), catch up on wake-up.
-  void syncPolicyIfDue().catch(() => undefined);
+  void syncPolicyIfOlderThan(POLICY_STALE_MS).catch(() => undefined);
 
   void clock.load().catch(() => undefined);
   void browser.storage.local.remove(LEGACY_QUEUE_KEY).catch(() => undefined);

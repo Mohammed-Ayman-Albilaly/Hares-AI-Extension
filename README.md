@@ -157,7 +157,7 @@ The full checklist (English, Arabic and multi-message conversations) is in **[do
 - **The placeholder memory** (which `[EMAIL_1]` is which email) lives only in the open tab's memory and disappears when you close it.
 - **Activity log:** while you are signed in, each checked message produces a log entry **without the text**: risk level, action, the categories of data found (such as `CONTACT_INFO`), platform, your choice, the rule that matched (if any) and the time. Entries wait in the extension (`chrome.storage.local`, at most 500) and are sent to the platform. If you are not signed in, nothing is recorded.
 - **Sign-in:** your password is sent once to sign in and is never stored. The extension keeps session tokens only.
-- **Permissions:** `storage` (settings, session and the log queue), `offscreen` (runs the model in the background), `alarms` (checks the policy every 5 minutes), and access only to the three AI platforms, Hugging Face for the model download, and the platform API.
+- **Permissions:** `storage` (settings, session and the log queue), `offscreen` (runs the model in the background), `alarms` (checks the policy every minute, and before a message is scanned), and access only to the three AI platforms, Hugging Face for the model download, and the platform API.
 
 ---
 

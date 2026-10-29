@@ -33,6 +33,7 @@ export const MSG = {
   AUTH_LOGIN: 'hares/auth-login',
   AUTH_LOGOUT: 'hares/auth-logout',
   LOG_EVENT: 'hares/log-event',
+  POLICY_FRESH: 'hares/policy-fresh',
 } as const;
 
 export type MessageType = (typeof MSG)[keyof typeof MSG];
@@ -219,6 +220,12 @@ export interface AuthResponse {
   message?: string;
   /** Seconds to wait before trying again (RATE_LIMITED). */
   retryAfterSeconds?: number;
+}
+
+/** A page asks the background to check the policy now if the last check is not recent. */
+export interface PolicyFreshRequest {
+  target: MessageTarget;
+  type: typeof MSG.POLICY_FRESH;
 }
 
 // --- Activity log (content script -> background) ---------------------------

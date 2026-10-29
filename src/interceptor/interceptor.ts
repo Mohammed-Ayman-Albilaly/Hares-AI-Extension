@@ -21,6 +21,7 @@ import { reportEvent } from '../logging/report';
 import { analyzePrompt, type AnalysisResult } from '../pipeline/analyze';
 import { isContextInvalidatedError, isExtensionContextValid } from '../runtime/context';
 import { ConversationTracker } from '../pipeline/conversation';
+import { requestFreshPolicy } from '../policy/fresh';
 import { PolicyState } from '../policy/store';
 import { isDialogOpen, showDecisionDialog } from '../ui/dialog';
 import { showStatus, showToast } from '../ui/toast';
@@ -176,7 +177,9 @@ export function installInterceptor(adapter: PlatformAdapter): void {
   async function handle(text: string): Promise<void> {
     busy = true;
     try {
-      // Always scan under the policy stored right now, not the copy from page load.
+      // Always scan under the current policy: have the background check it if the
+      // last check is not recent, then read what is stored right now.
+      await requestFreshPolicy();
       await policyState.refresh();
       const conversation = conversations.current();
       const model = await modelDetectionsFor(text);

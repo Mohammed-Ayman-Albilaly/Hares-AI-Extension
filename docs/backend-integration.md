@@ -22,9 +22,9 @@ PowerShell: `$env:WXT_API_BASE_URL = "http://localhost:3000/api"; npm run build`
 | Refresh | Single-flight, because the refresh token rotates and reuse revokes the session. The new token is saved first. `401` on refresh → signed out, sign-in screen again | [session.ts](../src/backend/session.ts) |
 | Deactivated account | `401 ACCOUNT_INACTIVE` on any call → signed out with a message | [session.ts](../src/backend/session.ts) |
 | Sign out | Sends the waiting events (up to 5 s), `POST /extension/logout`, then clears tokens, policy and queue | [runtime.ts](../src/backend/runtime.ts) |
-| Policy | `GET /policy/bundle` with `If-None-Match` on browser start, after sign-in and every 5 minutes. `304` keeps the stored one. Any failure keeps the last good policy; with none ever received, the built-in default applies | [policy-sync.ts](../src/backend/policy-sync.ts) |
+| Policy | `GET /policy/bundle` with `If-None-Match` on browser start, after sign-in, every minute in the background, and before a message is scanned if the last check is older than 15 seconds (waits up to 1.5 s). `304` keeps the stored one. Any failure keeps the last good policy; with none ever received, the built-in default applies | [policy-sync.ts](../src/backend/policy-sync.ts) |
 | Events | One `POST /logs` per analysed send, only while signed in | [uploader.ts](../src/backend/uploader.ts) |
-| Alarms | `hares-policy-refresh` (5 min) and `hares-upload` (1 min). Created only when missing, never re-created on a wake-up (that would restart the period). If the last policy check is older than 5 minutes when the service worker wakes, it checks at once | [schedule.ts](../src/backend/schedule.ts) |
+| Alarms | `hares-policy-refresh` (1 min; build-time `WXT_POLICY_REFRESH_MINUTES`, minimum 0.5) and `hares-upload` (1 min). Created only when missing, never re-created on a wake-up (that would restart the period). If the last policy check is older than the period when the service worker wakes, it checks at once | [schedule.ts](../src/backend/schedule.ts) |
 
 ## Seeing what the extension does
 
@@ -72,4 +72,4 @@ The queue holds at most 500 events (oldest dropped). Events older than 89 days a
    - `my password is Hunter2!` → block dialog → Send revised → HIGH / BLOCKED / REVISION_USED
 4. Check each event on the user and admin dashboards.
 5. Go offline (DevTools → Network → Offline), send two messages, and see `2 events to upload` in the popup. Go back online: they upload within a minute, and the dashboards count each once.
-6. Deactivate the account in the admin dashboard. Within 5 minutes (or on the next message) the popup returns to the sign-in screen with "Your account is deactivated".
+6. Deactivate the account in the admin dashboard. Within a minute (or on the next message) the popup returns to the sign-in screen with "Your account is deactivated".
