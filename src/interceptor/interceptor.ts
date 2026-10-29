@@ -176,6 +176,8 @@ export function installInterceptor(adapter: PlatformAdapter): void {
   async function handle(text: string): Promise<void> {
     busy = true;
     try {
+      // Always scan under the policy stored right now, not the copy from page load.
+      await policyState.refresh();
       const conversation = conversations.current();
       const model = await modelDetectionsFor(text);
       lastDetector = model.outcome;

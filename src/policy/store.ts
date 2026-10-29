@@ -92,18 +92,39 @@ export async function saveExceptions(exceptions: UserExceptions): Promise<void> 
   await browser.storage.local.set({ [EXCEPTIONS_KEY]: exceptions });
 }
 
-/** Live view of policy + exceptions for a content script. */
+/**
+ * Live view of policy + exceptions for a content script.
+ *
+ * The page follows `storage.onChanged`, but a scan never trusts that alone: it
+ * calls `refresh()` first, which reads the stored values again. A page that
+ * missed a change (an event not delivered, a script that started before the
+ * policy was saved) therefore still scans under the current policy.
+ */
 export class PolicyState {
   policy: Policy = DEFAULT_POLICY;
   exceptions: UserExceptions | null = null;
 
+  /** Read the current policy and exceptions from storage. Keeps the old values if storage cannot be read. */
+  async refresh(): Promise<void> {
+    try {
+      const stored = await browser.storage.local.get([POLICY_KEY, EXCEPTIONS_KEY]);
+      const policy = validatePolicy(stored[POLICY_KEY]).policy ?? DEFAULT_POLICY;
+      if (policy.version !== this.policy.version) console.info(`[hares] policy in this page: version ${policy.version}`);
+      this.policy = policy;
+      this.exceptions = parseExceptions(stored[EXCEPTIONS_KEY]);
+    } catch {
+      // Storage is unreachable (for example the extension was reloaded): keep what we have.
+    }
+  }
+
   async start(): Promise<void> {
-    [this.policy, this.exceptions] = await Promise.all([loadPolicy(), loadExceptions()]);
+    await this.refresh();
     try {
       browser.storage.onChanged.addListener((changes, area) => {
         if (area !== 'local') return;
         if (POLICY_KEY in changes) {
           this.policy = validatePolicy(changes[POLICY_KEY]?.newValue).policy ?? DEFAULT_POLICY;
+          console.info(`[hares] policy changed in storage: version ${this.policy.version}`);
         }
         if (EXCEPTIONS_KEY in changes) {
           this.exceptions = parseExceptions(changes[EXCEPTIONS_KEY]?.newValue);
