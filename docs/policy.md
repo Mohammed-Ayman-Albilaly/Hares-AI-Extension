@@ -34,7 +34,7 @@ Labels are more precise than categories: `API_KEY` and `PASSWORD` both belong to
 | `categories` | `{ [CategoryId]: { tier?, userOverridable? } }` | Override a whole category. `tier: "SAFE"` = ignore that category (not shown, not masked) |
 | `labels` | `{ [LABEL]: { tier?, userOverridable? } }` | Override one type (API_KEY, PASSWORD, EMAIL, NATIONAL_ID…) |
 | `rules.disabledPatterns` | string[] | Built-in pattern ids to switch off (ids in [patterns.ts](../src/detectors/patterns.ts), e.g. `url`) |
-| `rules.customKeywords` | `{ text, category, label }[]` | Organisation terms (project codenames, client names), English or Arabic. **Literal text, never regex** |
+| `rules.org` | `{ id, name, kind, definition, risk, action }[]` | Organisation rules from the policy bundle. `kind` is `KEYWORD` (one word or phrase per line, whole words) or `PATTERN` (regex, compiled with the flag `i` only). `TOPIC` rules are not enforced. `action` ALLOW/WARN/BLOCK decides what the user sees; the match is reported with the rule's `id` |
 | `decision.enabled` / `hypotheses` / `examples` / `uncertaintyThreshold` | — | The decision model's "prompt" (Phase 4): one sentence per tier (zero-shot) or example prompts per tier (embedding model) |
 
 Category ids, tiers and labels: [src/detectors/categories.ts](../src/detectors/categories.ts), [src/detectors/patterns.ts](../src/detectors/patterns.ts).
@@ -54,15 +54,14 @@ Category ids, tiers and labels: [src/detectors/categories.ts](../src/detectors/c
   },
   "rules": {
     "disabledPatterns": ["url"],
-    "customKeywords": [
-      { "text": "Project Falcon", "category": "CORPORATE", "label": "CODENAME" },
-      { "text": "مشروع الصقر", "category": "CORPORATE", "label": "CODENAME" }
+    "org": [
+      { "id": "7c2f…", "name": "Codenames", "kind": "KEYWORD", "definition": "Project Falcon\nمشروع الصقر", "risk": "MEDIUM", "action": "WARN" }
     ]
   }
 }
 ```
 
-Effect: API keys need a confirmation instead of a block, and a developer may exempt them. Passwords stay HIGH, because they are in the same category but not overridden. Public URLs are no longer flagged. The codename is masked as `[CODENAME_1]`.
+Effect: API keys need a confirmation instead of a block, and a developer may exempt them. Passwords stay HIGH, because they are in the same category but not overridden. Public URLs are no longer flagged. The codename is masked as `[RULE_1]`.
 
 ## 3. User exceptions (on the user's device)
 
@@ -89,9 +88,9 @@ Source: [src/logging/events.ts](../src/logging/events.ts). Events are queued loc
 
 ## 5. Safety rules for the platform
 
-1. **No raw regex from the dashboard.** Custom keywords are literal text, so a bad pattern can't freeze users' browsers (ReDoS). If raw regex is ever needed, restrict it to the System Admin and test it on the server (length, run time) before publishing.
+1. **Regex rules are checked by the backend.** The backend rejects a PATTERN it cannot prove safe (ReDoS) and limits it to 512 characters. The extension also skips a definition that is longer or does not compile. KEYWORD rules are literal text, never regex.
 2. **"Test before publish"** for decision-model hypotheses or examples: run the new policy against the test fixtures and show the admin how many results change. One reworded sentence can shift accuracy a lot.
-3. **Versions only go up.** The extension ignores a policy whose version is not newer than the one it has.
+3. **Versions only go up.** Until the policy bundle is connected, the extension ignores a policy whose version is not newer than the one it has.
 4. **Offline:** the extension keeps working with the last stored policy, or the built-in default on a fresh install.
 5. **Tampering:** a technical user can edit local storage on their own machine. For locked-down settings, use Chrome Enterprise policy (force-install + `chrome.storage.managed`).
 

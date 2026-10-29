@@ -42,6 +42,9 @@ export const CATEGORIES = {
   EDUCATION: { name: 'Education-Related Identifiers', tier: 'MEDIUM' },
   UNIVERSAL_ID: { name: 'Universal Identifiers', tier: 'LOW' }, // not in PDF tier list
   REGIONAL: { name: 'Region-Specific Banking & Identity Data', tier: 'HIGH' }, // not in PDF tier list
+  // Internal: a match of an organisation rule from the policy bundle. It has
+  // no contract code, so it never appears in an event's `categories`.
+  ORG_RULE: { name: 'Organisation rule', tier: 'MEDIUM' },
 } as const satisfies Record<string, { name: string; tier: Tier }>;
 
 export type CategoryId = keyof typeof CATEGORIES;
@@ -56,8 +59,9 @@ const LABEL_TIER_DEFAULTS: Readonly<Record<string, Tier>> = {
   AGE: 'MEDIUM',
 };
 
-/** Built-in tier of one detected type, before any policy is applied. */
-export function builtInTier(d: { category: CategoryId; label: string }): Tier {
+/** Built-in tier of one detected type, before any policy is applied (a rule match carries its own). */
+export function builtInTier(d: { category: CategoryId; label: string; rule?: { enforce: Tier } }): Tier {
+  if (d.rule) return d.rule.enforce;
   return LABEL_TIER_DEFAULTS[d.label] ?? CATEGORIES[d.category].tier;
 }
 

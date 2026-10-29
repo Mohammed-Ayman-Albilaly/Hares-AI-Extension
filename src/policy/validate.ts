@@ -5,16 +5,18 @@
  * and anything malformed is dropped (never thrown on), keeping the rest. A
  * policy that fails the basic shape is rejected and the previous one is kept.
  *
- * Custom keywords are literal text (escaped before matching), never raw regex:
- * a malformed or slow pattern from a policy could freeze the user's browser.
+ * Rule definitions are only length-checked here. A PATTERN is compiled when it
+ * is first used and skipped if it does not compile.
  */
 
 import { CATEGORIES, TIERS, type CategoryId, type Tier } from '../detectors/categories';
-import type { CategoryPolicy, CustomKeyword, Policy } from './types';
+import { isPolicyAction, isRiskLevel } from '../contract/enums';
+import type { CategoryPolicy, OrgRule, Policy } from './types';
 
 export const LIMITS = {
-  customKeywords: 200,
-  keywordLength: 80,
+  orgRules: 500,
+  ruleName: 200,
+  ruleDefinition: 4000,
   disabledPatterns: 200,
   hypothesisLength: 300,
   examplesPerTier: 50,
@@ -97,26 +99,31 @@ export function validatePolicy(input: unknown): ValidationResult {
   }
 
   if (isObject(input.rules)) {
-    const keywords: CustomKeyword[] = [];
-    const rawKeywords = Array.isArray(input.rules.customKeywords) ? input.rules.customKeywords : [];
-    for (const k of rawKeywords.slice(0, LIMITS.customKeywords)) {
+    const org: OrgRule[] = [];
+    const rawRules = Array.isArray(input.rules.org) ? input.rules.org : [];
+    for (const r of rawRules.slice(0, LIMITS.orgRules)) {
       if (
-        isObject(k) &&
-        typeof k.text === 'string' &&
-        k.text.trim().length >= 2 &&
-        k.text.length <= LIMITS.keywordLength &&
-        isCategory(k.category) &&
-        typeof k.label === 'string' &&
-        LABEL_RE.test(k.label)
+        isObject(r) &&
+        typeof r.id === 'string' &&
+        r.id.length > 0 &&
+        r.id.length <= 64 &&
+        typeof r.name === 'string' &&
+        r.name.length <= LIMITS.ruleName &&
+        (r.kind === 'PATTERN' || r.kind === 'KEYWORD') &&
+        typeof r.definition === 'string' &&
+        r.definition.length > 0 &&
+        r.definition.length <= LIMITS.ruleDefinition &&
+        isRiskLevel(r.risk) &&
+        isPolicyAction(r.action)
       ) {
-        keywords.push({ text: k.text.trim(), category: k.category, label: k.label });
+        org.push({ id: r.id, name: r.name, kind: r.kind, definition: r.definition, risk: r.risk, action: r.action });
       } else {
-        warnings.push('rules.customKeywords: malformed entry ignored');
+        warnings.push('rules.org: malformed entry ignored');
       }
     }
     policy.rules = {
       disabledPatterns: strings(input.rules.disabledPatterns, LIMITS.disabledPatterns, 60),
-      customKeywords: keywords,
+      org,
     };
   }
 

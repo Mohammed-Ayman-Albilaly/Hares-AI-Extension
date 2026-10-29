@@ -10,6 +10,7 @@
  * out falls back to the default policy.
  */
 
+import type { PolicyAction, RiskLevel } from '../contract/enums';
 import type { CategoryId, Tier } from '../detectors/categories';
 
 export interface CategoryPolicy {
@@ -19,13 +20,18 @@ export interface CategoryPolicy {
   userOverridable?: boolean;
 }
 
-export interface CustomKeyword {
-  /** Literal text to find (case-insensitive; not a regex). e.g. "Project Falcon", "مشروع الصقر". */
-  text: string;
-  /** Category it counts as (decides tier and dashboard grouping). */
-  category: CategoryId;
-  /** Placeholder label, e.g. CODENAME → [CODENAME_1]. Uppercase letters, digits, _. */
-  label: string;
+/**
+ * An organisation rule from the policy bundle. TOPIC rules are not enforced by
+ * the extension, so only these two kinds are kept.
+ */
+export interface OrgRule {
+  id: string;
+  name: string;
+  /** PATTERN: a regex compiled with the flag `i` only. KEYWORD: one word or phrase per line. */
+  kind: 'PATTERN' | 'KEYWORD';
+  definition: string;
+  risk: RiskLevel;
+  action: PolicyAction;
 }
 
 export interface Policy {
@@ -44,8 +50,8 @@ export interface Policy {
   rules?: {
     /** Built-in pattern ids to switch off (see src/detectors/patterns.ts). */
     disabledPatterns?: string[];
-    /** Organisation-specific terms (project codenames, client names…). */
-    customKeywords?: CustomKeyword[];
+    /** Organisation rules from the policy bundle, in bundle order. */
+    org?: OrgRule[];
   };
   /** Decision model (Phase 4): its "prompt" — hypotheses or examples per tier. */
   decision?: {

@@ -19,11 +19,12 @@ export function policyTier(category: CategoryId, policy: Policy = DEFAULT_POLICY
   return policy.categories?.[category]?.tier ?? CATEGORIES[category].tier;
 }
 
-/** Tier of one detected type: label override → category override → built-in table. */
+/** Tier of one detected type: rule action, else label override → category override → built-in table. */
 export function detectionTier(
-  d: { category: CategoryId; label: string },
+  d: { category: CategoryId; label: string; rule?: { enforce: Tier } },
   policy: Policy = DEFAULT_POLICY,
 ): Tier {
+  if (d.rule) return d.rule.enforce; // an organisation rule carries its own action
   const override = policy.labels?.[d.label]?.tier ?? policy.categories?.[d.category]?.tier;
   return override ?? builtInTier(d);
 }

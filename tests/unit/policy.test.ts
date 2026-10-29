@@ -20,9 +20,8 @@ const DEV_POLICY: Policy = {
   labels: { API_KEY: { tier: 'MEDIUM', userOverridable: true } },
   rules: {
     disabledPatterns: ['url'],
-    customKeywords: [
-      { text: 'Project Falcon', category: 'CORPORATE', label: 'CODENAME' },
-      { text: 'مشروع الصقر', category: 'CORPORATE', label: 'CODENAME' },
+    org: [
+      { id: 'r-falcon', name: 'Codenames', kind: 'KEYWORD', definition: 'Project Falcon\nمشروع الصقر', risk: 'MEDIUM', action: 'WARN' },
     ],
   },
 };
@@ -55,22 +54,21 @@ describe('department policy', () => {
     expect(detectWithRules('read https://example.com/docs', DEV_POLICY)).toEqual([]);
   });
 
-  it('custom keywords are detected and masked, English and Arabic', () => {
+  it('organisation keyword rules are detected and masked, English and Arabic', () => {
     const en = run('Summarize the Project Falcon roadmap', DEV_POLICY);
-    expect(en.revised).toBe('Summarize the [CODENAME_1] roadmap');
+    expect(en.revised).toBe('Summarize the [RULE_1] roadmap');
     expect(en.decision.tier).toBe('MEDIUM');
-    expect(run('لخص لي خطة مشروع الصقر', DEV_POLICY).revised).toBe('لخص لي خطة [CODENAME_1]');
+    expect(run('لخص لي خطة مشروع الصقر', DEV_POLICY).revised).toBe('لخص لي خطة [RULE_1]');
   });
 
-  it('custom keywords are literal text with word boundaries, never regex', () => {
+  it('keyword rules are whole words, never regex', () => {
+    expect(run('Project Falconry club', DEV_POLICY).findings).toEqual([]);
     const policy: Policy = {
       version: 1,
       departmentId: 'x',
-      rules: { customKeywords: [{ text: 'a.b', category: 'CORPORATE', label: 'CODENAME' }] },
+      rules: { org: [{ id: 'r1', name: 'dots', kind: 'KEYWORD', definition: 'a.b', risk: 'LOW', action: 'ALLOW' }] },
     };
     expect(run('use axb here', policy).findings).toEqual([]);
-    expect(run('use a.b here', policy).revised).toBe('use [CODENAME_1] here');
-    expect(run('Project Falconry club', DEV_POLICY).findings).toEqual([]);
   });
 });
 
@@ -123,18 +121,19 @@ describe('validatePolicy', () => {
       categories: { CONTACT: { tier: 'HIGH' }, NOT_A_CATEGORY: { tier: 'LOW' }, FINANCIAL: { tier: 'EXTREME' } },
       labels: { API_KEY: { tier: 'LOW', userOverridable: true }, 'bad label': { tier: 'LOW' } },
       rules: {
-        customKeywords: [
-          { text: 'Falcon', category: 'CORPORATE', label: 'CODENAME' },
-          { text: 'x', category: 'CORPORATE', label: 'CODENAME' }, // too short
-          { text: 'Ok', category: 'NOPE', label: 'CODENAME' }, // bad category
-          { text: 'Ok', category: 'CORPORATE', label: 'lower' }, // bad label
+        org: [
+          { id: 'r1', name: 'Falcon', kind: 'KEYWORD', definition: 'Falcon', risk: 'HIGH', action: 'BLOCK' },
+          { id: 'r2', name: 'Topic', kind: 'TOPIC', definition: 'layoffs', risk: 'HIGH', action: 'BLOCK' }, // not enforced
+          { id: 'r3', name: 'Bad action', kind: 'KEYWORD', definition: 'x', risk: 'HIGH', action: 'DENY' },
+          { id: 'r4', name: 'Bad risk', kind: 'KEYWORD', definition: 'x', risk: 'EXTREME', action: 'WARN' },
+          { id: 'r5', name: 'Empty', kind: 'PATTERN', definition: '', risk: 'LOW', action: 'ALLOW' },
         ],
       },
       decision: { uncertaintyThreshold: 5, hypotheses: { high: 'Contains secrets.' } },
     });
     expect(policy?.categories).toEqual({ CONTACT: { tier: 'HIGH' }, FINANCIAL: {} });
     expect(policy?.labels).toEqual({ API_KEY: { tier: 'LOW', userOverridable: true } });
-    expect(policy?.rules?.customKeywords).toHaveLength(1);
+    expect(policy?.rules?.org?.map((r) => r.id)).toEqual(['r1']);
     expect(policy?.decision).toEqual({ hypotheses: { high: 'Contains secrets.' } });
     expect(warnings.length).toBeGreaterThan(0);
   });

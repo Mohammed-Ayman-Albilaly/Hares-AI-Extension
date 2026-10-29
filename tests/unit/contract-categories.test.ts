@@ -10,12 +10,13 @@ describe('contract category codes', () => {
     expect(new Set(CATEGORY_CODES).size).toBe(24);
   });
 
-  it('every internal category maps to a distinct contract code', () => {
-    const ids = Object.keys(CATEGORIES);
+  it('every internal category maps to a distinct contract code, except the internal ORG_RULE', () => {
+    const ids = Object.keys(CATEGORIES).filter((id) => id !== 'ORG_RULE');
     expect(Object.keys(CONTRACT_CODE).sort()).toEqual([...ids].sort());
     const codes = ids.map((id) => toContractCode(id as keyof typeof CATEGORIES));
     expect(new Set(codes).size).toBe(ids.length);
-    for (const code of codes) expect(isCategoryCode(code), code).toBe(true);
+    for (const code of codes) expect(isCategoryCode(code), String(code)).toBe(true);
+    expect(toContractCode('ORG_RULE')).toBeNull();
   });
 
   it('all 24 codes are reachable (no code is left without a category)', () => {
@@ -26,6 +27,7 @@ describe('contract category codes', () => {
     expect(Object.keys(MODEL_LABELS)).toHaveLength(29);
     for (const [label, mapping] of Object.entries(MODEL_LABELS)) {
       expect(isCategoryCode(toContractCode(mapping.category)), label).toBe(true);
+      expect(mapping.category).not.toBe('ORG_RULE');
     }
   });
 

@@ -59,7 +59,7 @@ function summarize(
     seen.add(key);
     findings.push({
       category: d.category,
-      categoryName: CATEGORIES[d.category].name,
+      categoryName: d.rule?.name ?? CATEGORIES[d.category].name,
       tier: detectionTier(d, policy),
       placeholder,
       crossesMessages: d.crossesMessages === true,

@@ -8,7 +8,8 @@
  */
 
 import { DEFAULT_POLICY, detectionTier } from '../policy/defaults';
-import type { CustomKeyword, Policy } from '../policy/types';
+import type { Policy } from '../policy/types';
+import { detectWithOrgRules } from '../rules/org-rules';
 import { mergeDetections } from './merge';
 import { PATTERNS, type PatternSpec } from './patterns';
 import type { Detection } from './types';
@@ -38,35 +39,10 @@ function compile(patterns: readonly PatternSpec[]): CompiledPattern[] {
   });
 }
 
-/** Escape text for literal use inside a RegExp. */
-function escapeRegExp(text: string): string {
-  return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-}
-
-/**
- * A policy custom keyword as a literal, case-insensitive pattern. Word
- * boundaries are added only on Latin word edges (JS `\b` does not understand
- * Arabic letters).
- */
-function keywordPattern(keyword: CustomKeyword, index: number): PatternSpec {
-  const body = escapeRegExp(keyword.text).replace(/\s+/g, String.raw`\s+`);
-  const start = /^\w/.test(keyword.text) ? String.raw`\b` : '';
-  const end = /\w$/.test(keyword.text) ? String.raw`\b` : '';
-  return {
-    id: `custom-keyword-${index}`,
-    category: keyword.category,
-    label: keyword.label,
-    source: `${start}${body}${end}`,
-    flags: 'i',
-  };
-}
-
-/** Patterns in effect under a policy: built-ins minus disabled ones, plus custom keywords. */
+/** Patterns in effect under a policy: the built-ins minus the disabled ones. */
 export function patternsForPolicy(policy: Policy): PatternSpec[] {
   const disabled = new Set(policy.rules?.disabledPatterns ?? []);
-  const builtIn = PATTERNS.filter((p) => !disabled.has(p.id));
-  const custom = (policy.rules?.customKeywords ?? []).map(keywordPattern);
-  return [...builtIn, ...custom];
+  return PATTERNS.filter((p) => !disabled.has(p.id));
 }
 
 /** Compiled patterns are cached per policy object (policies are replaced, never mutated). */
@@ -96,7 +72,7 @@ export function detectWithRules(text: string, policy: Policy = DEFAULT_POLICY): 
   const compiled = compiledFor(policy);
   const normalized = normalizeDigits(text);
   const placeholders = placeholderSpans(text);
-  const found: Detection[] = [];
+  const found: Detection[] = detectWithOrgRules(text, policy);
 
   for (const { spec, regex } of compiled) {
     regex.lastIndex = 0;

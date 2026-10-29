@@ -3,7 +3,8 @@
  *
  * Every category the extension detects is reported to the backend under one of
  * these codes; nothing else may appear in an event. The map is a total
- * `Record`, so adding a category without a code does not compile.
+ * `Record` (ORG_RULE, the internal category of rule matches, is the only
+ * exception), so adding a category without a code does not compile.
  */
 
 import type { CategoryId } from '../detectors/categories';
@@ -43,7 +44,7 @@ export type CategoryCode = (typeof CATEGORY_CODES)[number];
  * REGION_BANKING_IDENTITY (agreed with the backend); that code and
  * UNIVERSAL_IDS have no detector today.
  */
-export const CONTRACT_CODE: Readonly<Record<CategoryId, CategoryCode>> = {
+export const CONTRACT_CODE: Readonly<Record<Exclude<CategoryId, 'ORG_RULE'>, CategoryCode>> = {
   CONTACT: 'CONTACT_INFO',
   PERSONAL_IDENTITY: 'PERSONAL_IDENTITY',
   FINANCIAL: 'FINANCIAL_BANKING',
@@ -72,8 +73,9 @@ export const CONTRACT_CODE: Readonly<Record<CategoryId, CategoryCode>> = {
 
 const CODE_SET: ReadonlySet<string> = new Set(CATEGORY_CODES);
 
-export function toContractCode(category: CategoryId): CategoryCode {
-  return CONTRACT_CODE[category];
+/** The contract code of a category, or null for the internal ORG_RULE category. */
+export function toContractCode(category: CategoryId): CategoryCode | null {
+  return category === 'ORG_RULE' ? null : CONTRACT_CODE[category];
 }
 
 export function isCategoryCode(value: unknown): value is CategoryCode {
