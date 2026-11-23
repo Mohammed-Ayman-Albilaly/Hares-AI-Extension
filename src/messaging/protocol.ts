@@ -30,6 +30,8 @@ export const MSG = {
   CLASSIFY_RESULT: 'hares/classify-result',
   DETECT: 'hares/detect',
   DETECT_RESULT: 'hares/detect-result',
+  TOPICS: 'hares/topics',
+  TOPICS_RESULT: 'hares/topics-result',
   AUTH_LOGIN: 'hares/auth-login',
   AUTH_LOGOUT: 'hares/auth-logout',
   LOG_EVENT: 'hares/log-event',
@@ -194,6 +196,45 @@ export interface WorkerDetectRequest {
 /** Detection result posted back from the dedicated Web Worker. */
 export interface WorkerDetectResult extends DetectResponse {
   type: typeof MSG.DETECT_RESULT;
+  id: string;
+}
+
+// --- Decision model for TOPIC rules -----------------------------------------
+
+/**
+ * Topic-scoring request over chrome.runtime IPC (content script -> background
+ * -> offscreen). The text only travels between the extension's own contexts.
+ * A request with no hypotheses only asks the model to start loading.
+ */
+export interface TopicsRequest {
+  target: MessageTarget;
+  type: typeof MSG.TOPICS;
+  id: string;
+  text: string;
+  /** One English sentence per TOPIC rule. */
+  hypotheses: string[];
+}
+
+/** Topic scores back up the chain. `scores` (one per hypothesis, in order) only when status is 'ready'. */
+export interface TopicsResponse {
+  ok: boolean;
+  status: ModelStatus;
+  scores?: number[];
+  latencyMs?: number;
+  error?: string;
+}
+
+/** Topic-scoring request posted to the dedicated Web Worker. */
+export interface WorkerTopicsRequest {
+  type: typeof MSG.TOPICS;
+  id: string;
+  text: string;
+  hypotheses: string[];
+}
+
+/** Topic scores posted back from the dedicated Web Worker. */
+export interface WorkerTopicsResult extends TopicsResponse {
+  type: typeof MSG.TOPICS_RESULT;
   id: string;
 }
 

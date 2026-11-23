@@ -20,7 +20,10 @@ import {
   type ClassifyResponse,
   type DetectRequest,
   type DetectResponse,
+  type TopicsRequest,
+  type TopicsResponse,
   type WorkerDetectResult,
+  type WorkerTopicsResult,
   type ProbeMessage,
   type ProbeResponse,
   type WorkerClassifyResult,
@@ -76,6 +79,12 @@ browser.runtime.onMessage.addListener((message, _sender, sendResponse) => {
     return true;
   }
 
+  const topics = message as TopicsRequest | undefined;
+  if (topics?.target === TARGET.OFFSCREEN && topics?.type === MSG.TOPICS) {
+    void topicsViaWorker(topics).then(sendResponse);
+    return true;
+  }
+
   return;
 });
 
@@ -123,6 +132,31 @@ function detectViaWorker(request: DetectRequest): Promise<DetectResponse> {
     w.postMessage({ type: MSG.DETECT, id: request.id, text: request.text });
   });
 }
+
+/** Relay a TOPICS request to the worker. Never rejects: errors become a response. */
+function topicsViaWorker(request: TopicsRequest): Promise<TopicsResponse> {
+  return new Promise((resolve) => {
+    const w = getWorker();
+    const onMessage = (event: MessageEvent<WorkerTopicsResult>) => {
+      const data = event.data;
+      if (data?.type !== MSG.TOPICS_RESULT || data.id !== request.id) return;
+      cleanup();
+      const { ok, status, scores, latencyMs, error } = data;
+      resolve({ ok, status, scores, latencyMs, error });
+    };
+    const timeout = setTimeout(() => {
+      cleanup();
+      resolve({ ok: false, status: 'error', error: 'topic scoring timed out' });
+    }, DETECT_TIMEOUT_MS);
+    const cleanup = () => {
+      clearTimeout(timeout);
+      w.removeEventListener('message', onMessage);
+    };
+    w.addEventListener('message', onMessage);
+    w.postMessage({ type: MSG.TOPICS, id: request.id, text: request.text, hypotheses: request.hypotheses });
+  });
+}
+
 const CLASSIFY_TIMEOUT_MS = 120_000;
 
 function probeWorker(probe: ProbeMessage): Promise<ProbeResponse> {

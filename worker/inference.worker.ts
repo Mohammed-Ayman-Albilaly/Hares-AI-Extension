@@ -31,8 +31,14 @@ import {
   type WorkerProbeResult,
 } from '../src/messaging/protocol';
 import type { ClassifyResult } from '../src/model/contract';
-import type { WorkerDetectRequest, WorkerDetectResult } from '../src/messaging/protocol';
+import type {
+  WorkerDetectRequest,
+  WorkerDetectResult,
+  WorkerTopicsRequest,
+  WorkerTopicsResult,
+} from '../src/messaging/protocol';
 import { loadNer, runNer } from './ner';
+import { runTopics } from './topics';
 import {
   HYPOTHESES,
   HYPOTHESIS_TEMPLATE,
@@ -68,11 +74,11 @@ const runtime = {
 
 // The worker has no `window`, so type `self` explicitly for messaging.
 const scope = self as unknown as {
-  postMessage(message: WorkerProbeResult | WorkerClassifyResult | WorkerDetectResult): void;
+  postMessage(message: WorkerProbeResult | WorkerClassifyResult | WorkerDetectResult | WorkerTopicsResult): void;
   addEventListener(
     type: 'message',
     listener: (
-      event: MessageEvent<WorkerProbeMessage | WorkerClassifyRequest | WorkerDetectRequest>,
+      event: MessageEvent<WorkerProbeMessage | WorkerClassifyRequest | WorkerDetectRequest | WorkerTopicsRequest>,
     ) => void,
   ): void;
 };
@@ -99,6 +105,10 @@ scope.addEventListener('message', (event) => {
 
   if (message?.type === MSG.DETECT) {
     void handleDetect(message);
+  }
+
+  if (message?.type === MSG.TOPICS) {
+    void handleTopics(message);
   }
 });
 
@@ -294,6 +304,21 @@ async function handleDetect(request: WorkerDetectRequest): Promise<void> {
   } catch (error) {
     scope.postMessage({
       type: MSG.DETECT_RESULT,
+      id: request.id,
+      ok: false,
+      status: 'error',
+      error: error instanceof Error ? error.message : String(error),
+    });
+  }
+}
+
+async function handleTopics(request: WorkerTopicsRequest): Promise<void> {
+  try {
+    const result = await runTopics(request.text, request.hypotheses);
+    scope.postMessage({ type: MSG.TOPICS_RESULT, id: request.id, ok: result.status === 'ready', ...result });
+  } catch (error) {
+    scope.postMessage({
+      type: MSG.TOPICS_RESULT,
       id: request.id,
       ok: false,
       status: 'error',

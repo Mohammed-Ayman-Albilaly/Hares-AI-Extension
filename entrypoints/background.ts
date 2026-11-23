@@ -20,6 +20,8 @@ import {
   type DetectResponse,
   type ProbeMessage,
   type ProbeResponse,
+  type TopicsRequest,
+  type TopicsResponse,
 } from '../src/messaging/protocol';
 
 import { installBackend } from '../src/backend/runtime';
@@ -86,6 +88,12 @@ export default defineBackground(() => {
       return true;
     }
 
+    const topics = message as TopicsRequest | undefined;
+    if (topics?.target === TARGET.BACKGROUND && topics?.type === MSG.TOPICS) {
+      void handleTopics(topics).then(sendResponse);
+      return true;
+    }
+
     return;
   });
 
@@ -119,6 +127,23 @@ async function handleDetect(request: DetectRequest): Promise<DetectResponse> {
       id: request.id,
       text: request.text,
     })) as DetectResponse | undefined;
+    return response ?? { ok: false, status: 'error', error: 'no response from offscreen document' };
+  } catch (error) {
+    return { ok: false, status: 'error', error: error instanceof Error ? error.message : String(error) };
+  }
+}
+
+/** Forward a TOPICS request to the offscreen document. Never rejects. */
+async function handleTopics(request: TopicsRequest): Promise<TopicsResponse> {
+  try {
+    await ensureOffscreenDocument();
+    const response = (await browser.runtime.sendMessage({
+      target: TARGET.OFFSCREEN,
+      type: MSG.TOPICS,
+      id: request.id,
+      text: request.text,
+      hypotheses: request.hypotheses,
+    })) as TopicsResponse | undefined;
     return response ?? { ok: false, status: 'error', error: 'no response from offscreen document' };
   } catch (error) {
     return { ok: false, status: 'error', error: error instanceof Error ? error.message : String(error) };
