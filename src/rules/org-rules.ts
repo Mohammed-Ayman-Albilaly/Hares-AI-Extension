@@ -7,7 +7,8 @@
  * - KEYWORD: one word or phrase per line, matched as whole words on normalised
  *   text (see ./text.ts). A phrase matches consecutive words with any
  *   whitespace or punctuation between them.
- * - TOPIC rules are not enforced by the extension and are dropped before this point.
+ * - TOPIC rules are not matched here: they have no pattern. The decision model
+ *   judges them on the whole message (see src/topics/).
  *
  * A rule match is a Detection in the internal ORG_RULE category: it can be
  * masked like any other, and carries the rule's id, risk and enforcement level.
@@ -55,6 +56,7 @@ export function keywordSource(definition: string): string | null {
 }
 
 function compileRule(rule: OrgRule, order: number): CompiledRule | null {
+  if (rule.kind === 'TOPIC') return null;
   try {
     if (rule.kind === 'PATTERN') {
       if (rule.definition.length === 0 || rule.definition.length > MAX_PATTERN_LENGTH) return null;

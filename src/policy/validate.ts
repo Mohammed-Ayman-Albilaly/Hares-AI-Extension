@@ -11,6 +11,7 @@
 
 import { CATEGORIES, TIERS, type CategoryId, type Tier } from '../detectors/categories';
 import { isPolicyAction, isRiskLevel } from '../contract/enums';
+import { parseTopicFields } from '../topics/rules';
 import type { CategoryPolicy, OrgRule, Policy } from './types';
 
 export const LIMITS = {
@@ -106,21 +107,25 @@ export function validatePolicy(input: unknown): ValidationResult {
     const org: OrgRule[] = [];
     const rawRules = Array.isArray(input.rules.org) ? input.rules.org : [];
     for (const r of rawRules.slice(0, LIMITS.orgRules)) {
-      if (
+      const valid =
         isObject(r) &&
         typeof r.id === 'string' &&
         r.id.length > 0 &&
         r.id.length <= 64 &&
         typeof r.name === 'string' &&
         r.name.length <= LIMITS.ruleName &&
-        (r.kind === 'PATTERN' || r.kind === 'KEYWORD') &&
         typeof r.definition === 'string' &&
-        r.definition.length > 0 &&
         r.definition.length <= LIMITS.ruleDefinition &&
         isRiskLevel(r.risk) &&
-        isPolicyAction(r.action)
-      ) {
-        org.push({ id: r.id, name: r.name, kind: r.kind, definition: r.definition, risk: r.risk, action: r.action });
+        isPolicyAction(r.action);
+      if (valid && (r.kind === 'PATTERN' || r.kind === 'KEYWORD') && (r.definition as string).length > 0) {
+        org.push({ id: r.id, name: r.name, kind: r.kind, definition: r.definition, risk: r.risk, action: r.action } as OrgRule);
+        continue;
+      }
+      // A TOPIC rule is matched by its English description; its `definition` may be empty.
+      const topic = valid && r.kind === 'TOPIC' ? parseTopicFields(r.definitionEn, r.threshold) : null;
+      if (valid && topic) {
+        org.push({ id: r.id, name: r.name, kind: 'TOPIC', definition: r.definition, risk: r.risk, action: r.action, ...topic } as OrgRule);
       } else {
         warnings.push('rules.org: malformed entry ignored');
       }

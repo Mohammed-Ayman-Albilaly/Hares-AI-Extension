@@ -5,8 +5,10 @@
  *
  * `parseBundle` checks the answer strictly: a bundle whose `policy` is not
  * exactly one valid entry per category is rejected whole (the last good one
- * stays in force). Single rules that are malformed are skipped. TOPIC rules are
- * not enforced by the extension and are dropped here.
+ * stays in force). Single rules that are malformed are skipped, and so is a
+ * TOPIC rule without a usable English description (`definition_en`), which
+ * rules saved before that field existed do not have. Fields this version does
+ * not know are ignored.
  *
  * `bundleToPolicy` turns a bundle into the extension's `Policy`:
  *   - enabled = false      → tier SAFE: the category is not detected, enforced or logged
@@ -25,6 +27,7 @@ import {
   type RiskLevel,
 } from '../contract/enums';
 import type { CategoryId } from '../detectors/categories';
+import { parseTopicFields } from '../topics/rules';
 import type { CategoryPolicy, OrgRule, Policy } from './types';
 
 export interface BundleEntry {
@@ -75,15 +78,21 @@ function parseRules(raw: unknown): OrgRule[] {
   const rules: OrgRule[] = [];
   for (const r of raw) {
     if (
-      isObject(r) &&
-      typeof r.id === 'string' &&
-      typeof r.name === 'string' &&
-      (r.kind === 'PATTERN' || r.kind === 'KEYWORD') && // TOPIC is not enforced
-      typeof r.definition === 'string' &&
-      isRiskLevel(r.risk_level) &&
-      isPolicyAction(r.action)
+      !isObject(r) ||
+      typeof r.id !== 'string' ||
+      typeof r.name !== 'string' ||
+      typeof r.definition !== 'string' ||
+      !isRiskLevel(r.risk_level) ||
+      !isPolicyAction(r.action)
     ) {
-      rules.push({ id: r.id, name: r.name, kind: r.kind, definition: r.definition, risk: r.risk_level, action: r.action });
+      continue;
+    }
+    const base = { id: r.id, name: r.name, definition: r.definition, risk: r.risk_level, action: r.action };
+    if (r.kind === 'PATTERN' || r.kind === 'KEYWORD') {
+      rules.push({ ...base, kind: r.kind });
+    } else if (r.kind === 'TOPIC') {
+      const topic = parseTopicFields(r.definition_en, r.threshold);
+      if (topic) rules.push({ ...base, kind: 'TOPIC', ...topic });
     }
   }
   return rules;

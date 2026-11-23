@@ -25,16 +25,22 @@ export interface CategoryPolicy {
   userOverridable?: boolean;
 }
 
-/**
- * An organisation rule from the policy bundle. TOPIC rules are not enforced by
- * the extension, so only these two kinds are kept.
- */
+/** An organisation rule from the policy bundle. */
 export interface OrgRule {
   id: string;
   name: string;
-  /** PATTERN: a regex compiled with the flag `i` only. KEYWORD: one word or phrase per line. */
-  kind: 'PATTERN' | 'KEYWORD';
+  /**
+   * PATTERN: a regex compiled with the flag `i` only. KEYWORD: one word or
+   * phrase per line. TOPIC: a subject described in words, judged by the local
+   * decision model on the whole message (see src/topics/).
+   */
+  kind: 'PATTERN' | 'KEYWORD' | 'TOPIC';
+  /** PATTERN and KEYWORD: what to match. TOPIC: the admin's own wording, not used for matching. */
   definition: string;
+  /** TOPIC only: the description in English, which is what the model reads. */
+  definitionEn?: string;
+  /** TOPIC only: the model score (0..1) at or above which the rule matches. */
+  threshold?: number;
   risk: RiskLevel;
   action: PolicyAction;
 }
