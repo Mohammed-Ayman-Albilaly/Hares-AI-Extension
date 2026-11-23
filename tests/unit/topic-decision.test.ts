@@ -58,6 +58,8 @@ describe('topicDetections', () => {
     const [d] = topicDetections(topics, [0.8, 0]);
     expect(d).toMatchObject({ category: 'ORG_RULE', value: '', start: 0, end: 0, wholeMessage: true, source: 'topic', confidence: 0.8 });
     expect(d!.rule).toMatchObject({ id: LAYOFFS, enforce: 'MEDIUM', risk: 'MEDIUM', order: 0 });
+    const blocking = policyOf(topic(LAYOFFS, { action: 'BLOCK', risk: 'HIGH' }));
+    expect(topicDetections(topicRulesOf(blocking), [0.8])[0]!.rule).toMatchObject({ enforce: 'MEDIUM', risk: 'HIGH' });
     expect(isMaskable(d!)).toBe(false);
   });
 });
@@ -73,17 +75,18 @@ describe('a TOPIC match in the send check', () => {
     expect(a.findings).toEqual([{ category: 'ORG_RULE', categoryName: 'تسريح الموظفين', tier: 'MEDIUM', placeholder: null, crossesMessages: false }]);
   });
 
-  it('BLOCK: the message cannot be sent, and the only way forward is to edit', () => {
-    const a = analyse(TEXT, policyOf(topic(LAYOFFS, { action: 'BLOCK', risk: 'HIGH' })), [0.8]);
-    expect(a.decision).toMatchObject({ tier: 'HIGH', presentation: 'block' });
-    expect(a.decision.actions).toEqual(['edit', 'cancel']);
+  it('a TOPIC rule never blocks: one that arrives as BLOCK warns instead, and the user can still confirm', () => {
+    const a = analyse(TEXT, policyOf(topic(LAYOFFS, { action: 'BLOCK', risk: 'HIGH' })), [0.99]);
+    expect(a.decision).toMatchObject({ tier: 'MEDIUM', presentation: 'confirm' });
+    expect(a.decision.actions).toEqual(['confirm_send', 'edit', 'cancel']);
+    // The risk the admin declared is still what the event reports.
+    expect(a.decision.risk).toBe('HIGH');
   });
 
-  it('BLOCK with an email in the same message: masking the email would still send the topic, so no revised version', () => {
+  it('a BLOCK topic next to an email still only warns, and the revised version masks the email', () => {
     const a = analyse(`${TEXT}, write to sara@example.com`, policyOf(topic(LAYOFFS, { action: 'BLOCK' })), [0.8]);
-    expect(a.decision.tier).toBe('HIGH');
-    expect(a.decision.actions).not.toContain('send_masked');
-    expect(a.decision.actions).not.toContain('confirm_send');
+    expect(a.decision.tier).toBe('MEDIUM');
+    expect(a.decision.actions).toEqual(['confirm_send', 'send_masked', 'edit', 'cancel']);
   });
 
   it('WARN with an email: the revised version masks the email, and the user decides', () => {
@@ -140,11 +143,23 @@ describe('the log event of a TOPIC match', () => {
     expect(JSON.stringify(event)).not.toMatch(/0\.8|positions|threshold|confidence|lay off/i);
   });
 
+  it('a topic that arrives as BLOCK is logged as warned, never as blocked', () => {
+    const event = draft(policyOf(topic(LAYOFFS, { action: 'BLOCK', risk: 'HIGH' })), [0.8]);
+    expect(event).toMatchObject({ rule_id: LAYOFFS, action: 'WARNED', risk_level: 'HIGH' });
+  });
+
   it('with several matches, the strictest rule is reported, topic or keyword', () => {
     const keyword: OrgRule = { id: KEYWORD, name: 'Codename', kind: 'KEYWORD', definition: 'falcon', risk: 'LOW', action: 'ALLOW' };
-    const policy = policyOf(keyword, topic(LAYOFFS), topic(SALARIES, { action: 'BLOCK', risk: 'HIGH' }));
+    const policy = policyOf(keyword, topic(LAYOFFS, { risk: 'LOW' }), topic(SALARIES, { risk: 'HIGH' }));
     const event = draft(policy, [0.8, 0.8], 'falcon: we plan to cut 120 positions');
-    expect(event).toMatchObject({ rule_id: SALARIES, action: 'BLOCKED', risk_level: 'HIGH' });
+    // Both topics warn; the higher risk decides between them, and both beat the ALLOW keyword.
+    expect(event).toMatchObject({ rule_id: SALARIES, action: 'WARNED', risk_level: 'HIGH' });
+  });
+
+  it('a keyword rule can still block in the same message as a topic', () => {
+    const keyword: OrgRule = { id: KEYWORD, name: 'Codename', kind: 'KEYWORD', definition: 'falcon', risk: 'HIGH', action: 'BLOCK' };
+    const event = draft(policyOf(keyword, topic(LAYOFFS)), [0.8], 'falcon: we plan to cut 120 positions');
+    expect(event).toMatchObject({ rule_id: KEYWORD, action: 'BLOCKED' });
   });
 
   it('a topic and a category in one message: both are reported', () => {

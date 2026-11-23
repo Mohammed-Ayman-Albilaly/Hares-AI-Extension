@@ -8,7 +8,7 @@ Status: built in the extension and covered by unit tests. Not yet tested in a br
 
 1. The policy bundle lists the TOPIC rules of the user's department.
 2. When a message is about to be sent, the local decision model reads the message and each rule's English description and returns a score from 0 to 1 for each rule.
-3. A rule matches when its score reaches the rule's **threshold**. Its action then applies like any other rule: ALLOW (notice), WARN (confirm dialog) or BLOCK.
+3. A rule matches when its score reaches the rule's **threshold**. Its action then applies: ALLOW (notice) or WARN (confirm dialog). **A TOPIC rule never blocks.**
 
 Code: [src/topics/](../src/topics/) (rules, scoring, matches), [worker/topics.ts](../worker/topics.ts) (the model).
 
@@ -34,6 +34,7 @@ Agreed with the platform (platform decision 66):
 | `definition_en` | The sentence the model reads. Missing, `null`, or outside 20 to 300 characters → the rule is skipped (rules saved before this field existed arrive with `null`) |
 | `threshold` | Missing, `null` or not a number → 0.3. Outside 0.2 to 0.9 → moved to the nearest limit |
 | `definition` | Not used for matching. It stays in the admin's language for the platform's screens |
+| `action` | `ALLOW` or `WARN`. A TOPIC rule that arrives with `BLOCK` is enforced and logged as `WARN` |
 | unknown fields | Ignored |
 
 `definition_en` and `threshold` are `null` on KEYWORD and PATTERN rules; they are ignored there. The platform lets the admin write the English description (it does not translate), validates both fields, and caps enabled TOPIC rules at 10 per department. The extension also scores at most the first 10.
@@ -46,7 +47,9 @@ A topic match is about the message as a whole. There is no value to replace with
 |---|---|
 | ALLOW | Sent, with the quiet notice |
 | WARN | Confirm (send as written) or Edit. If the message also has values that can be masked, Send revised is offered too and masks those |
-| BLOCK | Edit only. Send revised is not offered even if other values could be masked, because masking them would still send the topic |
+| BLOCK | Not supported for TOPIC rules: treated as WARN |
+
+Why no block: the model's answer is a likelihood, not a fact like a card number, and at the default threshold 5 of 16 near-topic test prompts were flagged by mistake. A wrong block would stop someone's work with nothing they could mask to get past it. Other detections in the same message (a card number, a BLOCK keyword rule) still block as usual.
 
 The dialog names the rule (`name`), and selects the safe button by default: Send revised when there is one, otherwise Edit.
 
@@ -59,7 +62,7 @@ The dialog names the rule (`name`), and selects the safe button by default: Send
 
 ## Log events
 
-A TOPIC match is reported like a KEYWORD or PATTERN match: its `rule_id`, the rule's risk and action, and no category of its own (`categories` can be `[]`). `classification_source` is `LOCAL_AI`. No score and no text is sent.
+A TOPIC match is reported like a KEYWORD or PATTERN match: its `rule_id`, the rule's risk and action (`WARNED` or `ALLOWED`; a topic alone is never `BLOCKED`), and no category of its own (`categories` can be `[]`). `classification_source` is `LOCAL_AI`. No score and no text is sent.
 
 ## What was measured
 
