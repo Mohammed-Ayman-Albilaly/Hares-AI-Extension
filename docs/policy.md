@@ -34,7 +34,7 @@ Labels are more precise than categories: `API_KEY` and `PASSWORD` both belong to
 | `categories` | `{ [CategoryId]: { tier?, userOverridable? } }` | Override a whole category. `tier: "SAFE"` = ignore that category (not shown, not masked) |
 | `labels` | `{ [LABEL]: { tier?, userOverridable? } }` | Override one type (API_KEY, PASSWORD, EMAIL, NATIONAL_ID…) |
 | `rules.disabledPatterns` | string[] | Built-in pattern ids to switch off (ids in [patterns.ts](../src/detectors/patterns.ts), e.g. `url`) |
-| `rules.org` | `{ id, name, kind, definition, risk, action }[]` | Organisation rules from the policy bundle. `kind` is `KEYWORD` (one word or phrase per line, whole words) or `PATTERN` (regex, compiled with the flag `i` only). `TOPIC` rules are not enforced. `action` ALLOW/WARN/BLOCK decides what the user sees; the match is reported with the rule's `id` |
+| `rules.org` | `{ id, name, kind, definition, definitionEn?, threshold?, risk, action }[]` | Organisation rules from the policy bundle. `kind` is `KEYWORD` (one word or phrase per line, whole words) or `PATTERN` (regex, compiled with the flag `i` only). `TOPIC` rules are judged by the local decision model against `definitionEn`, matching at or above `threshold` ([topic-rules.md](topic-rules.md)). `action` ALLOW/WARN/BLOCK decides what the user sees; the match is reported with the rule's `id` |
 | `decision.enabled` / `hypotheses` / `examples` / `uncertaintyThreshold` | — | The decision model's "prompt" (Phase 4): one sentence per tier (zero-shot) or example prompts per tier (embedding model) |
 
 Category ids, tiers and labels: [src/detectors/categories.ts](../src/detectors/categories.ts), [src/detectors/patterns.ts](../src/detectors/patterns.ts).

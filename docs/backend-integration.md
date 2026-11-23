@@ -45,7 +45,7 @@ When the extension is installed, updated or reloaded, the background injects the
 | `risk_level` (optional) | The risk reported in events. Missing → the built-in tier |
 | rule `KEYWORD` | One word or phrase per line; whole words; case-insensitive for Latin letters; alef forms → `ا`, `ة` → `ه`, `ى` → `ي`; diacritics ignored; phrase = consecutive words with any whitespace or punctuation between |
 | rule `PATTERN` | `new RegExp(definition, 'i')`; skipped if it does not compile or is over 512 characters |
-| rule `TOPIC` | Not enforced |
+| rule `TOPIC` | Judged by the local decision model against `definition_en`; matches at or above `threshold` (default 0.3, kept within 0.2 to 0.9). Skipped when `definition_en` is missing, `null` or outside 20 to 300 characters. See [topic-rules.md](topic-rules.md) |
 
 Which detection-model types are on is fixed in the extension: six types that are too common (cities, organisations, plain dates, age, postcodes, URLs) stay off.
 

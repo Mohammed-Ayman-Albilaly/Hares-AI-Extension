@@ -243,7 +243,7 @@ node scripts/gen-manual-tests.mjs
 - The detection model's Arabic results come from a small test set (41 cases); a wider evaluation is planned.
 - Placeholder numbers do not restart in a new chat (e.g. the first phone number in a second chat can be `[PHONE_2]`). Meaning is unaffected; fix planned for Phase 5.
 - User exceptions have no settings screen yet; the organisation's policy does not offer them (see [docs/policy.md](docs/policy.md)).
-- TOPIC rules from the platform are not enforced.
+- TOPIC rules are judged by a second local model (about 268 MB more, downloaded only if your organisation uses them). Until it is ready, or if it is too slow on a message, TOPIC rules are not applied to that message. Not yet tested in a browser against the platform. See [docs/topic-rules.md](docs/topic-rules.md).
 
 ---
 
