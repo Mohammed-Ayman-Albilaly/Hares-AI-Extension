@@ -11,7 +11,7 @@
  * `chrome.storage.session` (memory-only) and never logged or sent anywhere.
  */
 
-import { UNMASKED_CATEGORIES } from '../detectors/categories';
+import { isMaskable } from '../detectors/maskable';
 import type { Detection } from '../detectors/types';
 
 export interface VaultEntry {
@@ -73,7 +73,7 @@ export class PlaceholderVault {
    */
   mask(text: string, detections: readonly Detection[]): MaskResult {
     const replaced = detections
-      .filter((d) => !UNMASKED_CATEGORIES.has(d.category))
+      .filter(isMaskable)
       .sort((a, b) => a.start - b.start);
     // Allocate in reading order so numbering follows the text.
     const placeholders = replaced.map((d) => this.placeholderFor(d.label, d.value));

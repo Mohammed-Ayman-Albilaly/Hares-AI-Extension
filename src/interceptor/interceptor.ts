@@ -28,6 +28,9 @@ import { isDialogOpen, showDecisionDialog } from '../ui/dialog';
 import { showStatus, showToast } from '../ui/toast';
 import { requestEntities, type DetectorOutcome } from '../ner/client';
 import { entitiesToDetections } from '../ner/mapping';
+import { requestTopicScores, warmUpTopicModel } from '../topics/client';
+import { topicDetections } from '../topics/detect';
+import { topicRulesOf } from '../topics/rules';
 import { ApprovalStore } from './approval';
 
 export function installInterceptor(adapter: PlatformAdapter): void {
@@ -36,26 +39,42 @@ export function installInterceptor(adapter: PlatformAdapter): void {
   // Department policy + user exceptions; starts on the built-in default and
   // switches as soon as the stored policy is loaded (and on every change).
   const policyState = new PolicyState();
-  void policyState.start();
+  // A policy with TOPIC rules needs the decision model: start loading it now,
+  // so it is ready before the first message.
+  void policyState.start().then(() => {
+    if (topicRulesOf(policyState.policy).length > 0) warmUpTopicModel();
+  });
   let busy = false;
   /** Tell the user once per page that the detector is still downloading. */
   let toldModelLoading = false;
 
-  /** Ask the detection model, showing "checking…" if it takes more than 300 ms. */
+  /**
+   * Ask the two local models, showing "checking…" if they take more than 300 ms:
+   * the detection model (names, addresses…) and, when the policy has TOPIC
+   * rules, the decision model. Neither can block the send: a model that is not
+   * ready or too slow simply contributes nothing.
+   */
   async function modelDetectionsFor(text: string) {
     let dismiss: (() => void) | null = null;
     const indicator = setTimeout(() => {
       dismiss = showStatus('Hares AI: checking…');
     }, 300);
-    const result = await requestEntities(text);
+    const topics = topicRulesOf(policyState.policy);
+    const [result, topicResult] = await Promise.all([
+      requestEntities(text),
+      topics.length > 0 ? requestTopicScores(text, topics.map((t) => t.hypothesis)) : null,
+    ]);
     clearTimeout(indicator);
     (dismiss as (() => void) | null)?.();
     if (result.outcome === 'loading' && !toldModelLoading) {
       toldModelLoading = true;
       showToast('Hares AI is still downloading its name & address detector. Checked with rules only for now.', 'info', 5000);
     }
+    if (topicResult && topicResult.outcome !== 'ready') {
+      console.info(`[hares] topic rules not applied to this message (decision model: ${topicResult.outcome})`);
+    }
     const detections = entitiesToDetections(text, result.entities);
-    return { outcome: result.outcome, detections };
+    return { outcome: result.outcome, detections, topics: topicResult ? topicDetections(topics, topicResult.scores) : [] };
   }
 
   function isInComposer(target: EventTarget | null): boolean {
@@ -146,7 +165,8 @@ export function installInterceptor(adapter: PlatformAdapter): void {
       decision: analysis.decision,
       detections: analysis.detections,
       platform: adapter.id,
-      detector: lastDetector,
+      // A TOPIC match is a decision of the local model, whatever the detection model's state.
+      detector: analysis.detections.some((d) => d.wholeMessage) ? 'ready' : lastDetector,
       userAction,
       now: Date.now(),
       logId: crypto.randomUUID(),
@@ -189,6 +209,7 @@ export function installInterceptor(adapter: PlatformAdapter): void {
       lastDetector = model.outcome;
       const analysis = analyzePrompt(text, conversation.vault, {
         modelDetections: model.detections,
+        topicDetections: model.topics,
         historyTail: conversation.historyTail(),
         policy: policyState.policy,
         exceptions: policyState.exceptions,

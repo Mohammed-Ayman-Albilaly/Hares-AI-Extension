@@ -16,6 +16,22 @@ import { createShadowHost } from './styles';
 /** `edit`: the Edit button. `dismiss`: Escape or a click outside the dialog. Both go back to the composer. */
 export type DialogChoice = 'original' | 'revised' | 'edit' | 'dismiss';
 
+/**
+ * What the user can do. Without a revised version (the match is a topic or a
+ * keyword, which no placeholder can remove) the only way forward on a block is
+ * to edit the message.
+ */
+export function dialogHint(isHigh: boolean, canRevise: boolean): string {
+  if (isHigh) {
+    return canRevise
+      ? 'The original message cannot be sent. Send the revised version, with sensitive values replaced by placeholders, or edit your message.'
+      : 'This message cannot be sent as written. Edit it and try again.';
+  }
+  return canRevise
+    ? 'Send it as written, or send the revised version with sensitive values replaced by placeholders.'
+    : 'Send it as written, or edit your message.';
+}
+
 /** Default button on MEDIUM. 'revised' is the safe default; 'original' = Confirm. */
 export const DEFAULT_MEDIUM_CHOICE: Exclude<DialogChoice, 'edit' | 'dismiss'> = 'revised';
 
@@ -66,9 +82,9 @@ export function showDecisionDialog(analysis: AnalysisResult): Promise<DialogChoi
   if (canRevise) buttons.push({ choice: 'revised', label: 'Send revised', className: '' });
   buttons.push({ choice: 'edit', label: 'Edit', className: 'ghost' });
 
-  const defaultChoice: DialogChoice = isHigh
-    ? canRevise ? 'revised' : 'edit'
-    : canRevise ? DEFAULT_MEDIUM_CHOICE : 'original';
+  // The selected button is always the safe one: the revised version when there
+  // is one, otherwise Edit. Sending as written takes a deliberate move to Confirm.
+  const defaultChoice: DialogChoice = canRevise ? (isHigh ? 'revised' : DEFAULT_MEDIUM_CHOICE) : 'edit';
 
   return new Promise((resolve) => {
     const { host, root } = createShadowHost('hares-dialog');
@@ -95,9 +111,7 @@ export function showDecisionDialog(analysis: AnalysisResult): Promise<DialogChoi
     const sub = el(
       'p',
       'sub',
-      isHigh
-        ? 'The original message cannot be sent. Send the revised version, with sensitive values replaced by placeholders, or edit your message.'
-        : 'Send it as written, or send the revised version with sensitive values replaced by placeholders.',
+      dialogHint(isHigh, canRevise),
     );
 
     const body = el('div', 'body');

@@ -6,13 +6,8 @@
  * added later in the offscreen worker and merged into the same result shape.
  */
 
-import {
-  CATEGORIES,
-  TIER_RANK,
-  UNMASKED_CATEGORIES,
-  type CategoryId,
-  type Tier,
-} from '../detectors/categories';
+import { CATEGORIES, TIER_RANK, type CategoryId, type Tier } from '../detectors/categories';
+import { isMaskable } from '../detectors/maskable';
 import { mergeDetections } from '../detectors/merge';
 import { detectWithRules } from '../detectors/rules';
 import type { Detection } from '../detectors/types';
@@ -51,10 +46,9 @@ function summarize(
   const seen = new Set<string>();
   const findings: FindingSummary[] = [];
   for (const d of detections) {
-    const placeholder = UNMASKED_CATEGORIES.has(d.category)
-      ? null
-      : vault.placeholderFor(d.label, d.value);
-    const key = placeholder ?? `${d.category}:${d.value.toLowerCase()}`;
+    const placeholder = isMaskable(d) ? vault.placeholderFor(d.label, d.value) : null;
+    // A whole-message match has no value: its rule tells matches apart.
+    const key = placeholder ?? `${d.category}:${d.wholeMessage ? (d.rule?.id ?? '') : d.value.toLowerCase()}`;
     if (seen.has(key)) continue;
     seen.add(key);
     findings.push({
@@ -100,6 +94,8 @@ export interface AnalyzeOptions {
   exceptions?: UserExceptions | null;
   /** Detections from the detection model for this prompt (offsets in `prompt`). */
   modelDetections?: readonly Detection[];
+  /** TOPIC rules the decision model matched on this prompt (whole-message, see src/topics/detect.ts). */
+  topicDetections?: readonly Detection[];
 }
 
 export function analyzePrompt(
@@ -121,7 +117,8 @@ export function analyzePrompt(
         (d) => (own.some((o) => o.start === d.start && o.end === d.end) ? { ...d, crossesMessages: undefined } : d),
       )
     : own;
-  const detections = merged;
+  // Topic matches have no span, so they never overlap anything: added as they are.
+  const detections = [...merged, ...(options.topicDetections ?? [])];
   const context = options.context;
   const { masked } = vault.mask(prompt, detections);
   const decision = decide(detections, context, {

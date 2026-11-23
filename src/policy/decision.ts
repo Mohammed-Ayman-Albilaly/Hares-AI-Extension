@@ -10,7 +10,10 @@
  * requires a concrete detection.
  *
  * Sending the original is never allowed on HIGH; sending the masked prompt is
- * allowed on every tier that has something masked.
+ * allowed on every tier that has something masked, with one exception: when
+ * something that cannot be masked (a TOPIC rule, a report-only keyword) is what
+ * blocks the message, masking the rest would still send it, so the only way
+ * forward is to edit.
  *
  * Two tiers come out of a decision:
  *  - `policyTier`: what the organisation's policy says. This is what the logs
@@ -20,13 +23,8 @@
  *    sent without a dialog, with the quiet toast as a reminder.
  */
 
-import {
-  TIER_RANK,
-  UNMASKED_CATEGORIES,
-  maxTier,
-  type CategoryId,
-  type Tier,
-} from '../detectors/categories';
+import { TIER_RANK, maxTier, type CategoryId, type Tier } from '../detectors/categories';
+import { isMaskable } from '../detectors/maskable';
 import type { Detection } from '../detectors/types';
 import type { ClassifyResult } from '../model/contract';
 import {
@@ -107,6 +105,8 @@ export function decide(
   let detectionTier: Tier = 'SAFE';
   let enforcedDetectionTier: Tier = 'SAFE';
   let detectionRiskTier: Tier = 'SAFE';
+  /** Highest tier enforced by something the revised message cannot remove. */
+  let unmaskableTier: Tier = 'SAFE';
   const excepted = new Set<CategoryId>();
   const exceptedLabels = new Set<string>();
   for (const d of detections) {
@@ -119,13 +119,14 @@ export function decide(
       enforcedDetectionTier = maxTier(enforcedDetectionTier, minTier(t, 'LOW'));
     } else {
       enforcedDetectionTier = maxTier(enforcedDetectionTier, t);
+      if (!isMaskable(d)) unmaskableTier = maxTier(unmaskableTier, t);
     }
   }
 
   const contextTier = contextTierOf(context);
   const policyTier = maxTier(detectionTier, contextTier);
   const tier = maxTier(enforcedDetectionTier, contextTier);
-  const canMask = detections.some((d) => !UNMASKED_CATEGORIES.has(d.category));
+  const canMask = detections.some(isMaskable) && unmaskableTier !== 'HIGH';
 
   const actions: Action[] = [];
   if (tier === 'SAFE' || tier === 'LOW') actions.push('send');
