@@ -22,6 +22,11 @@ export interface ModelDetectResult {
   latencyMs?: number;
 }
 
+/** Run the detection model once on nothing, so the user's message is not its slow first run after idling. */
+export function warmUpDetector(): void {
+  void requestEntities('warm up');
+}
+
 export async function requestEntities(text: string, timeoutMs = DETECT_TIMEOUT_MS): Promise<ModelDetectResult> {
   const request: DetectRequest = { target: TARGET.BACKGROUND, type: MSG.DETECT, id: crypto.randomUUID(), text };
   const timeout = new Promise<ModelDetectResult>((resolve) =>

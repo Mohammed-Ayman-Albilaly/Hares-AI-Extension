@@ -26,6 +26,12 @@ const state = {
 
 /** A failed load is tried again on a later request, at most once a minute. */
 const RETRY_AFTER_MS = 60_000;
+/**
+ * After this long without work, the first scoring is several times slower (the
+ * model's memory has gone cold). A warm-up request then runs one small scoring.
+ */
+const COLD_AFTER_MS = 60_000;
+let lastScoredAt = 0;
 
 /** Start loading (idempotent). */
 export function loadTopics(): Promise<void> {
@@ -69,7 +75,8 @@ export interface TopicsResult {
 
 /**
  * Score a message, or report why the model cannot run yet. Never waits for a
- * download. A request with no hypotheses only starts the loading (warm-up).
+ * download. A request with no hypotheses is a warm-up: it starts the loading,
+ * or, once loaded, keeps the model hot.
  */
 export async function runTopics(text: string, hypotheses: readonly string[]): Promise<TopicsResult> {
   if (state.status === 'idle') void loadTopics();
@@ -77,8 +84,16 @@ export async function runTopics(text: string, hypotheses: readonly string[]): Pr
   if (state.status !== 'ready' || !state.tokenizer || !state.model) {
     return { status: state.status, error: state.error ?? undefined };
   }
-  if (hypotheses.length === 0) return { status: 'ready', scores: [], latencyMs: 0 };
   const started = performance.now();
+  if (hypotheses.length === 0) {
+    // Warm-up: nothing to score, but keep the model hot for the message that follows.
+    if (Date.now() - lastScoredAt >= COLD_AFTER_MS) {
+      await scoreTopics(state.tokenizer, state.model, 'warm up', ['This text is a test.']);
+      lastScoredAt = Date.now();
+    }
+    return { status: 'ready', scores: [], latencyMs: Math.round(performance.now() - started) };
+  }
   const scores = await scoreTopics(state.tokenizer, state.model, text, hypotheses);
+  lastScoredAt = Date.now();
   return { status: 'ready', scores, latencyMs: Math.round(performance.now() - started) };
 }

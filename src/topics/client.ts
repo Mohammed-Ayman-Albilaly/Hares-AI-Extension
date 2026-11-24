@@ -11,8 +11,12 @@
 import { browser } from 'wxt/browser';
 import { MSG, TARGET, type ModelStatus, type TopicsRequest, type TopicsResponse } from '../messaging/protocol';
 
-/** How long a send may wait for the topic scores. */
-export const TOPICS_TIMEOUT_MS = 4000;
+/**
+ * How long a send may wait for the topic scores. In Chrome the scoring took 1
+ * to 2 seconds with two rules, and several times that on a model left idle, so
+ * the limit leaves room: past it the topic is silently missed.
+ */
+export const TOPICS_TIMEOUT_MS = 6000;
 
 export type TopicsOutcome = ModelStatus | 'timeout';
 
@@ -47,7 +51,10 @@ export async function requestTopicScores(
   return Promise.race([ask, timeout]);
 }
 
-/** Have the model start loading now, so it is ready before the user's first message. */
+/**
+ * Get the model ready before the user's message: start loading it, or, if it
+ * has sat idle, run it once so the real scoring is not the slow first one.
+ */
 export function warmUpTopicModel(): void {
-  void requestTopicScores('', [], 1000);
+  void requestTopicScores('', [], TOPICS_TIMEOUT_MS);
 }

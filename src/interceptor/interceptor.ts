@@ -20,18 +20,22 @@ import { buildEventDraft, type UserAction } from '../logging/event';
 import { reportEvent } from '../logging/report';
 import { analyzePrompt, type AnalysisResult } from '../pipeline/analyze';
 import { isContextInvalidatedError, isExtensionContextValid } from '../runtime/context';
+import { createThrottle } from '../runtime/throttle';
 import { claimPage, isSuperseded } from '../runtime/instance';
 import { ConversationTracker } from '../pipeline/conversation';
 import { requestFreshPolicy } from '../policy/fresh';
 import { PolicyState } from '../policy/store';
 import { isDialogOpen, showDecisionDialog } from '../ui/dialog';
 import { showStatus, showToast } from '../ui/toast';
-import { requestEntities, type DetectorOutcome } from '../ner/client';
+import { requestEntities, warmUpDetector, type DetectorOutcome } from '../ner/client';
 import { entitiesToDetections } from '../ner/mapping';
 import { requestTopicScores, warmUpTopicModel } from '../topics/client';
 import { topicDetections } from '../topics/detect';
 import { topicRulesOf } from '../topics/rules';
 import { ApprovalStore } from './approval';
+
+/** A model left alone for this long is run once before it is needed again. */
+const WARM_UP_EVERY_MS = 60_000;
 
 export function installInterceptor(adapter: PlatformAdapter): void {
   const approvals = new ApprovalStore();
@@ -39,33 +43,59 @@ export function installInterceptor(adapter: PlatformAdapter): void {
   // Department policy + user exceptions; starts on the built-in default and
   // switches as soon as the stored policy is loaded (and on every change).
   const policyState = new PolicyState();
-  // A policy with TOPIC rules needs the decision model: start loading it now,
-  // so it is ready before the first message.
-  void policyState.start().then(() => {
+  /**
+   * The local models are several times slower on their first run after sitting
+   * idle, slow enough to pass their time limit, and then they contribute
+   * nothing. So they are run once on nothing when the page opens and when the
+   * user starts typing after a pause: by the time Enter is pressed they are hot.
+   * The decision model is only touched when the policy has TOPIC rules.
+   */
+  const warm = createThrottle(WARM_UP_EVERY_MS);
+  function warmUpModels(): void {
+    if (!warm.ready() || !isExtensionContextValid()) return;
+    warmUpDetector();
     if (topicRulesOf(policyState.policy).length > 0) warmUpTopicModel();
-  });
+  }
+  void policyState.start().then(warmUpModels);
   let busy = false;
   /** Tell the user once per page that the detector is still downloading. */
   let toldModelLoading = false;
 
   /**
-   * Ask the two local models, showing "checking…" if they take more than 300 ms:
-   * the detection model (names, addresses…) and, when the policy has TOPIC
-   * rules, the decision model. Neither can block the send: a model that is not
-   * ready or too slow simply contributes nothing.
+   * Everything a message waits for, showing "checking…" if it takes more than
+   * 300 ms: the current policy, the detection model (names, addresses…) and,
+   * when the policy has TOPIC rules, the decision model. Neither model can block
+   * the send: one that is not ready or too slow simply contributes nothing.
+   *
+   * The detection model does not depend on the policy, so it starts at once,
+   * while the policy is being checked; the decision model needs the policy's
+   * topics and starts right after.
    */
   async function modelDetectionsFor(text: string) {
+    const started = performance.now();
     let dismiss: (() => void) | null = null;
     const indicator = setTimeout(() => {
       dismiss = showStatus('Hares AI: checking…');
     }, 300);
+    const detecting = requestEntities(text);
+    // Always scan under the current policy: have the background check it if the
+    // last check is not recent, then read what is stored right now.
+    await requestFreshPolicy();
+    await policyState.refresh();
+    const policyMs = Math.round(performance.now() - started);
     const topics = topicRulesOf(policyState.policy);
     const [result, topicResult] = await Promise.all([
-      requestEntities(text),
+      detecting,
       topics.length > 0 ? requestTopicScores(text, topics.map((t) => t.hypothesis)) : null,
     ]);
     clearTimeout(indicator);
     (dismiss as (() => void) | null)?.();
+    warm.touch();
+    console.info(
+      `[hares] check took ${Math.round(performance.now() - started)} ms (policy ${policyMs} ms, detection ${result.latencyMs ?? result.outcome}${
+        topicResult ? `, ${topics.length} topics ${topicResult.latencyMs ?? topicResult.outcome}` : ''
+      }; model times are the worker's own)`,
+    );
     if (result.outcome === 'loading' && !toldModelLoading) {
       toldModelLoading = true;
       showToast('Hares AI is still downloading its name & address detector. Checked with rules only for now.', 'info', 5000);
@@ -126,7 +156,12 @@ export function installInterceptor(adapter: PlatformAdapter): void {
   }
 
   function onKeyDown(event: KeyboardEvent): void {
-    if (event.key !== 'Enter' || event.shiftKey || event.isComposing || event.keyCode === 229) return;
+    if (event.key !== 'Enter') {
+      // Typing has started: get the models ready while the user writes.
+      warmUpModels();
+      return;
+    }
+    if (event.shiftKey || event.isComposing || event.keyCode === 229) return;
     if (event.ctrlKey || event.altKey || event.metaKey) return;
     if (!isInComposer(event.target)) return;
     intercept(event);
@@ -200,12 +235,8 @@ export function installInterceptor(adapter: PlatformAdapter): void {
   async function handle(text: string): Promise<void> {
     busy = true;
     try {
-      // Always scan under the current policy: have the background check it if the
-      // last check is not recent, then read what is stored right now.
-      await requestFreshPolicy();
-      await policyState.refresh();
-      const conversation = conversations.current();
       const model = await modelDetectionsFor(text);
+      const conversation = conversations.current();
       lastDetector = model.outcome;
       const analysis = analyzePrompt(text, conversation.vault, {
         modelDetections: model.detections,
