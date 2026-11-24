@@ -1,0 +1,1465 @@
+{
+  "date": "2026-11-24T21:06:03.287Z",
+  "model": {
+    "id": "Horizon-Labs/multilingual-zeroshot-small",
+    "revision": "v1.3",
+    "dtype": "q8"
+  },
+  "runtime": "node (onnxruntime CPU), src/topics/runner.ts scoreTopics, all 8 topics in one batched pass",
+  "latencyMs": {
+    "p50": 1504,
+    "max": 2293
+  },
+  "sweep": [
+    {
+      "threshold": 0.2,
+      "caught": "45/48",
+      "recall": 0.938,
+      "recallEn": 0.958,
+      "recallAr": 0.917,
+      "nearFlagged": "7/16",
+      "ordinaryFlagged": "0/16"
+    },
+    {
+      "threshold": 0.3,
+      "caught": "44/48",
+      "recall": 0.917,
+      "recallEn": 0.958,
+      "recallAr": 0.875,
+      "nearFlagged": "5/16",
+      "ordinaryFlagged": "0/16"
+    },
+    {
+      "threshold": 0.4,
+      "caught": "42/48",
+      "recall": 0.875,
+      "recallEn": 0.917,
+      "recallAr": 0.833,
+      "nearFlagged": "4/16",
+      "ordinaryFlagged": "0/16"
+    },
+    {
+      "threshold": 0.5,
+      "caught": "40/48",
+      "recall": 0.833,
+      "recallEn": 0.917,
+      "recallAr": 0.75,
+      "nearFlagged": "1/16",
+      "ordinaryFlagged": "0/16"
+    },
+    {
+      "threshold": 0.6,
+      "caught": "36/48",
+      "recall": 0.75,
+      "recallEn": 0.833,
+      "recallAr": 0.667,
+      "nearFlagged": "1/16",
+      "ordinaryFlagged": "0/16"
+    },
+    {
+      "threshold": 0.7,
+      "caught": "29/48",
+      "recall": 0.604,
+      "recallEn": 0.625,
+      "recallAr": 0.583,
+      "nearFlagged": "1/16",
+      "ordinaryFlagged": "0/16"
+    },
+    {
+      "threshold": 0.8,
+      "caught": "23/48",
+      "recall": 0.479,
+      "recallEn": 0.583,
+      "recallAr": 0.375,
+      "nearFlagged": "1/16",
+      "ordinaryFlagged": "0/16"
+    },
+    {
+      "threshold": 0.9,
+      "caught": "7/48",
+      "recall": 0.146,
+      "recallEn": 0.208,
+      "recallAr": 0.083,
+      "nearFlagged": "0/16",
+      "ordinaryFlagged": "0/16"
+    }
+  ],
+  "rows": [
+    {
+      "id": "fin-en-1",
+      "lang": "en",
+      "kind": "positive",
+      "gold": [
+        "financials"
+      ],
+      "scores": {
+        "financials": 0.615,
+        "mna": 0.002,
+        "layoffs": 0.001,
+        "legal": 0.002,
+        "security": 0.001,
+        "contracts": 0.003,
+        "salaries": 0.004,
+        "roadmap": 0.002
+      }
+    },
+    {
+      "id": "fin-en-2",
+      "lang": "en",
+      "kind": "positive",
+      "gold": [
+        "financials"
+      ],
+      "scores": {
+        "financials": 0.978,
+        "mna": 0.005,
+        "layoffs": 0.002,
+        "legal": 0.064,
+        "security": 0.002,
+        "contracts": 0.007,
+        "salaries": 0.013,
+        "roadmap": 0.009
+      }
+    },
+    {
+      "id": "fin-en-3",
+      "lang": "en",
+      "kind": "positive",
+      "gold": [
+        "financials"
+      ],
+      "scores": {
+        "financials": 0.554,
+        "mna": 0.002,
+        "layoffs": 0.001,
+        "legal": 0.001,
+        "security": 0.001,
+        "contracts": 0.006,
+        "salaries": 0.008,
+        "roadmap": 0.012
+      }
+    },
+    {
+      "id": "fin-ar-1",
+      "lang": "ar",
+      "kind": "positive",
+      "gold": [
+        "financials"
+      ],
+      "scores": {
+        "financials": 0.802,
+        "mna": 0.004,
+        "layoffs": 0,
+        "legal": 0.002,
+        "security": 0.001,
+        "contracts": 0.004,
+        "salaries": 0.004,
+        "roadmap": 0.002
+      }
+    },
+    {
+      "id": "fin-ar-2",
+      "lang": "ar",
+      "kind": "positive",
+      "gold": [
+        "financials"
+      ],
+      "scores": {
+        "financials": 0.648,
+        "mna": 0.008,
+        "layoffs": 0.004,
+        "legal": 0.132,
+        "security": 0.007,
+        "contracts": 0.003,
+        "salaries": 0.031,
+        "roadmap": 0.011
+      }
+    },
+    {
+      "id": "fin-ar-3",
+      "lang": "ar",
+      "kind": "positive",
+      "gold": [
+        "financials"
+      ],
+      "scores": {
+        "financials": 0.759,
+        "mna": 0.009,
+        "layoffs": 0.003,
+        "legal": 0.002,
+        "security": 0.001,
+        "contracts": 0.025,
+        "salaries": 0.032,
+        "roadmap": 0.131
+      }
+    },
+    {
+      "id": "mna-en-1",
+      "lang": "en",
+      "kind": "positive",
+      "gold": [
+        "mna"
+      ],
+      "scores": {
+        "financials": 0.056,
+        "mna": 0.513,
+        "layoffs": 0.005,
+        "legal": 0.04,
+        "security": 0.002,
+        "contracts": 0.048,
+        "salaries": 0.003,
+        "roadmap": 0.033
+      }
+    },
+    {
+      "id": "mna-en-2",
+      "lang": "en",
+      "kind": "positive",
+      "gold": [
+        "mna"
+      ],
+      "scores": {
+        "financials": 0.012,
+        "mna": 0.92,
+        "layoffs": 0.062,
+        "legal": 0.012,
+        "security": 0.002,
+        "contracts": 0.01,
+        "salaries": 0.008,
+        "roadmap": 0.007
+      }
+    },
+    {
+      "id": "mna-en-3",
+      "lang": "en",
+      "kind": "positive",
+      "gold": [
+        "mna"
+      ],
+      "scores": {
+        "financials": 0.013,
+        "mna": 0.937,
+        "layoffs": 0.106,
+        "legal": 0.079,
+        "security": 0.004,
+        "contracts": 0.296,
+        "salaries": 0.007,
+        "roadmap": 0.013
+      }
+    },
+    {
+      "id": "mna-ar-1",
+      "lang": "ar",
+      "kind": "positive",
+      "gold": [
+        "mna"
+      ],
+      "scores": {
+        "financials": 0.076,
+        "mna": 0.728,
+        "layoffs": 0.024,
+        "legal": 0.676,
+        "security": 0.008,
+        "contracts": 0.065,
+        "salaries": 0.034,
+        "roadmap": 0.019
+      }
+    },
+    {
+      "id": "mna-ar-2",
+      "lang": "ar",
+      "kind": "positive",
+      "gold": [
+        "mna"
+      ],
+      "scores": {
+        "financials": 0.016,
+        "mna": 0.549,
+        "layoffs": 0.005,
+        "legal": 0.006,
+        "security": 0.002,
+        "contracts": 0.008,
+        "salaries": 0.002,
+        "roadmap": 0.029
+      }
+    },
+    {
+      "id": "mna-ar-3",
+      "lang": "ar",
+      "kind": "positive",
+      "gold": [
+        "mna"
+      ],
+      "scores": {
+        "financials": 0.014,
+        "mna": 0.939,
+        "layoffs": 0.258,
+        "legal": 0.069,
+        "security": 0.003,
+        "contracts": 0.151,
+        "salaries": 0.021,
+        "roadmap": 0.021
+      }
+    },
+    {
+      "id": "lay-en-1",
+      "lang": "en",
+      "kind": "positive",
+      "gold": [
+        "layoffs"
+      ],
+      "scores": {
+        "financials": 0.018,
+        "mna": 0.039,
+        "layoffs": 0.765,
+        "legal": 0.013,
+        "security": 0.006,
+        "contracts": 0.008,
+        "salaries": 0.064,
+        "roadmap": 0.006
+      }
+    },
+    {
+      "id": "lay-en-2",
+      "lang": "en",
+      "kind": "positive",
+      "gold": [
+        "layoffs"
+      ],
+      "scores": {
+        "financials": 0.012,
+        "mna": 0.288,
+        "layoffs": 0.848,
+        "legal": 0.015,
+        "security": 0.002,
+        "contracts": 0.012,
+        "salaries": 0.015,
+        "roadmap": 0.002
+      }
+    },
+    {
+      "id": "lay-en-3",
+      "lang": "en",
+      "kind": "positive",
+      "gold": [
+        "layoffs"
+      ],
+      "scores": {
+        "financials": 0.012,
+        "mna": 0.081,
+        "layoffs": 0.334,
+        "legal": 0.058,
+        "security": 0.01,
+        "contracts": 0.009,
+        "salaries": 0.045,
+        "roadmap": 0.009
+      }
+    },
+    {
+      "id": "lay-ar-1",
+      "lang": "ar",
+      "kind": "positive",
+      "gold": [
+        "layoffs"
+      ],
+      "scores": {
+        "financials": 0.005,
+        "mna": 0.011,
+        "layoffs": 0.82,
+        "legal": 0.012,
+        "security": 0.003,
+        "contracts": 0.001,
+        "salaries": 0.007,
+        "roadmap": 0.005
+      }
+    },
+    {
+      "id": "lay-ar-2",
+      "lang": "ar",
+      "kind": "positive",
+      "gold": [
+        "layoffs"
+      ],
+      "scores": {
+        "financials": 0.005,
+        "mna": 0.74,
+        "layoffs": 0.807,
+        "legal": 0.003,
+        "security": 0.001,
+        "contracts": 0.018,
+        "salaries": 0.053,
+        "roadmap": 0.007
+      }
+    },
+    {
+      "id": "lay-ar-3",
+      "lang": "ar",
+      "kind": "positive",
+      "gold": [
+        "layoffs"
+      ],
+      "scores": {
+        "financials": 0.004,
+        "mna": 0.049,
+        "layoffs": 0.417,
+        "legal": 0.016,
+        "security": 0.003,
+        "contracts": 0.03,
+        "salaries": 0.064,
+        "roadmap": 0.002
+      }
+    },
+    {
+      "id": "leg-en-1",
+      "lang": "en",
+      "kind": "positive",
+      "gold": [
+        "legal"
+      ],
+      "scores": {
+        "financials": 0.003,
+        "mna": 0.005,
+        "layoffs": 0.002,
+        "legal": 0.975,
+        "security": 0.014,
+        "contracts": 0.003,
+        "salaries": 0.001,
+        "roadmap": 0
+      }
+    },
+    {
+      "id": "leg-en-2",
+      "lang": "en",
+      "kind": "positive",
+      "gold": [
+        "legal"
+      ],
+      "scores": {
+        "financials": 0.009,
+        "mna": 0.004,
+        "layoffs": 0.002,
+        "legal": 0.837,
+        "security": 0.017,
+        "contracts": 0.005,
+        "salaries": 0.003,
+        "roadmap": 0.002
+      }
+    },
+    {
+      "id": "leg-en-3",
+      "lang": "en",
+      "kind": "positive",
+      "gold": [
+        "legal"
+      ],
+      "scores": {
+        "financials": 0.004,
+        "mna": 0.003,
+        "layoffs": 0.009,
+        "legal": 0.853,
+        "security": 0.005,
+        "contracts": 0.004,
+        "salaries": 0.007,
+        "roadmap": 0
+      }
+    },
+    {
+      "id": "leg-ar-1",
+      "lang": "ar",
+      "kind": "positive",
+      "gold": [
+        "legal"
+      ],
+      "scores": {
+        "financials": 0.007,
+        "mna": 0.008,
+        "layoffs": 0.004,
+        "legal": 0.827,
+        "security": 0.01,
+        "contracts": 0.01,
+        "salaries": 0.019,
+        "roadmap": 0.001
+      }
+    },
+    {
+      "id": "leg-ar-2",
+      "lang": "ar",
+      "kind": "positive",
+      "gold": [
+        "legal"
+      ],
+      "scores": {
+        "financials": 0.003,
+        "mna": 0.003,
+        "layoffs": 0.001,
+        "legal": 0.409,
+        "security": 0.011,
+        "contracts": 0.002,
+        "salaries": 0.003,
+        "roadmap": 0.001
+      }
+    },
+    {
+      "id": "leg-ar-3",
+      "lang": "ar",
+      "kind": "positive",
+      "gold": [
+        "legal"
+      ],
+      "scores": {
+        "financials": 0.065,
+        "mna": 0.026,
+        "layoffs": 0.133,
+        "legal": 0.916,
+        "security": 0.031,
+        "contracts": 0.045,
+        "salaries": 0.113,
+        "roadmap": 0.008
+      }
+    },
+    {
+      "id": "sec-en-1",
+      "lang": "en",
+      "kind": "positive",
+      "gold": [
+        "security"
+      ],
+      "scores": {
+        "financials": 0.002,
+        "mna": 0.001,
+        "layoffs": 0.001,
+        "legal": 0.068,
+        "security": 0.84,
+        "contracts": 0.002,
+        "salaries": 0.001,
+        "roadmap": 0.001
+      }
+    },
+    {
+      "id": "sec-en-2",
+      "lang": "en",
+      "kind": "positive",
+      "gold": [
+        "security"
+      ],
+      "scores": {
+        "financials": 0.001,
+        "mna": 0.001,
+        "layoffs": 0.002,
+        "legal": 0.632,
+        "security": 0.863,
+        "contracts": 0.001,
+        "salaries": 0.001,
+        "roadmap": 0
+      }
+    },
+    {
+      "id": "sec-en-3",
+      "lang": "en",
+      "kind": "positive",
+      "gold": [
+        "security"
+      ],
+      "scores": {
+        "financials": 0.012,
+        "mna": 0.006,
+        "layoffs": 0.005,
+        "legal": 0.079,
+        "security": 0.65,
+        "contracts": 0.021,
+        "salaries": 0.016,
+        "roadmap": 0.027
+      }
+    },
+    {
+      "id": "sec-ar-1",
+      "lang": "ar",
+      "kind": "positive",
+      "gold": [
+        "security"
+      ],
+      "scores": {
+        "financials": 0.003,
+        "mna": 0.003,
+        "layoffs": 0.002,
+        "legal": 0.023,
+        "security": 0.071,
+        "contracts": 0.002,
+        "salaries": 0.001,
+        "roadmap": 0.001
+      }
+    },
+    {
+      "id": "sec-ar-2",
+      "lang": "ar",
+      "kind": "positive",
+      "gold": [
+        "security"
+      ],
+      "scores": {
+        "financials": 0.009,
+        "mna": 0.004,
+        "layoffs": 0.003,
+        "legal": 0.411,
+        "security": 0.364,
+        "contracts": 0.002,
+        "salaries": 0.005,
+        "roadmap": 0.001
+      }
+    },
+    {
+      "id": "sec-ar-3",
+      "lang": "ar",
+      "kind": "positive",
+      "gold": [
+        "security"
+      ],
+      "scores": {
+        "financials": 0.03,
+        "mna": 0.007,
+        "layoffs": 0.005,
+        "legal": 0.147,
+        "security": 0.802,
+        "contracts": 0.01,
+        "salaries": 0.027,
+        "roadmap": 0.005
+      }
+    },
+    {
+      "id": "con-en-1",
+      "lang": "en",
+      "kind": "positive",
+      "gold": [
+        "contracts"
+      ],
+      "scores": {
+        "financials": 0.021,
+        "mna": 0.076,
+        "layoffs": 0.008,
+        "legal": 0.01,
+        "security": 0.006,
+        "contracts": 0.887,
+        "salaries": 0.039,
+        "roadmap": 0.017
+      }
+    },
+    {
+      "id": "con-en-2",
+      "lang": "en",
+      "kind": "positive",
+      "gold": [
+        "contracts"
+      ],
+      "scores": {
+        "financials": 0.055,
+        "mna": 0.01,
+        "layoffs": 0.001,
+        "legal": 0.01,
+        "security": 0.002,
+        "contracts": 0.691,
+        "salaries": 0.009,
+        "roadmap": 0.004
+      }
+    },
+    {
+      "id": "con-en-3",
+      "lang": "en",
+      "kind": "positive",
+      "gold": [
+        "contracts"
+      ],
+      "scores": {
+        "financials": 0.004,
+        "mna": 0.007,
+        "layoffs": 0.084,
+        "legal": 0.31,
+        "security": 0.016,
+        "contracts": 0.068,
+        "salaries": 0.017,
+        "roadmap": 0.002
+      }
+    },
+    {
+      "id": "con-ar-1",
+      "lang": "ar",
+      "kind": "positive",
+      "gold": [
+        "contracts"
+      ],
+      "scores": {
+        "financials": 0.029,
+        "mna": 0.166,
+        "layoffs": 0.029,
+        "legal": 0.023,
+        "security": 0.002,
+        "contracts": 0.764,
+        "salaries": 0.074,
+        "roadmap": 0.01
+      }
+    },
+    {
+      "id": "con-ar-2",
+      "lang": "ar",
+      "kind": "positive",
+      "gold": [
+        "contracts"
+      ],
+      "scores": {
+        "financials": 0.024,
+        "mna": 0.075,
+        "layoffs": 0.002,
+        "legal": 0.011,
+        "security": 0.001,
+        "contracts": 0.804,
+        "salaries": 0.043,
+        "roadmap": 0.008
+      }
+    },
+    {
+      "id": "con-ar-3",
+      "lang": "ar",
+      "kind": "positive",
+      "gold": [
+        "contracts"
+      ],
+      "scores": {
+        "financials": 0.007,
+        "mna": 0.019,
+        "layoffs": 0.025,
+        "legal": 0.109,
+        "security": 0.06,
+        "contracts": 0.05,
+        "salaries": 0.017,
+        "roadmap": 0.031
+      }
+    },
+    {
+      "id": "sal-en-1",
+      "lang": "en",
+      "kind": "positive",
+      "gold": [
+        "salaries"
+      ],
+      "scores": {
+        "financials": 0.072,
+        "mna": 0.011,
+        "layoffs": 0.013,
+        "legal": 0.186,
+        "security": 0.011,
+        "contracts": 0.459,
+        "salaries": 0.844,
+        "roadmap": 0.002
+      }
+    },
+    {
+      "id": "sal-en-2",
+      "lang": "en",
+      "kind": "positive",
+      "gold": [
+        "salaries"
+      ],
+      "scores": {
+        "financials": 0.078,
+        "mna": 0.013,
+        "layoffs": 0.004,
+        "legal": 0.02,
+        "security": 0.002,
+        "contracts": 0.024,
+        "salaries": 0.833,
+        "roadmap": 0.006
+      }
+    },
+    {
+      "id": "sal-en-3",
+      "lang": "en",
+      "kind": "positive",
+      "gold": [
+        "salaries"
+      ],
+      "scores": {
+        "financials": 0.023,
+        "mna": 0.009,
+        "layoffs": 0.013,
+        "legal": 0.006,
+        "security": 0.002,
+        "contracts": 0.492,
+        "salaries": 0.692,
+        "roadmap": 0.002
+      }
+    },
+    {
+      "id": "sal-ar-1",
+      "lang": "ar",
+      "kind": "positive",
+      "gold": [
+        "salaries"
+      ],
+      "scores": {
+        "financials": 0.445,
+        "mna": 0.013,
+        "layoffs": 0.004,
+        "legal": 0.256,
+        "security": 0.003,
+        "contracts": 0.239,
+        "salaries": 0.706,
+        "roadmap": 0.003
+      }
+    },
+    {
+      "id": "sal-ar-2",
+      "lang": "ar",
+      "kind": "positive",
+      "gold": [
+        "salaries"
+      ],
+      "scores": {
+        "financials": 0.07,
+        "mna": 0.005,
+        "layoffs": 0.006,
+        "legal": 0.003,
+        "security": 0.002,
+        "contracts": 0.031,
+        "salaries": 0.774,
+        "roadmap": 0.003
+      }
+    },
+    {
+      "id": "sal-ar-3",
+      "lang": "ar",
+      "kind": "positive",
+      "gold": [
+        "salaries"
+      ],
+      "scores": {
+        "financials": 0.047,
+        "mna": 0.021,
+        "layoffs": 0.017,
+        "legal": 0.005,
+        "security": 0.002,
+        "contracts": 0.904,
+        "salaries": 0.568,
+        "roadmap": 0.001
+      }
+    },
+    {
+      "id": "rod-en-1",
+      "lang": "en",
+      "kind": "positive",
+      "gold": [
+        "roadmap"
+      ],
+      "scores": {
+        "financials": 0.022,
+        "mna": 0.03,
+        "layoffs": 0.002,
+        "legal": 0.002,
+        "security": 0.007,
+        "contracts": 0.006,
+        "salaries": 0.001,
+        "roadmap": 0.883
+      }
+    },
+    {
+      "id": "rod-en-2",
+      "lang": "en",
+      "kind": "positive",
+      "gold": [
+        "roadmap"
+      ],
+      "scores": {
+        "financials": 0.007,
+        "mna": 0.007,
+        "layoffs": 0.004,
+        "legal": 0.003,
+        "security": 0.02,
+        "contracts": 0.011,
+        "salaries": 0.004,
+        "roadmap": 0.903
+      }
+    },
+    {
+      "id": "rod-en-3",
+      "lang": "en",
+      "kind": "positive",
+      "gold": [
+        "roadmap"
+      ],
+      "scores": {
+        "financials": 0.036,
+        "mna": 0.02,
+        "layoffs": 0.006,
+        "legal": 0.003,
+        "security": 0.008,
+        "contracts": 0.007,
+        "salaries": 0.004,
+        "roadmap": 0.673
+      }
+    },
+    {
+      "id": "rod-ar-1",
+      "lang": "ar",
+      "kind": "positive",
+      "gold": [
+        "roadmap"
+      ],
+      "scores": {
+        "financials": 0.022,
+        "mna": 0.095,
+        "layoffs": 0.024,
+        "legal": 0.015,
+        "security": 0.055,
+        "contracts": 0.004,
+        "salaries": 0.002,
+        "roadmap": 0.847
+      }
+    },
+    {
+      "id": "rod-ar-2",
+      "lang": "ar",
+      "kind": "positive",
+      "gold": [
+        "roadmap"
+      ],
+      "scores": {
+        "financials": 0.263,
+        "mna": 0.035,
+        "layoffs": 0.076,
+        "legal": 0.012,
+        "security": 0.22,
+        "contracts": 0.095,
+        "salaries": 0.188,
+        "roadmap": 0.638
+      }
+    },
+    {
+      "id": "rod-ar-3",
+      "lang": "ar",
+      "kind": "positive",
+      "gold": [
+        "roadmap"
+      ],
+      "scores": {
+        "financials": 0.299,
+        "mna": 0.017,
+        "layoffs": 0.017,
+        "legal": 0.027,
+        "security": 0.036,
+        "contracts": 0.018,
+        "salaries": 0.087,
+        "roadmap": 0.286
+      }
+    },
+    {
+      "id": "near-en-1",
+      "lang": "en",
+      "kind": "near",
+      "gold": [],
+      "scores": {
+        "financials": 0.09,
+        "mna": 0.002,
+        "layoffs": 0.001,
+        "legal": 0.01,
+        "security": 0.003,
+        "contracts": 0.015,
+        "salaries": 0.021,
+        "roadmap": 0.001
+      }
+    },
+    {
+      "id": "near-en-2",
+      "lang": "en",
+      "kind": "near",
+      "gold": [],
+      "scores": {
+        "financials": 0.096,
+        "mna": 0.499,
+        "layoffs": 0.003,
+        "legal": 0.33,
+        "security": 0.004,
+        "contracts": 0.407,
+        "salaries": 0.007,
+        "roadmap": 0.145
+      }
+    },
+    {
+      "id": "near-en-3",
+      "lang": "en",
+      "kind": "near",
+      "gold": [],
+      "scores": {
+        "financials": 0.005,
+        "mna": 0.003,
+        "layoffs": 0.007,
+        "legal": 0.003,
+        "security": 0.005,
+        "contracts": 0.014,
+        "salaries": 0.01,
+        "roadmap": 0.007
+      }
+    },
+    {
+      "id": "near-en-4",
+      "lang": "en",
+      "kind": "near",
+      "gold": [],
+      "scores": {
+        "financials": 0.007,
+        "mna": 0.004,
+        "layoffs": 0.002,
+        "legal": 0.024,
+        "security": 0.009,
+        "contracts": 0.01,
+        "salaries": 0.004,
+        "roadmap": 0.009
+      }
+    },
+    {
+      "id": "near-en-5",
+      "lang": "en",
+      "kind": "near",
+      "gold": [],
+      "scores": {
+        "financials": 0.002,
+        "mna": 0.001,
+        "layoffs": 0.001,
+        "legal": 0.016,
+        "security": 0.039,
+        "contracts": 0.002,
+        "salaries": 0.002,
+        "roadmap": 0.002
+      }
+    },
+    {
+      "id": "near-en-6",
+      "lang": "en",
+      "kind": "near",
+      "gold": [],
+      "scores": {
+        "financials": 0.024,
+        "mna": 0.078,
+        "layoffs": 0.083,
+        "legal": 0.011,
+        "security": 0.009,
+        "contracts": 0.039,
+        "salaries": 0.035,
+        "roadmap": 0.058
+      }
+    },
+    {
+      "id": "near-en-7",
+      "lang": "en",
+      "kind": "near",
+      "gold": [],
+      "scores": {
+        "financials": 0.14,
+        "mna": 0.003,
+        "layoffs": 0.002,
+        "legal": 0.011,
+        "security": 0.002,
+        "contracts": 0.133,
+        "salaries": 0.465,
+        "roadmap": 0.002
+      }
+    },
+    {
+      "id": "near-en-8",
+      "lang": "en",
+      "kind": "near",
+      "gold": [],
+      "scores": {
+        "financials": 0.024,
+        "mna": 0.005,
+        "layoffs": 0.001,
+        "legal": 0.007,
+        "security": 0.002,
+        "contracts": 0.013,
+        "salaries": 0.002,
+        "roadmap": 0.82
+      }
+    },
+    {
+      "id": "near-ar-1",
+      "lang": "ar",
+      "kind": "near",
+      "gold": [],
+      "scores": {
+        "financials": 0.238,
+        "mna": 0.005,
+        "layoffs": 0.001,
+        "legal": 0.002,
+        "security": 0.001,
+        "contracts": 0.039,
+        "salaries": 0.042,
+        "roadmap": 0.003
+      }
+    },
+    {
+      "id": "near-ar-2",
+      "lang": "ar",
+      "kind": "near",
+      "gold": [],
+      "scores": {
+        "financials": 0.011,
+        "mna": 0.036,
+        "layoffs": 0.001,
+        "legal": 0.11,
+        "security": 0.038,
+        "contracts": 0.029,
+        "salaries": 0.007,
+        "roadmap": 0.054
+      }
+    },
+    {
+      "id": "near-ar-3",
+      "lang": "ar",
+      "kind": "near",
+      "gold": [],
+      "scores": {
+        "financials": 0.015,
+        "mna": 0.004,
+        "layoffs": 0.006,
+        "legal": 0.046,
+        "security": 0.024,
+        "contracts": 0.017,
+        "salaries": 0.085,
+        "roadmap": 0.001
+      }
+    },
+    {
+      "id": "near-ar-4",
+      "lang": "ar",
+      "kind": "near",
+      "gold": [],
+      "scores": {
+        "financials": 0.023,
+        "mna": 0.013,
+        "layoffs": 0.002,
+        "legal": 0.079,
+        "security": 0.014,
+        "contracts": 0.026,
+        "salaries": 0.008,
+        "roadmap": 0.002
+      }
+    },
+    {
+      "id": "near-ar-5",
+      "lang": "ar",
+      "kind": "near",
+      "gold": [],
+      "scores": {
+        "financials": 0.007,
+        "mna": 0.003,
+        "layoffs": 0.002,
+        "legal": 0.049,
+        "security": 0.327,
+        "contracts": 0.006,
+        "salaries": 0.005,
+        "roadmap": 0.008
+      }
+    },
+    {
+      "id": "near-ar-6",
+      "lang": "ar",
+      "kind": "near",
+      "gold": [],
+      "scores": {
+        "financials": 0.021,
+        "mna": 0.1,
+        "layoffs": 0.037,
+        "legal": 0.017,
+        "security": 0.007,
+        "contracts": 0.04,
+        "salaries": 0.038,
+        "roadmap": 0.059
+      }
+    },
+    {
+      "id": "near-ar-7",
+      "lang": "ar",
+      "kind": "near",
+      "gold": [],
+      "scores": {
+        "financials": 0.126,
+        "mna": 0.002,
+        "layoffs": 0.001,
+        "legal": 0.003,
+        "security": 0.001,
+        "contracts": 0.081,
+        "salaries": 0.43,
+        "roadmap": 0.001
+      }
+    },
+    {
+      "id": "near-ar-8",
+      "lang": "ar",
+      "kind": "near",
+      "gold": [],
+      "scores": {
+        "financials": 0.214,
+        "mna": 0.033,
+        "layoffs": 0.005,
+        "legal": 0.1,
+        "security": 0.046,
+        "contracts": 0.096,
+        "salaries": 0.029,
+        "roadmap": 0.073
+      }
+    },
+    {
+      "id": "neg-en-1",
+      "lang": "en",
+      "kind": "negative",
+      "gold": [],
+      "scores": {
+        "financials": 0.049,
+        "mna": 0.016,
+        "layoffs": 0.005,
+        "legal": 0.041,
+        "security": 0.025,
+        "contracts": 0.029,
+        "salaries": 0.019,
+        "roadmap": 0.021
+      }
+    },
+    {
+      "id": "neg-en-2",
+      "lang": "en",
+      "kind": "negative",
+      "gold": [],
+      "scores": {
+        "financials": 0.005,
+        "mna": 0.004,
+        "layoffs": 0.003,
+        "legal": 0.004,
+        "security": 0.009,
+        "contracts": 0.003,
+        "salaries": 0.002,
+        "roadmap": 0.024
+      }
+    },
+    {
+      "id": "neg-en-3",
+      "lang": "en",
+      "kind": "negative",
+      "gold": [],
+      "scores": {
+        "financials": 0.022,
+        "mna": 0.024,
+        "layoffs": 0.012,
+        "legal": 0.053,
+        "security": 0.035,
+        "contracts": 0.019,
+        "salaries": 0.011,
+        "roadmap": 0.025
+      }
+    },
+    {
+      "id": "neg-en-4",
+      "lang": "en",
+      "kind": "negative",
+      "gold": [],
+      "scores": {
+        "financials": 0.003,
+        "mna": 0.004,
+        "layoffs": 0.002,
+        "legal": 0.002,
+        "security": 0.003,
+        "contracts": 0.012,
+        "salaries": 0.001,
+        "roadmap": 0.01
+      }
+    },
+    {
+      "id": "neg-en-5",
+      "lang": "en",
+      "kind": "negative",
+      "gold": [],
+      "scores": {
+        "financials": 0.007,
+        "mna": 0.03,
+        "layoffs": 0.045,
+        "legal": 0.005,
+        "security": 0.006,
+        "contracts": 0.028,
+        "salaries": 0.032,
+        "roadmap": 0.051
+      }
+    },
+    {
+      "id": "neg-en-6",
+      "lang": "en",
+      "kind": "negative",
+      "gold": [],
+      "scores": {
+        "financials": 0.019,
+        "mna": 0.006,
+        "layoffs": 0.002,
+        "legal": 0.019,
+        "security": 0.009,
+        "contracts": 0.016,
+        "salaries": 0.057,
+        "roadmap": 0.004
+      }
+    },
+    {
+      "id": "neg-en-7",
+      "lang": "en",
+      "kind": "negative",
+      "gold": [],
+      "scores": {
+        "financials": 0.006,
+        "mna": 0.003,
+        "layoffs": 0.001,
+        "legal": 0.012,
+        "security": 0.007,
+        "contracts": 0.01,
+        "salaries": 0.002,
+        "roadmap": 0.002
+      }
+    },
+    {
+      "id": "neg-en-8",
+      "lang": "en",
+      "kind": "negative",
+      "gold": [],
+      "scores": {
+        "financials": 0.028,
+        "mna": 0.022,
+        "layoffs": 0.005,
+        "legal": 0.005,
+        "security": 0.003,
+        "contracts": 0.007,
+        "salaries": 0.007,
+        "roadmap": 0.041
+      }
+    },
+    {
+      "id": "neg-ar-1",
+      "lang": "ar",
+      "kind": "negative",
+      "gold": [],
+      "scores": {
+        "financials": 0.024,
+        "mna": 0.009,
+        "layoffs": 0.004,
+        "legal": 0.04,
+        "security": 0.028,
+        "contracts": 0.029,
+        "salaries": 0.012,
+        "roadmap": 0.021
+      }
+    },
+    {
+      "id": "neg-ar-2",
+      "lang": "ar",
+      "kind": "negative",
+      "gold": [],
+      "scores": {
+        "financials": 0.088,
+        "mna": 0.021,
+        "layoffs": 0.008,
+        "legal": 0.04,
+        "security": 0.039,
+        "contracts": 0.039,
+        "salaries": 0.046,
+        "roadmap": 0.085
+      }
+    },
+    {
+      "id": "neg-ar-3",
+      "lang": "ar",
+      "kind": "negative",
+      "gold": [],
+      "scores": {
+        "financials": 0.016,
+        "mna": 0.023,
+        "layoffs": 0.004,
+        "legal": 0.044,
+        "security": 0.021,
+        "contracts": 0.015,
+        "salaries": 0.011,
+        "roadmap": 0.069
+      }
+    },
+    {
+      "id": "neg-ar-4",
+      "lang": "ar",
+      "kind": "negative",
+      "gold": [],
+      "scores": {
+        "financials": 0.007,
+        "mna": 0.009,
+        "layoffs": 0.008,
+        "legal": 0.002,
+        "security": 0.003,
+        "contracts": 0.014,
+        "salaries": 0.012,
+        "roadmap": 0.024
+      }
+    },
+    {
+      "id": "neg-ar-5",
+      "lang": "ar",
+      "kind": "negative",
+      "gold": [],
+      "scores": {
+        "financials": 0.032,
+        "mna": 0.026,
+        "layoffs": 0.023,
+        "legal": 0.014,
+        "security": 0.006,
+        "contracts": 0.007,
+        "salaries": 0.056,
+        "roadmap": 0.036
+      }
+    },
+    {
+      "id": "neg-ar-6",
+      "lang": "ar",
+      "kind": "negative",
+      "gold": [],
+      "scores": {
+        "financials": 0.009,
+        "mna": 0.006,
+        "layoffs": 0.001,
+        "legal": 0.019,
+        "security": 0.006,
+        "contracts": 0.008,
+        "salaries": 0.028,
+        "roadmap": 0.003
+      }
+    },
+    {
+      "id": "neg-ar-7",
+      "lang": "ar",
+      "kind": "negative",
+      "gold": [],
+      "scores": {
+        "financials": 0.009,
+        "mna": 0.006,
+        "layoffs": 0.001,
+        "legal": 0.008,
+        "security": 0.014,
+        "contracts": 0.034,
+        "salaries": 0.002,
+        "roadmap": 0.012
+      }
+    },
+    {
+      "id": "neg-ar-8",
+      "lang": "ar",
+      "kind": "negative",
+      "gold": [],
+      "scores": {
+        "financials": 0.022,
+        "mna": 0.009,
+        "layoffs": 0.003,
+        "legal": 0.003,
+        "security": 0.003,
+        "contracts": 0.003,
+        "salaries": 0.006,
+        "roadmap": 0.011
+      }
+    }
+  ]
+}

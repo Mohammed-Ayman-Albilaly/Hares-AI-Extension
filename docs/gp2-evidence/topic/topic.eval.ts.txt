@@ -1,0 +1,172 @@
+/**
+ * TOPIC-rule evaluation for the decision model (Node, CPU). Not part of `npm test`.
+ * Run: npx vitest run -c vitest.eval.config.ts eval/topic.eval.ts
+ *
+ * Question: can a zero-shot (NLI) model decide, on the device, whether a prompt
+ * is about a topic that a department admin described in plain words?
+ *
+ * For each model, each topic language (the admin writes in English or Arabic)
+ * and each way of turning a topic into a hypothesis (its short name, or its
+ * description), every prompt in tests/fixtures/topic-cases.json is scored
+ * against all topics independently (multi-label: a prompt may match none).
+ * Reports recall, false alarms and latency per threshold, and writes the full
+ * report to eval/results/topic-<date>.json.
+ */
+
+import { pipeline } from '@huggingface/transformers';
+import { mkdirSync, writeFileSync } from 'node:fs';
+import { it } from 'vitest';
+import { MODEL } from '../src/model/config';
+import data from '../tests/fixtures/topic-cases.json';
+
+type Lang = 'en' | 'ar';
+type Form = 'name' | 'description';
+
+const MODELS = [
+  { key: 'A zeroshot-small (current)', id: MODEL.id, revision: MODEL.revision as string, dtype: MODEL.dtype as string },
+  { key: 'B mDeBERTa-xnli', id: 'Xenova/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7', revision: 'main', dtype: 'q8' },
+] as const;
+
+/** How a topic name becomes a sentence the model can judge. */
+const NAME_TEMPLATE: Record<Lang, string> = { en: 'This text is about {}.', ar: 'هذا النص عن {}.' };
+
+const THRESHOLDS = [0.5, 0.6, 0.7, 0.8, 0.9, 0.95, 0.98];
+/** At most this share of ordinary and near-topic prompts may be flagged at the operating point. */
+const MAX_FALSE_ALARM = 0.05;
+
+type Classifier = (
+  text: string,
+  labels: string[],
+  options: { hypothesis_template: string; multi_label: boolean },
+) => Promise<{ labels: string[]; scores: number[] }>;
+
+interface Scored {
+  id: string;
+  lang: string;
+  kind: string;
+  gold: string[];
+  /** Score per topic id, 0..1. */
+  scores: Record<string, number>;
+  ms: number;
+}
+
+const round = (n: number) => Math.round(n * 1000) / 1000;
+
+function metricsAt(rows: Scored[], t: number) {
+  const positives = rows.filter((r) => r.kind === 'positive');
+  const others = rows.filter((r) => r.kind !== 'positive');
+  const flagged = (r: Scored) => Object.entries(r.scores).filter(([, s]) => s >= t).map(([id]) => id);
+
+  let hit = 0;
+  let wrongTopic = 0;
+  for (const r of positives) {
+    const f = flagged(r);
+    if (r.gold.some((g) => f.includes(g))) hit += 1;
+    wrongTopic += f.filter((id) => !r.gold.includes(id)).length;
+  }
+  const alarms = (kind: string) => {
+    const set = others.filter((r) => r.kind === kind);
+    return { flagged: set.filter((r) => flagged(r).length > 0).length, of: set.length };
+  };
+  const near = alarms('near');
+  const negative = alarms('negative');
+  const falseAlarm = others.length ? (near.flagged + negative.flagged) / others.length : 0;
+  const recallOf = (lang: string) => {
+    const set = positives.filter((r) => r.lang === lang);
+    return set.length ? set.filter((r) => r.gold.some((g) => (r.scores[g] ?? 0) >= t)).length / set.length : 0;
+  };
+  return {
+    threshold: t,
+    recall: round(hit / positives.length),
+    recallEn: round(recallOf('en')),
+    recallAr: round(recallOf('ar')),
+    falseAlarm: round(falseAlarm),
+    nearFlagged: `${near.flagged}/${near.of}`,
+    ordinaryFlagged: `${negative.flagged}/${negative.of}`,
+    /** Extra topics flagged on prompts that do belong to one topic. */
+    wrongTopicFlags: wrongTopic,
+  };
+}
+
+it('evaluates zero-shot models on TOPIC rules', async () => {
+  const report: Record<string, unknown>[] = [];
+  const overview: Record<string, unknown>[] = [];
+
+  for (const m of MODELS) {
+    const loadStart = performance.now();
+    const classifier = (await pipeline('zero-shot-classification', m.id, {
+      revision: m.revision,
+      dtype: m.dtype as 'q8',
+    })) as unknown as Classifier;
+    const loadMs = Math.round(performance.now() - loadStart);
+    await classifier('warm up', ['a test'], { hypothesis_template: '{}', multi_label: true });
+
+    for (const topicLang of ['en', 'ar'] as Lang[]) {
+      for (const form of ['name', 'description'] as Form[]) {
+        const labels = data.topics.map((t) => (form === 'name' ? t.name[topicLang] : t.description[topicLang]));
+        const template = form === 'name' ? NAME_TEMPLATE[topicLang] : '{}';
+        const idOf = new Map(labels.map((label, i) => [label, data.topics[i]!.id]));
+
+        const rows: Scored[] = [];
+        for (const c of data.cases) {
+          const t0 = performance.now();
+          const out = await classifier(c.text, labels, { hypothesis_template: template, multi_label: true });
+          const ms = performance.now() - t0;
+          const scores: Record<string, number> = {};
+          out.labels.forEach((label, i) => {
+            scores[idOf.get(label)!] = round(out.scores[i] ?? 0);
+          });
+          rows.push({ id: c.id, lang: c.lang, kind: c.kind, gold: c.topics, scores, ms });
+        }
+
+        const positives = rows.filter((r) => r.kind === 'positive');
+        const top1 = positives.filter((r) => {
+          const best = Object.entries(r.scores).sort((a, b) => b[1] - a[1])[0]?.[0];
+          return best !== undefined && r.gold.includes(best);
+        }).length / positives.length;
+        const sweep = THRESHOLDS.map((t) => metricsAt(rows, t));
+        // Operating point: the best recall among thresholds that keep false alarms low.
+        const usable = sweep.filter((s) => s.falseAlarm <= MAX_FALSE_ALARM).sort((a, b) => b.recall - a.recall)[0] ?? null;
+        const sorted = rows.map((r) => r.ms).sort((a, b) => a - b);
+        const latency = { p50ms: Math.round(sorted[Math.floor(sorted.length / 2)] ?? 0), maxMs: Math.round(sorted[sorted.length - 1] ?? 0) };
+
+        const run = { model: m.key, topicsWrittenIn: topicLang, hypothesis: form };
+        overview.push({
+          ...run,
+          top1: round(top1),
+          threshold: usable?.threshold ?? '-',
+          recall: usable?.recall ?? '-',
+          recallEn: usable?.recallEn ?? '-',
+          recallAr: usable?.recallAr ?? '-',
+          falseAlarm: usable?.falseAlarm ?? '-',
+          wrongTopic: usable?.wrongTopicFlags ?? '-',
+          ...latency,
+        });
+        report.push({ ...run, modelId: m.id, revision: m.revision, dtype: m.dtype, loadMs, top1: round(top1), latency, operatingPoint: usable, sweep, rows });
+      }
+    }
+  }
+
+  console.log(`\nOperating point = best recall with false alarms <= ${MAX_FALSE_ALARM * 100}% (near-topic + ordinary prompts). "-" = no threshold reaches it.`);
+  console.table(overview);
+
+  mkdirSync('eval/results', { recursive: true });
+  const file = `eval/results/topic-${new Date().toISOString().slice(0, 10)}.json`;
+  writeFileSync(
+    file,
+    JSON.stringify(
+      {
+        date: new Date().toISOString(),
+        runtime: 'node (onnxruntime CPU), one forward pass per topic',
+        cases: { total: data.cases.length, positive: data.cases.filter((c) => c.kind === 'positive').length, near: data.cases.filter((c) => c.kind === 'near').length, negative: data.cases.filter((c) => c.kind === 'negative').length },
+        topics: data.topics.length,
+        maxFalseAlarm: MAX_FALSE_ALARM,
+        overview,
+        runs: report,
+      },
+      null,
+      2,
+    ),
+  );
+  console.log(`report written to ${file}`);
+});

@@ -1,0 +1,211 @@
+{
+  "total": {
+    "statements": 49.62,
+    "branches": 57.47,
+    "functions": 49.56,
+    "lines": 49.59
+  },
+  "modules": [
+    {
+      "module": "Rules and validators",
+      "files": 9,
+      "statements": 88.1,
+      "branches": 79.9,
+      "functions": 89.7,
+      "lines": 92.8
+    },
+    {
+      "module": "Model detector (NER)",
+      "files": 6,
+      "statements": 45.8,
+      "branches": 48.9,
+      "functions": 36.7,
+      "lines": 46.7
+    },
+    {
+      "module": "Topic rules (decision model)",
+      "files": 5,
+      "statements": 69.6,
+      "branches": 73.6,
+      "functions": 81.8,
+      "lines": 66.7
+    },
+    {
+      "module": "Pipeline and merge",
+      "files": 2,
+      "statements": 95.0,
+      "branches": 90.5,
+      "functions": 84.6,
+      "lines": 100.0
+    },
+    {
+      "module": "Decision policy",
+      "files": 7,
+      "statements": 82.6,
+      "branches": 79.7,
+      "functions": 76.9,
+      "lines": 83.8
+    },
+    {
+      "module": "Placeholder vault",
+      "files": 1,
+      "statements": 91.9,
+      "branches": 100.0,
+      "functions": 91.7,
+      "lines": 90.6
+    },
+    {
+      "module": "Interceptor",
+      "files": 2,
+      "statements": 7.1,
+      "branches": 7.6,
+      "functions": 24.0,
+      "lines": 7.1
+    },
+    {
+      "module": "Platform adapters",
+      "files": 5,
+      "statements": 0.0,
+      "branches": 0.0,
+      "functions": 0.0,
+      "lines": 0.0
+    },
+    {
+      "module": "Policy sync",
+      "files": 2,
+      "statements": 93.3,
+      "branches": 91.7,
+      "functions": 100.0,
+      "lines": 95.0
+    },
+    {
+      "module": "Uploader, outbox and log events",
+      "files": 5,
+      "statements": 96.4,
+      "branches": 91.0,
+      "functions": 90.5,
+      "lines": 100.0
+    },
+    {
+      "module": "Session and API",
+      "files": 5,
+      "statements": 92.8,
+      "branches": 87.8,
+      "functions": 93.5,
+      "lines": 97.2
+    },
+    {
+      "module": "Background wiring",
+      "files": 2,
+      "statements": 0.0,
+      "branches": 0.0,
+      "functions": 0.0,
+      "lines": 0.0
+    },
+    {
+      "module": "Popup",
+      "files": 2,
+      "statements": 0.0,
+      "branches": 0.0,
+      "functions": 0.0,
+      "lines": 0.0
+    },
+    {
+      "module": "Dialog and toast",
+      "files": 3,
+      "statements": 5.0,
+      "branches": 10.3,
+      "functions": 4.5,
+      "lines": 5.5
+    },
+    {
+      "module": "Offscreen document and worker",
+      "files": 2,
+      "statements": 0.0,
+      "branches": 0.0,
+      "functions": 0.0,
+      "lines": 0.0
+    },
+    {
+      "module": "Content script entry points",
+      "files": 3,
+      "statements": 0.0,
+      "branches": null,
+      "functions": 0.0,
+      "lines": 0.0
+    },
+    {
+      "module": "Contract, messaging and helpers",
+      "files": 9,
+      "statements": 83.1,
+      "branches": 90.4,
+      "functions": 88.9,
+      "lines": 83.9
+    }
+  ],
+  "leastCoveredFiles": [
+    {
+      "file": "entrypoints/background.ts",
+      "statements": 0,
+      "of": 63
+    },
+    {
+      "file": "entrypoints/offscreen/offscreen.ts",
+      "statements": 0,
+      "of": 134
+    },
+    {
+      "file": "entrypoints/popup/main.ts",
+      "statements": 0,
+      "of": 72
+    },
+    {
+      "file": "src/adapters/editor.ts",
+      "statements": 0,
+      "of": 42
+    },
+    {
+      "file": "src/adapters/types.ts",
+      "statements": 0,
+      "of": 51
+    },
+    {
+      "file": "src/backend/runtime.ts",
+      "statements": 0,
+      "of": 101
+    },
+    {
+      "file": "src/interceptor/interceptor.ts",
+      "statements": 0,
+      "of": 156
+    },
+    {
+      "file": "src/ner/client.ts",
+      "statements": 0,
+      "of": 14
+    },
+    {
+      "file": "src/ui/toast.ts",
+      "statements": 0,
+      "of": 32
+    },
+    {
+      "file": "worker/inference.worker.ts",
+      "statements": 0,
+      "of": 102
+    },
+    {
+      "file": "worker/ner.ts",
+      "statements": 0,
+      "of": 37
+    },
+    {
+      "file": "worker/topics.ts",
+      "statements": 0,
+      "of": 37
+    }
+  ],
+  "unassigned": [
+    "src/test/TEST_MODE.ts"
+  ]
+}

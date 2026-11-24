@@ -1,0 +1,9 @@
+
+ RUN  v5.0.2 D:/Hares-AI-Extension
+
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  00:12:29
+   Duration  21.62s (tests 94%, import 4%, transform 2%)
+

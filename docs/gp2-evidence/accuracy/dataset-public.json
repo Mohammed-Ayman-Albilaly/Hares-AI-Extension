@@ -1,0 +1,3919 @@
+{
+  "$comment": "Committed copy of the labelled accuracy set. Same cases and labels as dataset.json, but the text of prompts that contain a synthetic key, token, password or certificate is left out (text: null), because such values look real to secret scanners. Run `node eval/accuracy/build-dataset.mjs` to produce the full dataset.json; its SHA-256 must equal fullDatasetSha256.",
+  "fullDatasetSha256": "e4f9d73ae8f259b712a6430ec0cb557e5b1816d0004f57ea7596efc117eef69c",
+  "summary": {
+    "total": 356,
+    "sensitive": 251,
+    "clean": 105,
+    "hardNegatives": 50,
+    "byLanguage": {
+      "en": 200,
+      "ar": 148,
+      "mixed": 8
+    },
+    "perCategory": {
+      "ACCOUNT": 11,
+      "AUTH_SECRET": 35,
+      "CONTACT": 20,
+      "CORPORATE": 12,
+      "CRYPTO": 9,
+      "DATETIME": 5,
+      "DEV_SECRET": 14,
+      "EDUCATION": 5,
+      "FILE_PATH": 9,
+      "FINANCIAL": 24,
+      "FINGERPRINT": 16,
+      "HEALTH": 8,
+      "KEYWORD": 19,
+      "LEGAL": 6,
+      "LOCATION": 11,
+      "LOGS": 5,
+      "NETWORK": 15,
+      "NUMERIC": 5,
+      "PERSONAL_IDENTITY": 26,
+      "SHIPPING": 5,
+      "VEHICLE": 5,
+      "WEB_LINK": 7
+    },
+    "perModelLabel": {
+      "ACCOUNT_ID": 5,
+      "BANK_ACCOUNT": 5,
+      "COORDINATE": 5,
+      "CREDIT_CARD": 5,
+      "CREDIT_CARD_CVV": 5,
+      "DATE_OF_BIRTH": 5,
+      "DEVICE_ID": 9,
+      "DRIVER_LICENSE": 5,
+      "EMAIL": 5,
+      "IP_ADDRESS": 7,
+      "LICENSE_NUMBER": 6,
+      "MAC_ADDRESS": 5,
+      "MEDICAL_ID": 5,
+      "NATIONAL_ID": 5,
+      "PASSPORT": 5,
+      "PASSWORD": 5,
+      "PERSON": 6,
+      "PHONE": 7,
+      "STREET_ADDRESS": 6,
+      "TAX_ID": 9,
+      "USERNAME": 6,
+      "VEHICLE_ID": 5
+    },
+    "textWithheld": 58
+  },
+  "cases": [
+    {
+      "id": "en-001",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "private-key",
+      "expectedCategories": [
+        "CRYPTO"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "ar-002",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "private-key",
+      "expectedCategories": [
+        "CRYPTO"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "en-003",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "private-key",
+      "expectedCategories": [
+        "CRYPTO"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "en-004",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "certificate",
+      "expectedCategories": [
+        "CRYPTO"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "ar-005",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "certificate",
+      "expectedCategories": [
+        "CRYPTO"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "en-006",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "certificate",
+      "expectedCategories": [
+        "CRYPTO"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "en-007",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "ssh-key",
+      "expectedCategories": [
+        "CRYPTO"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "ar-008",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "ssh-key",
+      "expectedCategories": [
+        "CRYPTO"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "en-009",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "ssh-key",
+      "expectedCategories": [
+        "CRYPTO"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "en-010",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "connection-string",
+      "expectedCategories": [
+        "DEV_SECRET"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "ar-011",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "connection-string",
+      "expectedCategories": [
+        "DEV_SECRET"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "en-012",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "connection-string",
+      "expectedCategories": [
+        "DEV_SECRET"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "en-013",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "github-token",
+      "expectedCategories": [
+        "DEV_SECRET"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "ar-014",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "github-token",
+      "expectedCategories": [
+        "DEV_SECRET"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "en-015",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "github-token",
+      "expectedCategories": [
+        "DEV_SECRET"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "en-016",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "npm-token",
+      "expectedCategories": [
+        "DEV_SECRET"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "ar-017",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "npm-token",
+      "expectedCategories": [
+        "DEV_SECRET"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "en-018",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "npm-token",
+      "expectedCategories": [
+        "DEV_SECRET"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "en-019",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "env-secret",
+      "expectedCategories": [
+        "DEV_SECRET"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "ar-020",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "env-secret",
+      "expectedCategories": [
+        "DEV_SECRET"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "en-021",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "env-secret",
+      "expectedCategories": [
+        "DEV_SECRET"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "en-022",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "jwt",
+      "expectedCategories": [
+        "AUTH_SECRET"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "ar-023",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "jwt",
+      "expectedCategories": [
+        "AUTH_SECRET"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "en-024",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "jwt",
+      "expectedCategories": [
+        "AUTH_SECRET"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "en-025",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "openai-key",
+      "expectedCategories": [
+        "AUTH_SECRET"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "ar-026",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "openai-key",
+      "expectedCategories": [
+        "AUTH_SECRET"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "en-027",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "openai-key",
+      "expectedCategories": [
+        "AUTH_SECRET"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "en-028",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "aws-key",
+      "expectedCategories": [
+        "AUTH_SECRET"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "ar-029",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "aws-key",
+      "expectedCategories": [
+        "AUTH_SECRET"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "en-030",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "aws-key",
+      "expectedCategories": [
+        "AUTH_SECRET"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "en-031",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "google-key",
+      "expectedCategories": [
+        "AUTH_SECRET"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "ar-032",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "google-key",
+      "expectedCategories": [
+        "AUTH_SECRET"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "en-033",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "google-key",
+      "expectedCategories": [
+        "AUTH_SECRET"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "en-034",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "slack-token",
+      "expectedCategories": [
+        "AUTH_SECRET"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "ar-035",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "slack-token",
+      "expectedCategories": [
+        "AUTH_SECRET"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "en-036",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "slack-token",
+      "expectedCategories": [
+        "AUTH_SECRET"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "en-037",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "stripe-key",
+      "expectedCategories": [
+        "AUTH_SECRET"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "ar-038",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "stripe-key",
+      "expectedCategories": [
+        "AUTH_SECRET"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "en-039",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "stripe-key",
+      "expectedCategories": [
+        "AUTH_SECRET"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "en-040",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "api-key-assignment",
+      "expectedCategories": [
+        "AUTH_SECRET",
+        "KEYWORD"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "ar-041",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "api-key-assignment",
+      "expectedCategories": [
+        "AUTH_SECRET",
+        "KEYWORD"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "en-042",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "api-key-assignment",
+      "expectedCategories": [
+        "AUTH_SECRET",
+        "KEYWORD"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "en-043",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "bearer-header",
+      "expectedCategories": [
+        "AUTH_SECRET",
+        "KEYWORD"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "ar-044",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "bearer-header",
+      "expectedCategories": [
+        "AUTH_SECRET",
+        "KEYWORD"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "en-045",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "bearer-header",
+      "expectedCategories": [
+        "AUTH_SECRET",
+        "KEYWORD"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "en-046",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "password",
+      "expectedCategories": [
+        "AUTH_SECRET",
+        "KEYWORD"
+      ],
+      "modelLabel": "PASSWORD",
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "ar-047",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "password",
+      "expectedCategories": [
+        "AUTH_SECRET",
+        "KEYWORD"
+      ],
+      "modelLabel": "PASSWORD",
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "en-048",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "password",
+      "expectedCategories": [
+        "AUTH_SECRET",
+        "KEYWORD"
+      ],
+      "modelLabel": "PASSWORD",
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "ar-049",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "password",
+      "expectedCategories": [
+        "AUTH_SECRET",
+        "KEYWORD"
+      ],
+      "modelLabel": "PASSWORD",
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "en-050",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "password",
+      "expectedCategories": [
+        "AUTH_SECRET",
+        "KEYWORD"
+      ],
+      "modelLabel": "PASSWORD",
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "en-051",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "otp",
+      "expectedCategories": [
+        "AUTH_SECRET"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "ar-052",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "otp",
+      "expectedCategories": [
+        "AUTH_SECRET"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "en-053",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "otp",
+      "expectedCategories": [
+        "AUTH_SECRET"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "en-054",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "iban",
+      "expectedCategories": [
+        "FINANCIAL"
+      ],
+      "expectedRisk": "HIGH",
+      "text": "Please check this IBAN before I send the transfer: SA19 1275 1856 6169 0925 8965"
+    },
+    {
+      "id": "ar-055",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "iban",
+      "expectedCategories": [
+        "FINANCIAL"
+      ],
+      "expectedRisk": "HIGH",
+      "text": "تأكد لي من هذا الآيبان قبل التحويل: SA06 8419 9323 2782 6971 4748"
+    },
+    {
+      "id": "en-056",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "iban",
+      "expectedCategories": [
+        "FINANCIAL"
+      ],
+      "expectedRisk": "HIGH",
+      "text": "Write a payment instruction to SA98 5926 7351 2665 1511 4378 for 4,500 riyals."
+    },
+    {
+      "id": "en-057",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "card",
+      "expectedCategories": [
+        "FINANCIAL"
+      ],
+      "modelLabel": "CREDIT_CARD",
+      "expectedRisk": "HIGH",
+      "text": "The payment page rejects my card 5109 9313 0567 3852."
+    },
+    {
+      "id": "ar-058",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "card",
+      "expectedCategories": [
+        "FINANCIAL"
+      ],
+      "modelLabel": "CREDIT_CARD",
+      "expectedRisk": "HIGH",
+      "text": "صفحة الدفع ترفض بطاقتي 5524214907285590."
+    },
+    {
+      "id": "en-059",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "card",
+      "expectedCategories": [
+        "FINANCIAL"
+      ],
+      "modelLabel": "CREDIT_CARD",
+      "expectedRisk": "HIGH",
+      "text": "Fill this refund form, card number 5232 6923 3000 7553."
+    },
+    {
+      "id": "ar-060",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "card",
+      "expectedCategories": [
+        "FINANCIAL"
+      ],
+      "modelLabel": "CREDIT_CARD",
+      "expectedRisk": "HIGH",
+      "text": "عبّي نموذج الاسترجاع، رقم البطاقة 4406553948239926."
+    },
+    {
+      "id": "en-061",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "card",
+      "expectedCategories": [
+        "FINANCIAL"
+      ],
+      "modelLabel": "CREDIT_CARD",
+      "expectedRisk": "HIGH",
+      "text": "The payment page rejects my card 4497 9640 7587 3520."
+    },
+    {
+      "id": "en-062",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "cvv",
+      "expectedCategories": [
+        "FINANCIAL"
+      ],
+      "modelLabel": "CREDIT_CARD_CVV",
+      "expectedRisk": "HIGH",
+      "text": "The CVV is 988 and the bank still declines."
+    },
+    {
+      "id": "ar-063",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "cvv",
+      "expectedCategories": [
+        "FINANCIAL"
+      ],
+      "modelLabel": "CREDIT_CARD_CVV",
+      "expectedRisk": "HIGH",
+      "text": "رمز الأمان 220 والبنك يرفض العملية."
+    },
+    {
+      "id": "en-064",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "cvv",
+      "expectedCategories": [
+        "FINANCIAL"
+      ],
+      "modelLabel": "CREDIT_CARD_CVV",
+      "expectedRisk": "HIGH",
+      "text": "They asked for cvv 477 over the phone, is that normal?"
+    },
+    {
+      "id": "ar-065",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "cvv",
+      "expectedCategories": [
+        "FINANCIAL"
+      ],
+      "modelLabel": "CREDIT_CARD_CVV",
+      "expectedRisk": "HIGH",
+      "text": "طلبوا مني cvv 152 بالتلفون، هل هذا طبيعي؟"
+    },
+    {
+      "id": "en-066",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "cvv",
+      "expectedCategories": [
+        "FINANCIAL"
+      ],
+      "modelLabel": "CREDIT_CARD_CVV",
+      "expectedRisk": "HIGH",
+      "text": "The CVV is 988 and the bank still declines."
+    },
+    {
+      "id": "en-067",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "swift",
+      "expectedCategories": [
+        "FINANCIAL"
+      ],
+      "expectedRisk": "HIGH",
+      "text": "The SWIFT code ANERAEFP is not accepted by the form."
+    },
+    {
+      "id": "ar-068",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "swift",
+      "expectedCategories": [
+        "FINANCIAL"
+      ],
+      "expectedRisk": "HIGH",
+      "text": "نموذج التحويل ما يقبل swift code PJCODEHP."
+    },
+    {
+      "id": "en-069",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "swift",
+      "expectedCategories": [
+        "FINANCIAL"
+      ],
+      "expectedRisk": "HIGH",
+      "text": "Which bank has BIC FQPEGBHP?"
+    },
+    {
+      "id": "en-070",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "bank-account",
+      "expectedCategories": [
+        "FINANCIAL"
+      ],
+      "modelLabel": "BANK_ACCOUNT",
+      "expectedRisk": "HIGH",
+      "text": "Salary should go to account number 64144880537296 from next month."
+    },
+    {
+      "id": "ar-071",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "bank-account",
+      "expectedCategories": [
+        "FINANCIAL"
+      ],
+      "modelLabel": "BANK_ACCOUNT",
+      "expectedRisk": "HIGH",
+      "text": "حوّلوا الراتب على رقم الحساب 07901556156763 من الشهر الجاي."
+    },
+    {
+      "id": "en-072",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "bank-account",
+      "expectedCategories": [
+        "FINANCIAL"
+      ],
+      "modelLabel": "BANK_ACCOUNT",
+      "expectedRisk": "HIGH",
+      "text": "Bank account no 47893435892457 was debited twice."
+    },
+    {
+      "id": "ar-073",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "bank-account",
+      "expectedCategories": [
+        "FINANCIAL"
+      ],
+      "modelLabel": "BANK_ACCOUNT",
+      "expectedRisk": "HIGH",
+      "text": "رقم الحساب 36847954724413 انخصم منه مرتين."
+    },
+    {
+      "id": "en-074",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "bank-account",
+      "expectedCategories": [
+        "FINANCIAL"
+      ],
+      "modelLabel": "BANK_ACCOUNT",
+      "expectedRisk": "HIGH",
+      "text": "Salary should go to account number 32276844054101 from next month."
+    },
+    {
+      "id": "en-075",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "saudi-id",
+      "expectedCategories": [
+        "PERSONAL_IDENTITY"
+      ],
+      "modelLabel": "NATIONAL_ID",
+      "expectedRisk": "HIGH",
+      "text": "Fill in the form for the employee with national ID 2997303041."
+    },
+    {
+      "id": "ar-076",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "saudi-id",
+      "expectedCategories": [
+        "PERSONAL_IDENTITY"
+      ],
+      "modelLabel": "NATIONAL_ID",
+      "expectedRisk": "HIGH",
+      "text": "عبّي النموذج للموظف صاحب الهوية 1194494033."
+    },
+    {
+      "id": "en-077",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "saudi-id",
+      "expectedCategories": [
+        "PERSONAL_IDENTITY"
+      ],
+      "modelLabel": "NATIONAL_ID",
+      "expectedRisk": "HIGH",
+      "text": "The applicant, ID 1741186751, asks for a reference letter."
+    },
+    {
+      "id": "ar-078",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "saudi-id",
+      "expectedCategories": [
+        "PERSONAL_IDENTITY"
+      ],
+      "modelLabel": "NATIONAL_ID",
+      "expectedRisk": "HIGH",
+      "text": "المتقدم برقم 2713656862 يطلب خطاب تعريف."
+    },
+    {
+      "id": "en-079",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "saudi-id",
+      "expectedCategories": [
+        "PERSONAL_IDENTITY"
+      ],
+      "modelLabel": "NATIONAL_ID",
+      "expectedRisk": "HIGH",
+      "text": "Fill in the form for the employee with national ID 1187474497."
+    },
+    {
+      "id": "en-080",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "passport",
+      "expectedCategories": [
+        "PERSONAL_IDENTITY"
+      ],
+      "modelLabel": "PASSPORT",
+      "expectedRisk": "HIGH",
+      "text": "Book the flight with passport number E62557456."
+    },
+    {
+      "id": "ar-081",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "passport",
+      "expectedCategories": [
+        "PERSONAL_IDENTITY"
+      ],
+      "modelLabel": "PASSPORT",
+      "expectedRisk": "HIGH",
+      "text": "احجز الرحلة برقم الجواز M84680087."
+    },
+    {
+      "id": "en-082",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "passport",
+      "expectedCategories": [
+        "PERSONAL_IDENTITY"
+      ],
+      "modelLabel": "PASSPORT",
+      "expectedRisk": "HIGH",
+      "text": "My passport G08398643 expires in March, can I still travel?"
+    },
+    {
+      "id": "ar-083",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "passport",
+      "expectedCategories": [
+        "PERSONAL_IDENTITY"
+      ],
+      "modelLabel": "PASSPORT",
+      "expectedRisk": "HIGH",
+      "text": "جواز السفر A49396348 ينتهي في مارس، أقدر أسافر؟"
+    },
+    {
+      "id": "en-084",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "passport",
+      "expectedCategories": [
+        "PERSONAL_IDENTITY"
+      ],
+      "modelLabel": "PASSPORT",
+      "expectedRisk": "HIGH",
+      "text": "Book the flight with passport number T25868838."
+    },
+    {
+      "id": "en-085",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "ssn",
+      "expectedCategories": [
+        "PERSONAL_IDENTITY"
+      ],
+      "expectedRisk": "HIGH",
+      "text": "The tax form needs my social security number, 496-81-1010."
+    },
+    {
+      "id": "ar-086",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "ssn",
+      "expectedCategories": [
+        "PERSONAL_IDENTITY"
+      ],
+      "expectedRisk": "HIGH",
+      "text": "نموذج الضريبة يطلب الرقم 597-88-8312."
+    },
+    {
+      "id": "en-087",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "ssn",
+      "expectedCategories": [
+        "PERSONAL_IDENTITY"
+      ],
+      "expectedRisk": "HIGH",
+      "text": "Is it safe to email 327-45-6110 to HR?"
+    },
+    {
+      "id": "en-088",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "licence-id",
+      "expectedCategories": [
+        "PERSONAL_IDENTITY"
+      ],
+      "modelLabel": "DRIVER_LICENSE",
+      "expectedRisk": "HIGH",
+      "text": "Renew the driver's license number R24186985 online."
+    },
+    {
+      "id": "ar-089",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "licence-id",
+      "expectedCategories": [
+        "PERSONAL_IDENTITY"
+      ],
+      "modelLabel": "DRIVER_LICENSE",
+      "expectedRisk": "HIGH",
+      "text": "جدّد لي رخصة القيادة، رقم الإقامة J38800830."
+    },
+    {
+      "id": "en-090",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "licence-id",
+      "expectedCategories": [
+        "PERSONAL_IDENTITY"
+      ],
+      "modelLabel": "DRIVER_LICENSE",
+      "expectedRisk": "HIGH",
+      "text": "Update the record for employee id F11915961."
+    },
+    {
+      "id": "ar-091",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "licence-id",
+      "expectedCategories": [
+        "PERSONAL_IDENTITY"
+      ],
+      "modelLabel": "DRIVER_LICENSE",
+      "expectedRisk": "HIGH",
+      "text": "حدّث سجل الموظف، رقم الهوية E30045610."
+    },
+    {
+      "id": "en-092",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "licence-id",
+      "expectedCategories": [
+        "PERSONAL_IDENTITY"
+      ],
+      "modelLabel": "DRIVER_LICENSE",
+      "expectedRisk": "HIGH",
+      "text": "Renew the driver's license number Q07615307 online."
+    },
+    {
+      "id": "en-093",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "mrn",
+      "expectedCategories": [
+        "HEALTH"
+      ],
+      "modelLabel": "MEDICAL_ID",
+      "expectedRisk": "HIGH",
+      "text": "Summarise the visit notes for MRN 94140131."
+    },
+    {
+      "id": "ar-094",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "mrn",
+      "expectedCategories": [
+        "HEALTH"
+      ],
+      "modelLabel": "MEDICAL_ID",
+      "expectedRisk": "HIGH",
+      "text": "لخّص ملاحظات الزيارة، رقم الملف الطبي 08787413."
+    },
+    {
+      "id": "en-095",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "mrn",
+      "expectedCategories": [
+        "HEALTH"
+      ],
+      "modelLabel": "MEDICAL_ID",
+      "expectedRisk": "HIGH",
+      "text": "The lab result belongs to medical record number 09690494."
+    },
+    {
+      "id": "ar-096",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "mrn",
+      "expectedCategories": [
+        "HEALTH"
+      ],
+      "modelLabel": "MEDICAL_ID",
+      "expectedRisk": "HIGH",
+      "text": "نتيجة التحليل تخص رقم الملف الطبي 19932155."
+    },
+    {
+      "id": "en-097",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "mrn",
+      "expectedCategories": [
+        "HEALTH"
+      ],
+      "modelLabel": "MEDICAL_ID",
+      "expectedRisk": "HIGH",
+      "text": "Summarise the visit notes for MRN 91089728."
+    },
+    {
+      "id": "en-098",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "icd",
+      "expectedCategories": [
+        "HEALTH"
+      ],
+      "expectedRisk": "HIGH",
+      "text": "The patient was given diagnosis code E11.6, what does it mean for insurance?"
+    },
+    {
+      "id": "ar-099",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "icd",
+      "expectedCategories": [
+        "HEALTH"
+      ],
+      "expectedRisk": "HIGH",
+      "text": "المريض تشخيصه diagnosis code F32.5 وش يعني للتأمين؟"
+    },
+    {
+      "id": "en-100",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "icd",
+      "expectedCategories": [
+        "HEALTH"
+      ],
+      "expectedRisk": "HIGH",
+      "text": "Explain ICD-10 code E11.0 in simple words for the family."
+    },
+    {
+      "id": "en-101",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "email",
+      "expectedCategories": [
+        "CONTACT"
+      ],
+      "modelLabel": "EMAIL",
+      "expectedRisk": "MEDIUM",
+      "text": "Please reply to omar.lindqvist@example.org about the invoice."
+    },
+    {
+      "id": "ar-102",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "email",
+      "expectedCategories": [
+        "CONTACT"
+      ],
+      "modelLabel": "EMAIL",
+      "expectedRisk": "MEDIUM",
+      "text": "رد على hana.rahimi@example.net بخصوص الفاتورة."
+    },
+    {
+      "id": "en-103",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "email",
+      "expectedCategories": [
+        "CONTACT"
+      ],
+      "modelLabel": "EMAIL",
+      "expectedRisk": "MEDIUM",
+      "text": "Add lina.whitmore@example.org to the meeting invite."
+    },
+    {
+      "id": "ar-104",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "email",
+      "expectedCategories": [
+        "CONTACT"
+      ],
+      "modelLabel": "EMAIL",
+      "expectedRisk": "MEDIUM",
+      "text": "أضف maria.haddad@example.org لدعوة الاجتماع."
+    },
+    {
+      "id": "en-105",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "email",
+      "expectedCategories": [
+        "CONTACT"
+      ],
+      "modelLabel": "EMAIL",
+      "expectedRisk": "MEDIUM",
+      "text": "Please reply to omar.okafor@example.net about the invoice."
+    },
+    {
+      "id": "en-106",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "saudi-mobile",
+      "expectedCategories": [
+        "CONTACT"
+      ],
+      "modelLabel": "PHONE",
+      "expectedRisk": "MEDIUM",
+      "text": "Call me back on 0573132192 after five."
+    },
+    {
+      "id": "ar-107",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "saudi-mobile",
+      "expectedCategories": [
+        "CONTACT"
+      ],
+      "modelLabel": "PHONE",
+      "expectedRisk": "MEDIUM",
+      "text": "كلمني على +966578391662 بعد العصر."
+    },
+    {
+      "id": "en-108",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "saudi-mobile",
+      "expectedCategories": [
+        "CONTACT"
+      ],
+      "modelLabel": "PHONE",
+      "expectedRisk": "MEDIUM",
+      "text": "Send the delivery code to +966578886369."
+    },
+    {
+      "id": "ar-109",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "saudi-mobile",
+      "expectedCategories": [
+        "CONTACT"
+      ],
+      "modelLabel": "PHONE",
+      "expectedRisk": "MEDIUM",
+      "text": "أرسل رمز التوصيل على +966505642546."
+    },
+    {
+      "id": "en-110",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "intl-phone",
+      "expectedCategories": [
+        "CONTACT"
+      ],
+      "modelLabel": "PHONE",
+      "expectedRisk": "MEDIUM",
+      "text": "The supplier can be reached at +44 632 241 6558."
+    },
+    {
+      "id": "ar-111",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "intl-phone",
+      "expectedCategories": [
+        "CONTACT"
+      ],
+      "modelLabel": "PHONE",
+      "expectedRisk": "MEDIUM",
+      "text": "المورد رقمه +49 230 644 4376."
+    },
+    {
+      "id": "en-112",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "intl-phone",
+      "expectedCategories": [
+        "CONTACT"
+      ],
+      "modelLabel": "PHONE",
+      "expectedRisk": "MEDIUM",
+      "text": "Format +971 506 837 3138 for a business card."
+    },
+    {
+      "id": "en-113",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "ipv4",
+      "expectedCategories": [
+        "NETWORK"
+      ],
+      "modelLabel": "IP_ADDRESS",
+      "expectedRisk": "MEDIUM",
+      "text": "The server at 172.175.98.223 stopped answering pings."
+    },
+    {
+      "id": "ar-114",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "ipv4",
+      "expectedCategories": [
+        "NETWORK"
+      ],
+      "modelLabel": "IP_ADDRESS",
+      "expectedRisk": "MEDIUM",
+      "text": "السيرفر 192.88.94.127 ما يرد على ping."
+    },
+    {
+      "id": "en-115",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "ipv4",
+      "expectedCategories": [
+        "NETWORK"
+      ],
+      "modelLabel": "IP_ADDRESS",
+      "expectedRisk": "MEDIUM",
+      "text": "Open port 443 on 192.241.3.98 in the firewall rule."
+    },
+    {
+      "id": "ar-116",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "ipv4",
+      "expectedCategories": [
+        "NETWORK"
+      ],
+      "modelLabel": "IP_ADDRESS",
+      "expectedRisk": "MEDIUM",
+      "text": "افتح منفذ 443 على 192.120.184.88 في الجدار الناري."
+    },
+    {
+      "id": "en-117",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "ipv6",
+      "expectedCategories": [
+        "NETWORK"
+      ],
+      "modelLabel": "IP_ADDRESS",
+      "expectedRisk": "MEDIUM",
+      "text": "Why can I not reach 2001:db8:f8be:1f9c:9f8f:073f:5469:cea3 from the office?"
+    },
+    {
+      "id": "ar-118",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "ipv6",
+      "expectedCategories": [
+        "NETWORK"
+      ],
+      "modelLabel": "IP_ADDRESS",
+      "expectedRisk": "MEDIUM",
+      "text": "ليش ما أوصل لـ 2001:db8:371c:25f6:7637:b5e8:0bac:07fa من المكتب؟"
+    },
+    {
+      "id": "en-119",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "ipv6",
+      "expectedCategories": [
+        "NETWORK"
+      ],
+      "modelLabel": "IP_ADDRESS",
+      "expectedRisk": "MEDIUM",
+      "text": "Add a AAAA record for 2001:db8:c508:fb91:6ef0:36bf:5b95:84d3."
+    },
+    {
+      "id": "en-120",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "mac",
+      "expectedCategories": [
+        "NETWORK"
+      ],
+      "modelLabel": "MAC_ADDRESS",
+      "expectedRisk": "MEDIUM",
+      "text": "Whitelist the laptop with MAC F4:65:70:58:AC:DD on the router."
+    },
+    {
+      "id": "ar-121",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "mac",
+      "expectedCategories": [
+        "NETWORK"
+      ],
+      "modelLabel": "MAC_ADDRESS",
+      "expectedRisk": "MEDIUM",
+      "text": "اسمح للابتوب صاحب الماك C7:8E:DF:EC:72:EB على الراوتر."
+    },
+    {
+      "id": "en-122",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "mac",
+      "expectedCategories": [
+        "NETWORK"
+      ],
+      "modelLabel": "MAC_ADDRESS",
+      "expectedRisk": "MEDIUM",
+      "text": "Which vendor makes the card 76:1C:A0:F3:39:89?"
+    },
+    {
+      "id": "ar-123",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "mac",
+      "expectedCategories": [
+        "NETWORK"
+      ],
+      "modelLabel": "MAC_ADDRESS",
+      "expectedRisk": "MEDIUM",
+      "text": "أي شركة تصنع الكرت C9:0C:B9:A8:7C:64؟"
+    },
+    {
+      "id": "en-124",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "mac",
+      "expectedCategories": [
+        "NETWORK"
+      ],
+      "modelLabel": "MAC_ADDRESS",
+      "expectedRisk": "MEDIUM",
+      "text": "Whitelist the laptop with MAC B8:2B:90:D0:8C:17 on the router."
+    },
+    {
+      "id": "en-125",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "url",
+      "expectedCategories": [
+        "WEB_LINK"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "Summarise the page at https://intranet.example.com/hr/2025/doc?id=9778."
+    },
+    {
+      "id": "ar-126",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "url",
+      "expectedCategories": [
+        "WEB_LINK"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "لخّص الصفحة https://intranet.example.com/projects/2024/doc?id=50511."
+    },
+    {
+      "id": "en-127",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "url",
+      "expectedCategories": [
+        "WEB_LINK"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "The link https://intranet.example.com/hr/2024/doc?id=34550 gives a 404 for my colleague."
+    },
+    {
+      "id": "ar-128",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "url",
+      "expectedCategories": [
+        "WEB_LINK"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "الرابط https://intranet.example.com/finance/2025/doc?id=74025 ما يفتح عند زميلي."
+    },
+    {
+      "id": "en-129",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "url",
+      "expectedCategories": [
+        "WEB_LINK"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "Summarise the page at https://intranet.example.com/projects/2026/doc?id=69946."
+    },
+    {
+      "id": "en-130",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "gps",
+      "expectedCategories": [
+        "LOCATION"
+      ],
+      "modelLabel": "COORDINATE",
+      "expectedRisk": "MEDIUM",
+      "text": "The site is at 30.0914, 55.1184, how far is it from the port?"
+    },
+    {
+      "id": "ar-131",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "gps",
+      "expectedCategories": [
+        "LOCATION"
+      ],
+      "modelLabel": "COORDINATE",
+      "expectedRisk": "MEDIUM",
+      "text": "الموقع عند 30.2133, 53.4066 كم يبعد عن الميناء؟"
+    },
+    {
+      "id": "en-132",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "gps",
+      "expectedCategories": [
+        "LOCATION"
+      ],
+      "modelLabel": "COORDINATE",
+      "expectedRisk": "MEDIUM",
+      "text": "Put a pin at 27.9120, 45.2434 on the map for the driver."
+    },
+    {
+      "id": "ar-133",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "gps",
+      "expectedCategories": [
+        "LOCATION"
+      ],
+      "modelLabel": "COORDINATE",
+      "expectedRisk": "MEDIUM",
+      "text": "حط علامة عند 25.9065, 38.4865 للسائق."
+    },
+    {
+      "id": "en-134",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "gps",
+      "expectedCategories": [
+        "LOCATION"
+      ],
+      "modelLabel": "COORDINATE",
+      "expectedRisk": "MEDIUM",
+      "text": "The site is at 28.1180, 49.2443, how far is it from the port?"
+    },
+    {
+      "id": "en-135",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "vin",
+      "expectedCategories": [
+        "VEHICLE"
+      ],
+      "modelLabel": "VEHICLE_ID",
+      "expectedRisk": "MEDIUM",
+      "text": "Check the recall status of the car with VIN 1HGGJ844PCN970091."
+    },
+    {
+      "id": "ar-136",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "vin",
+      "expectedCategories": [
+        "VEHICLE"
+      ],
+      "modelLabel": "VEHICLE_ID",
+      "expectedRisk": "MEDIUM",
+      "text": "تأكد من استدعاءات السيارة، رقم الهيكل 1HGBJ456KKZ611097."
+    },
+    {
+      "id": "en-137",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "vin",
+      "expectedCategories": [
+        "VEHICLE"
+      ],
+      "modelLabel": "VEHICLE_ID",
+      "expectedRisk": "MEDIUM",
+      "text": "The insurance form asks for chassis number 1HGUG428TLD713355."
+    },
+    {
+      "id": "ar-138",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "vin",
+      "expectedCategories": [
+        "VEHICLE"
+      ],
+      "modelLabel": "VEHICLE_ID",
+      "expectedRisk": "MEDIUM",
+      "text": "نموذج التأمين يطلب رقم الهيكل 1HGJK682UFK509720."
+    },
+    {
+      "id": "en-139",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "vin",
+      "expectedCategories": [
+        "VEHICLE"
+      ],
+      "modelLabel": "VEHICLE_ID",
+      "expectedRisk": "MEDIUM",
+      "text": "Check the recall status of the car with VIN 1HGZP775VPL740906."
+    },
+    {
+      "id": "en-140",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "saudi-vat",
+      "expectedCategories": [
+        "CORPORATE"
+      ],
+      "modelLabel": "TAX_ID",
+      "expectedRisk": "MEDIUM",
+      "text": "Put VAT number 384470141498943 on the invoice template."
+    },
+    {
+      "id": "ar-141",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "saudi-vat",
+      "expectedCategories": [
+        "CORPORATE"
+      ],
+      "modelLabel": "TAX_ID",
+      "expectedRisk": "MEDIUM",
+      "text": "حط الرقم الضريبي 301742690768253 في قالب الفاتورة."
+    },
+    {
+      "id": "en-142",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "saudi-vat",
+      "expectedCategories": [
+        "CORPORATE"
+      ],
+      "modelLabel": "TAX_ID",
+      "expectedRisk": "MEDIUM",
+      "text": "Is 307658325986483 a valid VAT registration?"
+    },
+    {
+      "id": "en-143",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "cr",
+      "expectedCategories": [
+        "CORPORATE"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "Our commercial registration 4030361654 needs renewing."
+    },
+    {
+      "id": "ar-144",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "cr",
+      "expectedCategories": [
+        "CORPORATE"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "السجل التجاري 2050417395 يحتاج تجديد."
+    },
+    {
+      "id": "en-145",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "cr",
+      "expectedCategories": [
+        "CORPORATE"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "The contract must mention CR number 1010394906."
+    },
+    {
+      "id": "en-146",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "windows-path",
+      "expectedCategories": [
+        "FILE_PATH"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "Excel cannot open C:\\Users\\hana.nasser\\Documents\\contracts_2025.xlsx since the update."
+    },
+    {
+      "id": "ar-147",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "windows-path",
+      "expectedCategories": [
+        "FILE_PATH"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "الإكسل ما يفتح C:\\Users\\hana.okafor\\Documents\\contracts_2026.xlsx بعد التحديث."
+    },
+    {
+      "id": "en-148",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "windows-path",
+      "expectedCategories": [
+        "FILE_PATH"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "Write a script that backs up C:\\Users\\yusuf.whitmore\\Documents\\contracts_2025.xlsx every night."
+    },
+    {
+      "id": "en-149",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "unix-path",
+      "expectedCategories": [
+        "FILE_PATH"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "The service cannot read /home/lina/backups/config/database.yml , permission denied."
+    },
+    {
+      "id": "ar-150",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "unix-path",
+      "expectedCategories": [
+        "FILE_PATH"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "الخدمة ما تقدر تقرأ /home/omar/projects/config/settings.yml بسبب الصلاحيات."
+    },
+    {
+      "id": "en-151",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "unix-path",
+      "expectedCategories": [
+        "FILE_PATH"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "What should the owner of /home/lina/app/config/settings.yml be?"
+    },
+    {
+      "id": "en-152",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "secret-file",
+      "expectedCategories": [
+        "FILE_PATH"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "I committed my id_rsa file, what now?"
+    },
+    {
+      "id": "ar-153",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "secret-file",
+      "expectedCategories": [
+        "FILE_PATH"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "رفعت ملف .env بالغلط، وش أسوي؟"
+    },
+    {
+      "id": "en-154",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "secret-file",
+      "expectedCategories": [
+        "FILE_PATH"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "Should id_rsa be listed in .gitignore?"
+    },
+    {
+      "id": "en-155",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "uuid",
+      "expectedCategories": [
+        "FINGERPRINT"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "Find the log lines for session c7e3704e-ba19-4838-ad26-174e8b21cd2c."
+    },
+    {
+      "id": "ar-156",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "uuid",
+      "expectedCategories": [
+        "FINGERPRINT"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "طلّع لي سطور السجل للجلسة 6e0f42d0-7f4b-4235-ae89-be17ac30d9e7."
+    },
+    {
+      "id": "en-157",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "uuid",
+      "expectedCategories": [
+        "FINGERPRINT"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "The record 77142399-0c2b-47d4-a00c-78e5192b99b4 is duplicated in two tables."
+    },
+    {
+      "id": "en-158",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "hash",
+      "expectedCategories": [
+        "FINGERPRINT"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "Does the checksum ae2b189162679e9cfeb706200b0ee2ea044bafa293eda34b5b9bf837d065ba5f match the download?"
+    },
+    {
+      "id": "ar-159",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "hash",
+      "expectedCategories": [
+        "FINGERPRINT"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "هل البصمة 739f6150ec332bc860da8af1cf32377a9230864251b37540386df05b11215ec1 تطابق الملف؟"
+    },
+    {
+      "id": "en-160",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "hash",
+      "expectedCategories": [
+        "FINGERPRINT"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "Which algorithm produced d337ef4137ea9a39f74b2d8e37bf3a4e49ec41cfc36d341a0433d158069484fc?"
+    },
+    {
+      "id": "en-161",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "imei",
+      "expectedCategories": [
+        "FINGERPRINT"
+      ],
+      "modelLabel": "DEVICE_ID",
+      "expectedRisk": "MEDIUM",
+      "text": "Block the stolen phone, IMEI 352339670182795."
+    },
+    {
+      "id": "ar-162",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "imei",
+      "expectedCategories": [
+        "FINGERPRINT"
+      ],
+      "modelLabel": "DEVICE_ID",
+      "expectedRisk": "MEDIUM",
+      "text": "احظر الجوال المسروق، IMEI 359192910979873."
+    },
+    {
+      "id": "en-163",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "imei",
+      "expectedCategories": [
+        "FINGERPRINT"
+      ],
+      "modelLabel": "DEVICE_ID",
+      "expectedRisk": "MEDIUM",
+      "text": "The carrier asks for imei 357146520142613 to unlock it."
+    },
+    {
+      "id": "en-164",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "tracking",
+      "expectedCategories": [
+        "SHIPPING"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "Where is the parcel with tracking number 1Z767969001284?"
+    },
+    {
+      "id": "ar-165",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "tracking",
+      "expectedCategories": [
+        "SHIPPING"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "وين وصلت الشحنة، رقم التتبع SMSA757583992766؟"
+    },
+    {
+      "id": "en-166",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "tracking",
+      "expectedCategories": [
+        "SHIPPING"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "The courier lost shipment, tracking no TRK883786573537."
+    },
+    {
+      "id": "ar-167",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "tracking",
+      "expectedCategories": [
+        "SHIPPING"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "شركة الشحن ضيعت الطرد، رقم الشحنة SMSA190525598138."
+    },
+    {
+      "id": "en-168",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "tracking",
+      "expectedCategories": [
+        "SHIPPING"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "Where is the parcel with tracking number 1Z690467098358?"
+    },
+    {
+      "id": "en-169",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "account-id",
+      "expectedCategories": [
+        "ACCOUNT"
+      ],
+      "modelLabel": "ACCOUNT_ID",
+      "expectedRisk": "MEDIUM",
+      "text": "Close the subscription for customer id CUS-04626410."
+    },
+    {
+      "id": "ar-170",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "account-id",
+      "expectedCategories": [
+        "ACCOUNT"
+      ],
+      "modelLabel": "ACCOUNT_ID",
+      "expectedRisk": "MEDIUM",
+      "text": "أغلق اشتراك العميل، رقم العميل CUS-29353436."
+    },
+    {
+      "id": "en-171",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "account-id",
+      "expectedCategories": [
+        "ACCOUNT"
+      ],
+      "modelLabel": "ACCOUNT_ID",
+      "expectedRisk": "MEDIUM",
+      "text": "Customer number CUS-12496014 was billed twice."
+    },
+    {
+      "id": "ar-172",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "account-id",
+      "expectedCategories": [
+        "ACCOUNT"
+      ],
+      "modelLabel": "ACCOUNT_ID",
+      "expectedRisk": "MEDIUM",
+      "text": "رقم العميل CUS-16255763 انحسب عليه مرتين."
+    },
+    {
+      "id": "en-173",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "account-id",
+      "expectedCategories": [
+        "ACCOUNT"
+      ],
+      "modelLabel": "ACCOUNT_ID",
+      "expectedRisk": "MEDIUM",
+      "text": "Close the subscription for customer id CUS-97979236."
+    },
+    {
+      "id": "en-174",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "dob",
+      "expectedCategories": [
+        "DATETIME"
+      ],
+      "modelLabel": "DATE_OF_BIRTH",
+      "expectedRisk": "MEDIUM",
+      "text": "The form needs my date of birth, 22/8/1975."
+    },
+    {
+      "id": "ar-175",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "dob",
+      "expectedCategories": [
+        "DATETIME"
+      ],
+      "modelLabel": "DATE_OF_BIRTH",
+      "expectedRisk": "MEDIUM",
+      "text": "النموذج يطلب تاريخ الميلاد 13/7/1982."
+    },
+    {
+      "id": "en-176",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "dob",
+      "expectedCategories": [
+        "DATETIME"
+      ],
+      "modelLabel": "DATE_OF_BIRTH",
+      "expectedRisk": "MEDIUM",
+      "text": "Patient birth date 21/11/2001, calculate the age today."
+    },
+    {
+      "id": "ar-177",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "dob",
+      "expectedCategories": [
+        "DATETIME"
+      ],
+      "modelLabel": "DATE_OF_BIRTH",
+      "expectedRisk": "MEDIUM",
+      "text": "تاريخ ميلاد المريض 15/10/1995 احسب العمر."
+    },
+    {
+      "id": "en-178",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "dob",
+      "expectedCategories": [
+        "DATETIME"
+      ],
+      "modelLabel": "DATE_OF_BIRTH",
+      "expectedRisk": "MEDIUM",
+      "text": "The form needs my date of birth, 19/12/1995."
+    },
+    {
+      "id": "en-179",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "user-agent",
+      "expectedCategories": [
+        "LOGS"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "What browser is this from our access log?\nMozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+    },
+    {
+      "id": "ar-180",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "user-agent",
+      "expectedCategories": [
+        "LOGS"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "أي متصفح هذا من سجل الدخول؟\nMozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+    },
+    {
+      "id": "en-181",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "user-agent",
+      "expectedCategories": [
+        "LOGS"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "Parse this header line:\nMozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+    },
+    {
+      "id": "ar-182",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "user-agent",
+      "expectedCategories": [
+        "LOGS"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "حلل لي هذا السطر:\nMozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+    },
+    {
+      "id": "en-183",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "user-agent",
+      "expectedCategories": [
+        "LOGS"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "What browser is this from our access log?\nMozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
+    },
+    {
+      "id": "en-184",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "student-id",
+      "expectedCategories": [
+        "EDUCATION"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "Register student id 440417194 for the makeup exam."
+    },
+    {
+      "id": "ar-185",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "student-id",
+      "expectedCategories": [
+        "EDUCATION"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "سجّل الطالب صاحب الرقم الجامعي 449397498 في الاختبار البديل."
+    },
+    {
+      "id": "en-186",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "student-id",
+      "expectedCategories": [
+        "EDUCATION"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "The transcript for university id 445396205 has a wrong grade."
+    },
+    {
+      "id": "ar-187",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "student-id",
+      "expectedCategories": [
+        "EDUCATION"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "كشف الدرجات للرقم الجامعي 445185960 فيه درجة غلط."
+    },
+    {
+      "id": "en-188",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "student-id",
+      "expectedCategories": [
+        "EDUCATION"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "Register student id 442793918 for the makeup exam."
+    },
+    {
+      "id": "en-189",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "long-number",
+      "expectedCategories": [
+        "NUMERIC"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "My insurance policy 759551110204 was cancelled without notice."
+    },
+    {
+      "id": "ar-190",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "long-number",
+      "expectedCategories": [
+        "NUMERIC"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "وثيقة التأمين حقتي 041886185887 انلغت بدون إشعار."
+    },
+    {
+      "id": "en-191",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "long-number",
+      "expectedCategories": [
+        "NUMERIC"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "The meter 116235895722 shows a wrong reading."
+    },
+    {
+      "id": "ar-192",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "long-number",
+      "expectedCategories": [
+        "NUMERIC"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "العداد 837610701007 قراءته غلط."
+    },
+    {
+      "id": "en-193",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "long-number",
+      "expectedCategories": [
+        "NUMERIC"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "My insurance policy 443264470262 was cancelled without notice."
+    },
+    {
+      "id": "en-194",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "keyword-only",
+      "expectedCategories": [
+        "KEYWORD"
+      ],
+      "expectedRisk": "LOW",
+      "text": "How should a small team store a shared password safely?"
+    },
+    {
+      "id": "ar-195",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "keyword-only",
+      "expectedCategories": [
+        "KEYWORD"
+      ],
+      "expectedRisk": "LOW",
+      "text": "ما أفضل طريقة لحفظ كلمة المرور بين فريق صغير؟"
+    },
+    {
+      "id": "en-196",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "keyword-only",
+      "expectedCategories": [
+        "KEYWORD"
+      ],
+      "expectedRisk": "LOW",
+      "text": "Explain what a refresh token is in OAuth."
+    },
+    {
+      "id": "ar-197",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "keyword-only",
+      "expectedCategories": [
+        "KEYWORD"
+      ],
+      "expectedRisk": "LOW",
+      "text": "اشرح لي وش هو التوكن في OAuth."
+    },
+    {
+      "id": "en-198",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "keyword-only",
+      "expectedCategories": [
+        "KEYWORD"
+      ],
+      "expectedRisk": "LOW",
+      "text": "Write a notice that this document is confidential."
+    },
+    {
+      "id": "ar-199",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "keyword-only",
+      "expectedCategories": [
+        "KEYWORD"
+      ],
+      "expectedRisk": "LOW",
+      "text": "اكتب تنبيه أن هذه معلومات سرية."
+    },
+    {
+      "id": "en-200",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "person",
+      "expectedCategories": [
+        "PERSONAL_IDENTITY"
+      ],
+      "modelLabel": "PERSON",
+      "expectedRisk": "MEDIUM",
+      "text": "Please draft an offer letter for Peter Lindqvist."
+    },
+    {
+      "id": "ar-201",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "person",
+      "expectedCategories": [
+        "PERSONAL_IDENTITY"
+      ],
+      "modelLabel": "PERSON",
+      "expectedRisk": "MEDIUM",
+      "text": "اكتب خطاب شكر للموظف سلمان القحطاني."
+    },
+    {
+      "id": "en-202",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "person",
+      "expectedCategories": [
+        "PERSONAL_IDENTITY"
+      ],
+      "modelLabel": "PERSON",
+      "expectedRisk": "MEDIUM",
+      "text": "Write a short reference for my colleague Thomas Brennan."
+    },
+    {
+      "id": "ar-203",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "person",
+      "expectedCategories": [
+        "PERSONAL_IDENTITY"
+      ],
+      "modelLabel": "PERSON",
+      "expectedRisk": "MEDIUM",
+      "text": "جهّز تقييم أداء لـ فهد الدوسري."
+    },
+    {
+      "id": "en-204",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "person",
+      "expectedCategories": [
+        "PERSONAL_IDENTITY"
+      ],
+      "modelLabel": "PERSON",
+      "expectedRisk": "MEDIUM",
+      "text": "Grace Okafor complained about the last delivery, write an apology."
+    },
+    {
+      "id": "ar-205",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "person",
+      "expectedCategories": [
+        "PERSONAL_IDENTITY"
+      ],
+      "modelLabel": "PERSON",
+      "expectedRisk": "MEDIUM",
+      "text": "العميلة هند المطيري تشتكي من التأخير، اكتب رد اعتذار."
+    },
+    {
+      "id": "en-206",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "address",
+      "expectedCategories": [
+        "LOCATION"
+      ],
+      "modelLabel": "STREET_ADDRESS",
+      "expectedRisk": "MEDIUM",
+      "text": "Deliver the documents to 7151 Oak Avenue, Apt 35, Riverton before noon."
+    },
+    {
+      "id": "ar-207",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "address",
+      "expectedCategories": [
+        "LOCATION"
+      ],
+      "modelLabel": "STREET_ADDRESS",
+      "expectedRisk": "MEDIUM",
+      "text": "وصّل الأوراق إلى شارع التحلية، مبنى 59، حي الروضة قبل الظهر."
+    },
+    {
+      "id": "en-208",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "address",
+      "expectedCategories": [
+        "LOCATION"
+      ],
+      "modelLabel": "STREET_ADDRESS",
+      "expectedRisk": "MEDIUM",
+      "text": "The tenant at 8171 Maple Street, Apt 23, Lakewood is two months late on rent."
+    },
+    {
+      "id": "ar-209",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "address",
+      "expectedCategories": [
+        "LOCATION"
+      ],
+      "modelLabel": "STREET_ADDRESS",
+      "expectedRisk": "MEDIUM",
+      "text": "المستأجر في شارع التحلية، مبنى 52، حي النرجس متأخر شهرين."
+    },
+    {
+      "id": "en-210",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "address",
+      "expectedCategories": [
+        "LOCATION"
+      ],
+      "modelLabel": "STREET_ADDRESS",
+      "expectedRisk": "MEDIUM",
+      "text": "Send the technician to 7159 Harbor Road, Apt 11, Lakewood tomorrow."
+    },
+    {
+      "id": "ar-211",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "address",
+      "expectedCategories": [
+        "LOCATION"
+      ],
+      "modelLabel": "STREET_ADDRESS",
+      "expectedRisk": "MEDIUM",
+      "text": "أرسل الفني إلى شارع الأمير سلطان، مبنى 31، حي النرجس بكرة."
+    },
+    {
+      "id": "en-212",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "username",
+      "expectedCategories": [
+        "ACCOUNT"
+      ],
+      "modelLabel": "USERNAME",
+      "expectedRisk": "MEDIUM",
+      "text": "My username is yusuf_nass85 and I cannot log in."
+    },
+    {
+      "id": "ar-213",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "username",
+      "expectedCategories": [
+        "ACCOUNT"
+      ],
+      "modelLabel": "USERNAME",
+      "expectedRisk": "MEDIUM",
+      "text": "اسم المستخدم حقي maria_okaf34 وما أقدر أدخل."
+    },
+    {
+      "id": "en-214",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "username",
+      "expectedCategories": [
+        "ACCOUNT"
+      ],
+      "modelLabel": "USERNAME",
+      "expectedRisk": "MEDIUM",
+      "text": "Reset the account of user yusuf_okaf94 please."
+    },
+    {
+      "id": "ar-215",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "username",
+      "expectedCategories": [
+        "ACCOUNT"
+      ],
+      "modelLabel": "USERNAME",
+      "expectedRisk": "MEDIUM",
+      "text": "أعد تفعيل حساب المستخدم omar_nass99."
+    },
+    {
+      "id": "en-216",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "username",
+      "expectedCategories": [
+        "ACCOUNT"
+      ],
+      "modelLabel": "USERNAME",
+      "expectedRisk": "MEDIUM",
+      "text": "The login maria_sale91 is locked after three tries."
+    },
+    {
+      "id": "ar-217",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "username",
+      "expectedCategories": [
+        "ACCOUNT"
+      ],
+      "modelLabel": "USERNAME",
+      "expectedRisk": "MEDIUM",
+      "text": "الحساب maria_rahi76 انقفل بعد ثلاث محاولات."
+    },
+    {
+      "id": "en-218",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "tax-id",
+      "expectedCategories": [
+        "CORPORATE"
+      ],
+      "modelLabel": "TAX_ID",
+      "expectedRisk": "MEDIUM",
+      "text": "Our tax ID is 31-7595514, put it on the W-9."
+    },
+    {
+      "id": "ar-219",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "tax-id",
+      "expectedCategories": [
+        "CORPORATE"
+      ],
+      "modelLabel": "TAX_ID",
+      "expectedRisk": "MEDIUM",
+      "text": "الرقم الضريبي للشركة 12-8832642 أضفه للنموذج."
+    },
+    {
+      "id": "en-220",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "tax-id",
+      "expectedCategories": [
+        "CORPORATE"
+      ],
+      "modelLabel": "TAX_ID",
+      "expectedRisk": "MEDIUM",
+      "text": "The vendor form asks for the employer tax ID 30-8330176."
+    },
+    {
+      "id": "ar-221",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "tax-id",
+      "expectedCategories": [
+        "CORPORATE"
+      ],
+      "modelLabel": "TAX_ID",
+      "expectedRisk": "MEDIUM",
+      "text": "نموذج المورد يطلب الرقم الضريبي 90-1796961."
+    },
+    {
+      "id": "en-222",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "tax-id",
+      "expectedCategories": [
+        "CORPORATE"
+      ],
+      "modelLabel": "TAX_ID",
+      "expectedRisk": "MEDIUM",
+      "text": "Is tax identification number 13-1433773 formatted correctly?"
+    },
+    {
+      "id": "ar-223",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "tax-id",
+      "expectedCategories": [
+        "CORPORATE"
+      ],
+      "modelLabel": "TAX_ID",
+      "expectedRisk": "MEDIUM",
+      "text": "هل الرقم الضريبي 48-0432217 مكتوب صح؟"
+    },
+    {
+      "id": "en-224",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "device-id",
+      "expectedCategories": [
+        "FINGERPRINT"
+      ],
+      "modelLabel": "DEVICE_ID",
+      "expectedRisk": "MEDIUM",
+      "text": "The tablet with device ID 5F63-6T6S-AA96-J923 will not sync."
+    },
+    {
+      "id": "ar-225",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "device-id",
+      "expectedCategories": [
+        "FINGERPRINT"
+      ],
+      "modelLabel": "DEVICE_ID",
+      "expectedRisk": "MEDIUM",
+      "text": "التابلت صاحب معرّف الجهاز AGSB-5TYB-N4V8-8P64 ما يتزامن."
+    },
+    {
+      "id": "en-226",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "device-id",
+      "expectedCategories": [
+        "FINGERPRINT"
+      ],
+      "modelLabel": "DEVICE_ID",
+      "expectedRisk": "MEDIUM",
+      "text": "Unenroll device id 7QTZ-F6T6-VF4H-EEV7 from the MDM."
+    },
+    {
+      "id": "ar-227",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "device-id",
+      "expectedCategories": [
+        "FINGERPRINT"
+      ],
+      "modelLabel": "DEVICE_ID",
+      "expectedRisk": "MEDIUM",
+      "text": "احذف الجهاز QQ34-63KQ-P8SJ-3FBK من نظام الإدارة."
+    },
+    {
+      "id": "en-228",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "device-id",
+      "expectedCategories": [
+        "FINGERPRINT"
+      ],
+      "modelLabel": "DEVICE_ID",
+      "expectedRisk": "MEDIUM",
+      "text": "Serial number THSX-FRB3-CG41-Z2LM is still under warranty?"
+    },
+    {
+      "id": "ar-229",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "device-id",
+      "expectedCategories": [
+        "FINGERPRINT"
+      ],
+      "modelLabel": "DEVICE_ID",
+      "expectedRisk": "MEDIUM",
+      "text": "الرقم التسلسلي EX39-K8DT-Y3XT-NVVK عليه ضمان؟"
+    },
+    {
+      "id": "en-230",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "licence-number",
+      "expectedCategories": [
+        "LEGAL"
+      ],
+      "modelLabel": "LICENSE_NUMBER",
+      "expectedRisk": "MEDIUM",
+      "text": "Verify the medical license number ML-972859 with the council."
+    },
+    {
+      "id": "ar-231",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "licence-number",
+      "expectedCategories": [
+        "LEGAL"
+      ],
+      "modelLabel": "LICENSE_NUMBER",
+      "expectedRisk": "MEDIUM",
+      "text": "تحقق من رقم الترخيص الطبي ML-458920 مع الهيئة."
+    },
+    {
+      "id": "en-232",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "licence-number",
+      "expectedCategories": [
+        "LEGAL"
+      ],
+      "modelLabel": "LICENSE_NUMBER",
+      "expectedRisk": "MEDIUM",
+      "text": "The lawyer practises under license no LAW-180012."
+    },
+    {
+      "id": "ar-233",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "licence-number",
+      "expectedCategories": [
+        "LEGAL"
+      ],
+      "modelLabel": "LICENSE_NUMBER",
+      "expectedRisk": "MEDIUM",
+      "text": "المحامي يعمل برخصة رقم LAW-328029."
+    },
+    {
+      "id": "en-234",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "licence-number",
+      "expectedCategories": [
+        "LEGAL"
+      ],
+      "modelLabel": "LICENSE_NUMBER",
+      "expectedRisk": "MEDIUM",
+      "text": "Our contractor license ENG-294024 expires next month."
+    },
+    {
+      "id": "ar-235",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "licence-number",
+      "expectedCategories": [
+        "LEGAL"
+      ],
+      "modelLabel": "LICENSE_NUMBER",
+      "expectedRisk": "MEDIUM",
+      "text": "رخصة المقاول LAW-492086 تنتهي الشهر الجاي."
+    },
+    {
+      "id": "en-236",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "multi",
+      "expectedCategories": [
+        "CONTACT",
+        "PERSONAL_IDENTITY"
+      ],
+      "expectedRisk": "HIGH",
+      "text": "Send the onboarding pack to lina.whitmore@example.org and file it under national ID 2479517316."
+    },
+    {
+      "id": "en-237",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "multi",
+      "expectedCategories": [
+        "AUTH_SECRET",
+        "CONTACT",
+        "KEYWORD"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "en-238",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "multi",
+      "expectedCategories": [
+        "CONTACT",
+        "FINANCIAL"
+      ],
+      "expectedRisk": "HIGH",
+      "text": "Refund card 5102884444060787 and confirm by SMS to +966530637421."
+    },
+    {
+      "id": "en-239",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "multi",
+      "expectedCategories": [
+        "DEV_SECRET",
+        "NETWORK"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "en-240",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "multi",
+      "expectedCategories": [
+        "CONTACT",
+        "WEB_LINK"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "Ask daniel.whitmore@example.net to review https://intranet.example.com/hr/2026/doc?id=13489 today."
+    },
+    {
+      "id": "ar-241",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "multi",
+      "expectedCategories": [
+        "CONTACT",
+        "FINANCIAL"
+      ],
+      "expectedRisk": "HIGH",
+      "text": "حوّل المبلغ على الآيبان SA1191569686616741851036 وأرسل الإيصال على peter.castell@example.net."
+    },
+    {
+      "id": "ar-242",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "multi",
+      "expectedCategories": [
+        "CONTACT",
+        "PERSONAL_IDENTITY"
+      ],
+      "expectedRisk": "HIGH",
+      "text": "الموظف صاحب الهوية 2100300926 جواله 0510940528 حدّث بياناته."
+    },
+    {
+      "id": "ar-243",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "multi",
+      "expectedCategories": [
+        "AUTH_SECRET",
+        "KEYWORD",
+        "NETWORK"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "mixed-244",
+      "lang": "mixed",
+      "kind": "sensitive",
+      "type": "multi",
+      "expectedCategories": [
+        "CONTACT"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "ابغى أرسل meeting invite لـ maria.haddad@example.com بخصوص الـ budget review."
+    },
+    {
+      "id": "mixed-245",
+      "lang": "mixed",
+      "kind": "sensitive",
+      "type": "multi",
+      "expectedCategories": [
+        "AUTH_SECRET"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "mixed-246",
+      "lang": "mixed",
+      "kind": "sensitive",
+      "type": "multi",
+      "expectedCategories": [
+        "NETWORK"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "الـ server حقنا 192.74.82.163 عليه latency عالي من أمس."
+    },
+    {
+      "id": "mixed-247",
+      "lang": "mixed",
+      "kind": "sensitive",
+      "type": "multi",
+      "expectedCategories": [
+        "FINANCIAL"
+      ],
+      "expectedRisk": "HIGH",
+      "text": "الـ payment gateway يرفض الـ card رقم 5566 2663 6981 9810 في الـ checkout."
+    },
+    {
+      "id": "mixed-248",
+      "lang": "mixed",
+      "kind": "sensitive",
+      "type": "multi",
+      "expectedCategories": [
+        "DEV_SECRET"
+      ],
+      "expectedRisk": "HIGH",
+      "text": null
+    },
+    {
+      "id": "mixed-249",
+      "lang": "mixed",
+      "kind": "sensitive",
+      "type": "multi",
+      "expectedCategories": [
+        "CONTACT"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "كلم الـ client على +966533020678 وأكد معه الـ delivery date."
+    },
+    {
+      "id": "mixed-250",
+      "lang": "mixed",
+      "kind": "sensitive",
+      "type": "multi",
+      "expectedCategories": [
+        "FINGERPRINT"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "الـ request صاحب الـ id 646b4489-134b-4943-a32b-2580764ecb87 رجع error 500."
+    },
+    {
+      "id": "mixed-251",
+      "lang": "mixed",
+      "kind": "sensitive",
+      "type": "multi",
+      "expectedCategories": [
+        "WEB_LINK"
+      ],
+      "expectedRisk": "MEDIUM",
+      "text": "شف الـ dashboard هنا https://intranet.example.com/hr/2025/doc?id=55931 وقل لي وش الـ issue."
+    },
+    {
+      "id": "en-252",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "What is the capital of France?"
+    },
+    {
+      "id": "en-253",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "Explain the difference between TCP and UDP in simple terms."
+    },
+    {
+      "id": "en-254",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "Write a Python function that removes duplicates from a list while keeping the order."
+    },
+    {
+      "id": "en-255",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "Give me five ideas for a team-building activity for ten people."
+    },
+    {
+      "id": "en-256",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "Rewrite this sentence to sound more polite: send me the file today."
+    },
+    {
+      "id": "en-257",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "Plan a three-day trip to Istanbul for a family with two kids."
+    },
+    {
+      "id": "en-258",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "Translate 'thank you for your patience' into Spanish."
+    },
+    {
+      "id": "en-259",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "Write a short agenda for a weekly project status meeting."
+    },
+    {
+      "id": "en-260",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "What are the main causes of inflation?"
+    },
+    {
+      "id": "en-261",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "Suggest a healthy lunch that takes under fifteen minutes to make."
+    },
+    {
+      "id": "en-262",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "How does a binary search work?"
+    },
+    {
+      "id": "en-263",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "Write a haiku about rain in the desert."
+    },
+    {
+      "id": "en-264",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "Summarise the plot of Hamlet in three sentences."
+    },
+    {
+      "id": "en-265",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "What is the difference between a list and a tuple in Python?"
+    },
+    {
+      "id": "en-266",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "Draft a polite out-of-office reply for next week."
+    },
+    {
+      "id": "en-267",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "How do vaccines train the immune system?"
+    },
+    {
+      "id": "en-268",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "Give me a stretching routine for people who sit all day."
+    },
+    {
+      "id": "en-269",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "Explain what a REST API is to a new intern."
+    },
+    {
+      "id": "en-270",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "What should I check before buying a used laptop?"
+    },
+    {
+      "id": "en-271",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "Write a SQL query that counts rows per month in a sales table."
+    },
+    {
+      "id": "en-272",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "How do I centre a div with CSS grid?"
+    },
+    {
+      "id": "en-273",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "Suggest three names for a neighbourhood bakery."
+    },
+    {
+      "id": "en-274",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "What are good questions to ask in a job interview?"
+    },
+    {
+      "id": "en-275",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "Explain compound interest with a small example."
+    },
+    {
+      "id": "en-276",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "How can I improve the battery life of my phone?"
+    },
+    {
+      "id": "en-277",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "Write a thank-you note to a teacher at the end of the year."
+    },
+    {
+      "id": "en-278",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "What is the best way to learn touch typing?"
+    },
+    {
+      "id": "en-279",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "Describe how photosynthesis works for a ten-year-old."
+    },
+    {
+      "id": "ar-280",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "ما هي عاصمة اليابان؟"
+    },
+    {
+      "id": "ar-281",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "اشرح لي الفرق بين الذاكرة العشوائية والتخزين بشكل مبسط."
+    },
+    {
+      "id": "ar-282",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "اكتب لي دالة بايثون ترتب قائمة أرقام تصاعديًا."
+    },
+    {
+      "id": "ar-283",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "أعطني خمس أفكار لنشاط جماعي لفريق من عشرة أشخاص."
+    },
+    {
+      "id": "ar-284",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "أعد صياغة هذه الجملة بأسلوب رسمي: أرسل لي الملف اليوم."
+    },
+    {
+      "id": "ar-285",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "اقترح لي برنامج رحلة ثلاثة أيام في أبها مع العائلة."
+    },
+    {
+      "id": "ar-286",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "ترجم عبارة شكرًا على صبركم إلى الإنجليزية."
+    },
+    {
+      "id": "ar-287",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "اكتب جدول أعمال قصير لاجتماع أسبوعي لمتابعة المشروع."
+    },
+    {
+      "id": "ar-288",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "ما أسباب ارتفاع الأسعار؟"
+    },
+    {
+      "id": "ar-289",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "اقترح وجبة غداء صحية تجهز في ربع ساعة."
+    },
+    {
+      "id": "ar-290",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "كيف يعمل البحث الثنائي؟"
+    },
+    {
+      "id": "ar-291",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "اكتب بيتين شعر عن المطر في الصحراء."
+    },
+    {
+      "id": "ar-292",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "لخّص لي قصة كليلة ودمنة في ثلاث جمل."
+    },
+    {
+      "id": "ar-293",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "ما الفرق بين القائمة والقاموس في بايثون؟"
+    },
+    {
+      "id": "ar-294",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "اكتب رد تلقائي مهذب للإجازة الأسبوع القادم."
+    },
+    {
+      "id": "ar-295",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "كيف تعمل اللقاحات؟"
+    },
+    {
+      "id": "ar-296",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "أعطني تمارين إطالة لمن يجلس طول اليوم."
+    },
+    {
+      "id": "ar-297",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "اشرح لي وش هو الـ API لمتدرب جديد."
+    },
+    {
+      "id": "ar-298",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "وش أتأكد منه قبل ما أشتري لابتوب مستعمل؟"
+    },
+    {
+      "id": "ar-299",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "اكتب استعلام SQL يحسب عدد الطلبات لكل شهر."
+    },
+    {
+      "id": "ar-300",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "كيف أوسّط عنصر في الصفحة باستخدام CSS؟"
+    },
+    {
+      "id": "ar-301",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "اقترح ثلاثة أسماء لمخبز في الحي."
+    },
+    {
+      "id": "ar-302",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "ما الأسئلة الجيدة التي أسألها في مقابلة العمل؟"
+    },
+    {
+      "id": "ar-303",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "اشرح الفائدة المركبة بمثال بسيط."
+    },
+    {
+      "id": "ar-304",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "كيف أطوّل عمر بطارية الجوال؟"
+    },
+    {
+      "id": "ar-305",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "اكتب رسالة شكر لمعلم في نهاية السنة."
+    },
+    {
+      "id": "ar-306",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "كيف أتعلم الكتابة السريعة على الكيبورد؟"
+    },
+    {
+      "id": "en-307",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "Upgrade the package to version 2.14.3 please."
+    },
+    {
+      "id": "en-308",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "Does Node 20.11.1 support the fetch API?"
+    },
+    {
+      "id": "en-309",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "We moved from release 1.2.3.4 to 1.2.3.5 last night."
+    },
+    {
+      "id": "en-310",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "Order 4521 arrived late, write a complaint to the shop."
+    },
+    {
+      "id": "en-311",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "Ticket #88213 is still open, how do I escalate it?"
+    },
+    {
+      "id": "en-312",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "The speed of light is 299792458 metres per second, right?"
+    },
+    {
+      "id": "en-313",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "The world population passed 8000000000 in 2022, what changed?"
+    },
+    {
+      "id": "en-314",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "Compare the cloud pricing of Microsoft, Google and Amazon."
+    },
+    {
+      "id": "en-315",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "Who was Albert Einstein and what is he known for?"
+    },
+    {
+      "id": "en-316",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "Summarise the career of Marie Curie in a paragraph."
+    },
+    {
+      "id": "en-317",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "What happened on 12 March 2025 in the tech news?"
+    },
+    {
+      "id": "en-318",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "The meeting is on 2026-01-15 at 10:30, write a reminder."
+    },
+    {
+      "id": "en-319",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "Is 3.14159265358979 enough digits of pi for engineering?"
+    },
+    {
+      "id": "en-320",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "ISBN 9780131103627 is which book?"
+    },
+    {
+      "id": "en-321",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "The invoice total is 12,450.00 riyals, write it in words."
+    },
+    {
+      "id": "en-322",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "Call 911 or 112 in an emergency, which one works in Europe?"
+    },
+    {
+      "id": "en-323",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "Use the colour #1a2b3c for the header and #ffffff for text."
+    },
+    {
+      "id": "en-324",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "Chapter 10.2.1 of the manual explains the reset procedure."
+    },
+    {
+      "id": "en-325",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "The flight SV1021 leaves from gate 14 at 18:45."
+    },
+    {
+      "id": "en-326",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "Riyadh, Jeddah and Dammam are the three largest Saudi cities."
+    },
+    {
+      "id": "en-327",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "Explain what the placeholder [EMAIL_1] means in a masked message."
+    },
+    {
+      "id": "en-328",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "Our office is open from 8 to 5, Sunday to Thursday."
+    },
+    {
+      "id": "en-329",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "The model has 141000000 parameters, is that small?"
+    },
+    {
+      "id": "en-330",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "Apple released the first iPhone in 2007."
+    },
+    {
+      "id": "en-331",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "Room 2041 on floor 20 is booked for the workshop."
+    },
+    {
+      "id": "ar-332",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "حدّث المكتبة إلى الإصدار 2.14.3 لو سمحت."
+    },
+    {
+      "id": "ar-333",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "هل الإصدار 20.11.1 من Node يدعم fetch؟"
+    },
+    {
+      "id": "ar-334",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "انتقلنا من النسخة 1.2.3.4 إلى 1.2.3.5 البارحة."
+    },
+    {
+      "id": "ar-335",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "الطلب 4521 وصل متأخر، اكتب شكوى للمتجر."
+    },
+    {
+      "id": "ar-336",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "التذكرة رقم 88213 ما زالت مفتوحة، كيف أصعّدها؟"
+    },
+    {
+      "id": "ar-337",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "سرعة الضوء 299792458 متر في الثانية، صح؟"
+    },
+    {
+      "id": "ar-338",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "عدد سكان العالم تجاوز 8000000000 في 2022، وش تغيّر؟"
+    },
+    {
+      "id": "ar-339",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "قارن أسعار الخدمات السحابية بين مايكروسوفت وجوجل وأمازون."
+    },
+    {
+      "id": "ar-340",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "من هو ابن سينا وبماذا اشتهر؟"
+    },
+    {
+      "id": "ar-341",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "لخّص سيرة الخوارزمي في فقرة."
+    },
+    {
+      "id": "ar-342",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "ماذا حدث يوم 12 مارس 2025 في أخبار التقنية؟"
+    },
+    {
+      "id": "ar-343",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "الاجتماع يوم 2026-01-15 الساعة 10:30، اكتب تذكير."
+    },
+    {
+      "id": "ar-344",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "هل 3.14159265358979 كافية كقيمة تقريبية لـ ط؟"
+    },
+    {
+      "id": "ar-345",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "الكتاب صاحب الرقم الدولي 9780131103627 وش اسمه؟"
+    },
+    {
+      "id": "ar-346",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "إجمالي الفاتورة 12,450.00 ريال، اكتبه بالحروف."
+    },
+    {
+      "id": "ar-347",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "أتصل على 997 أو 911 في الطوارئ؟"
+    },
+    {
+      "id": "ar-348",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "استخدم اللون #1a2b3c للعنوان و #ffffff للنص."
+    },
+    {
+      "id": "ar-349",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "الفصل 10.2.1 من الدليل يشرح طريقة إعادة الضبط."
+    },
+    {
+      "id": "ar-350",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "الرحلة SV1021 تقلع من البوابة 14 الساعة 18:45."
+    },
+    {
+      "id": "ar-351",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "الرياض وجدة والدمام أكبر ثلاث مدن سعودية."
+    },
+    {
+      "id": "ar-352",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "اشرح معنى العلامة [EMAIL_1] في رسالة معدّلة."
+    },
+    {
+      "id": "ar-353",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "دوامنا من 8 إلى 5 من الأحد إلى الخميس."
+    },
+    {
+      "id": "ar-354",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "النموذج فيه 141000000 معامل، هل يعتبر صغير؟"
+    },
+    {
+      "id": "ar-355",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "أرامكو أعلنت نتائجها السنوية، لخّص أهم الأرقام المنشورة."
+    },
+    {
+      "id": "ar-356",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expectedCategories": [],
+      "expectedRisk": "SAFE",
+      "text": "القاعة 2041 في الدور 20 محجوزة للورشة."
+    }
+  ]
+}

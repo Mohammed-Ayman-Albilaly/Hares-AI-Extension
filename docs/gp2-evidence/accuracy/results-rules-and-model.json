@@ -1,0 +1,6806 @@
+{
+  "date": "2026-11-24T21:12:51.216Z",
+  "configuration": "rules-and-model",
+  "model": {
+    "id": "Horizon-Labs/pii-redactor-small",
+    "revision": "8bfbc15e90a044607264a21c3669385b4c3d748d",
+    "dtype": "q8",
+    "minScore": 0.7
+  },
+  "overall": {
+    "prompts": 356,
+    "findings": {
+      "tp": 247,
+      "fp": 35,
+      "fn": 25,
+      "precision": 0.876,
+      "recall": 0.908,
+      "f1": 0.892,
+      "macroF1": 0.882
+    },
+    "riskAccuracy": 0.89,
+    "underRated": 7,
+    "overRated": 32,
+    "confusion": {
+      "SAFE": {
+        "SAFE": 89,
+        "LOW": 0,
+        "MEDIUM": 12,
+        "HIGH": 4
+      },
+      "LOW": {
+        "SAFE": 0,
+        "LOW": 6,
+        "MEDIUM": 0,
+        "HIGH": 0
+      },
+      "MEDIUM": {
+        "SAFE": 7,
+        "LOW": 0,
+        "MEDIUM": 112,
+        "HIGH": 16
+      },
+      "HIGH": {
+        "SAFE": 0,
+        "LOW": 0,
+        "MEDIUM": 0,
+        "HIGH": 110
+      }
+    },
+    "cleanPrompts": {
+      "all": {
+        "flagged": 16,
+        "warnedOrBlocked": 16,
+        "of": 105
+      },
+      "ordinary": {
+        "flagged": 0,
+        "warnedOrBlocked": 0,
+        "of": 55
+      },
+      "hardNegatives": {
+        "flagged": 16,
+        "warnedOrBlocked": 16,
+        "of": 50
+      },
+      "falsePositiveRate": 0.152,
+      "falseWarningRate": 0.152
+    },
+    "perCategory": {
+      "ACCOUNT": {
+        "tp": 9,
+        "fp": 1,
+        "fn": 2,
+        "precision": 0.9,
+        "recall": 0.818,
+        "f1": 0.857
+      },
+      "AUTH_SECRET": {
+        "tp": 35,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1
+      },
+      "CONTACT": {
+        "tp": 20,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1
+      },
+      "CORPORATE": {
+        "tp": 12,
+        "fp": 1,
+        "fn": 0,
+        "precision": 0.923,
+        "recall": 1,
+        "f1": 0.96
+      },
+      "CRYPTO": {
+        "tp": 9,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1
+      },
+      "DATETIME": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 3,
+        "precision": 1,
+        "recall": 0.4,
+        "f1": 0.571
+      },
+      "DEV_SECRET": {
+        "tp": 14,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1
+      },
+      "EDUCATION": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 5,
+        "precision": null,
+        "recall": 0,
+        "f1": null
+      },
+      "FILE_PATH": {
+        "tp": 9,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1
+      },
+      "FINANCIAL": {
+        "tp": 24,
+        "fp": 3,
+        "fn": 0,
+        "precision": 0.889,
+        "recall": 1,
+        "f1": 0.941
+      },
+      "FINGERPRINT": {
+        "tp": 7,
+        "fp": 0,
+        "fn": 9,
+        "precision": 1,
+        "recall": 0.438,
+        "f1": 0.609
+      },
+      "HEALTH": {
+        "tp": 8,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1
+      },
+      "KEYWORD": {
+        "tp": 19,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1
+      },
+      "LEGAL": {
+        "tp": 3,
+        "fp": 0,
+        "fn": 3,
+        "precision": 1,
+        "recall": 0.5,
+        "f1": 0.667
+      },
+      "LOCATION": {
+        "tp": 10,
+        "fp": 4,
+        "fn": 1,
+        "precision": 0.714,
+        "recall": 0.909,
+        "f1": 0.8
+      },
+      "LOGS": {
+        "tp": 5,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1
+      },
+      "NETWORK": {
+        "tp": 15,
+        "fp": 2,
+        "fn": 0,
+        "precision": 0.882,
+        "recall": 1,
+        "f1": 0.938
+      },
+      "NUMERIC": {
+        "tp": 3,
+        "fp": 6,
+        "fn": 2,
+        "precision": 0.333,
+        "recall": 0.6,
+        "f1": 0.429
+      },
+      "PERSONAL_IDENTITY": {
+        "tp": 26,
+        "fp": 18,
+        "fn": 0,
+        "precision": 0.591,
+        "recall": 1,
+        "f1": 0.743
+      },
+      "SHIPPING": {
+        "tp": 5,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1
+      },
+      "VEHICLE": {
+        "tp": 5,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1
+      },
+      "WEB_LINK": {
+        "tp": 7,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1
+      }
+    },
+    "latencyMs": {
+      "p50": 22,
+      "p95": 89,
+      "max": 483
+    }
+  },
+  "byLanguage": {
+    "ar": {
+      "prompts": 148,
+      "findings": {
+        "tp": 90,
+        "fp": 21,
+        "fn": 14,
+        "precision": 0.811,
+        "recall": 0.865,
+        "f1": 0.837,
+        "macroF1": 0.868
+      },
+      "riskAccuracy": 0.851,
+      "cleanPrompts": {
+        "flagged": 9,
+        "warnedOrBlocked": 9,
+        "of": 52
+      }
+    },
+    "en": {
+      "prompts": 200,
+      "findings": {
+        "tp": 149,
+        "fp": 14,
+        "fn": 11,
+        "precision": 0.914,
+        "recall": 0.931,
+        "f1": 0.923,
+        "macroF1": 0.914
+      },
+      "riskAccuracy": 0.915,
+      "cleanPrompts": {
+        "flagged": 7,
+        "warnedOrBlocked": 7,
+        "of": 53
+      }
+    },
+    "mixed": {
+      "prompts": 8,
+      "findings": {
+        "tp": 8,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "macroF1": 1
+      },
+      "riskAccuracy": 1,
+      "cleanPrompts": {
+        "flagged": 0,
+        "warnedOrBlocked": 0,
+        "of": 0
+      }
+    }
+  },
+  "failures": [
+    {
+      "id": "ar-116",
+      "type": "ipv4",
+      "lang": "ar",
+      "expected": [
+        "NETWORK"
+      ],
+      "predicted": [
+        "LOCATION",
+        "NETWORK"
+      ],
+      "detail": [
+        "LOCATION:ADDRESS(ner)",
+        "NETWORK:IP_ADDRESS(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM"
+    },
+    {
+      "id": "en-161",
+      "type": "imei",
+      "lang": "en",
+      "expected": [
+        "FINGERPRINT"
+      ],
+      "predicted": [
+        "FINANCIAL"
+      ],
+      "detail": [
+        "FINANCIAL:CARD_NUMBER(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "HIGH"
+    },
+    {
+      "id": "ar-162",
+      "type": "imei",
+      "lang": "ar",
+      "expected": [
+        "FINGERPRINT"
+      ],
+      "predicted": [
+        "FINANCIAL"
+      ],
+      "detail": [
+        "FINANCIAL:CARD_NUMBER(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "HIGH"
+    },
+    {
+      "id": "en-163",
+      "type": "imei",
+      "lang": "en",
+      "expected": [
+        "FINGERPRINT"
+      ],
+      "predicted": [
+        "FINANCIAL"
+      ],
+      "detail": [
+        "FINANCIAL:CARD_NUMBER(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "HIGH"
+    },
+    {
+      "id": "ar-170",
+      "type": "account-id",
+      "lang": "ar",
+      "expected": [
+        "ACCOUNT"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:ID_NUMBER(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "HIGH"
+    },
+    {
+      "id": "ar-172",
+      "type": "account-id",
+      "lang": "ar",
+      "expected": [
+        "ACCOUNT"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:ID_NUMBER(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "HIGH"
+    },
+    {
+      "id": "en-174",
+      "type": "dob",
+      "lang": "en",
+      "expected": [
+        "DATETIME"
+      ],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "SAFE"
+    },
+    {
+      "id": "ar-177",
+      "type": "dob",
+      "lang": "ar",
+      "expected": [
+        "DATETIME"
+      ],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "SAFE"
+    },
+    {
+      "id": "en-178",
+      "type": "dob",
+      "lang": "en",
+      "expected": [
+        "DATETIME"
+      ],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "SAFE"
+    },
+    {
+      "id": "en-184",
+      "type": "student-id",
+      "lang": "en",
+      "expected": [
+        "EDUCATION"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:NATIONAL_ID(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "HIGH"
+    },
+    {
+      "id": "ar-185",
+      "type": "student-id",
+      "lang": "ar",
+      "expected": [
+        "EDUCATION"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:NATIONAL_ID(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "HIGH"
+    },
+    {
+      "id": "en-186",
+      "type": "student-id",
+      "lang": "en",
+      "expected": [
+        "EDUCATION"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:NATIONAL_ID(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "HIGH"
+    },
+    {
+      "id": "ar-187",
+      "type": "student-id",
+      "lang": "ar",
+      "expected": [
+        "EDUCATION"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:NATIONAL_ID(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "HIGH"
+    },
+    {
+      "id": "en-188",
+      "type": "student-id",
+      "lang": "en",
+      "expected": [
+        "EDUCATION"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:NATIONAL_ID(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "HIGH"
+    },
+    {
+      "id": "en-189",
+      "type": "long-number",
+      "lang": "en",
+      "expected": [
+        "NUMERIC"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:NATIONAL_ID(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "HIGH"
+    },
+    {
+      "id": "ar-190",
+      "type": "long-number",
+      "lang": "ar",
+      "expected": [
+        "NUMERIC"
+      ],
+      "predicted": [
+        "CORPORATE"
+      ],
+      "detail": [
+        "CORPORATE:TAX_ID(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM"
+    },
+    {
+      "id": "ar-209",
+      "type": "address",
+      "lang": "ar",
+      "expected": [
+        "LOCATION"
+      ],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "SAFE"
+    },
+    {
+      "id": "en-224",
+      "type": "device-id",
+      "lang": "en",
+      "expected": [
+        "FINGERPRINT"
+      ],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "SAFE"
+    },
+    {
+      "id": "ar-225",
+      "type": "device-id",
+      "lang": "ar",
+      "expected": [
+        "FINGERPRINT"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:ID_NUMBER(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "HIGH"
+    },
+    {
+      "id": "en-226",
+      "type": "device-id",
+      "lang": "en",
+      "expected": [
+        "FINGERPRINT"
+      ],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "SAFE"
+    },
+    {
+      "id": "ar-227",
+      "type": "device-id",
+      "lang": "ar",
+      "expected": [
+        "FINGERPRINT"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:ID_NUMBER(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "HIGH"
+    },
+    {
+      "id": "en-228",
+      "type": "device-id",
+      "lang": "en",
+      "expected": [
+        "FINGERPRINT"
+      ],
+      "predicted": [
+        "ACCOUNT"
+      ],
+      "detail": [
+        "ACCOUNT:ACCOUNT_ID(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM"
+    },
+    {
+      "id": "ar-229",
+      "type": "device-id",
+      "lang": "ar",
+      "expected": [
+        "FINGERPRINT"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:ID_NUMBER(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "HIGH"
+    },
+    {
+      "id": "ar-231",
+      "type": "licence-number",
+      "lang": "ar",
+      "expected": [
+        "LEGAL"
+      ],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "SAFE"
+    },
+    {
+      "id": "ar-233",
+      "type": "licence-number",
+      "lang": "ar",
+      "expected": [
+        "LEGAL"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:ID_NUMBER(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "HIGH"
+    },
+    {
+      "id": "ar-235",
+      "type": "licence-number",
+      "lang": "ar",
+      "expected": [
+        "LEGAL"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:ID_NUMBER(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "HIGH"
+    },
+    {
+      "id": "en-309",
+      "type": "hard-negative",
+      "lang": "en",
+      "expected": [],
+      "predicted": [
+        "NETWORK"
+      ],
+      "detail": [
+        "NETWORK:IP_ADDRESS(rule)"
+      ],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "MEDIUM"
+    },
+    {
+      "id": "en-312",
+      "type": "hard-negative",
+      "lang": "en",
+      "expected": [],
+      "predicted": [
+        "NUMERIC"
+      ],
+      "detail": [
+        "NUMERIC:NUMBER(rule)"
+      ],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "MEDIUM"
+    },
+    {
+      "id": "en-313",
+      "type": "hard-negative",
+      "lang": "en",
+      "expected": [],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:NATIONAL_ID(ner)"
+      ],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "HIGH"
+    },
+    {
+      "id": "en-316",
+      "type": "hard-negative",
+      "lang": "en",
+      "expected": [],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:PERSON(ner)"
+      ],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "MEDIUM"
+    },
+    {
+      "id": "en-319",
+      "type": "hard-negative",
+      "lang": "en",
+      "expected": [],
+      "predicted": [
+        "NUMERIC"
+      ],
+      "detail": [
+        "NUMERIC:NUMBER(rule)"
+      ],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "MEDIUM"
+    },
+    {
+      "id": "en-320",
+      "type": "hard-negative",
+      "lang": "en",
+      "expected": [],
+      "predicted": [
+        "NUMERIC"
+      ],
+      "detail": [
+        "NUMERIC:NUMBER(rule)"
+      ],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "MEDIUM"
+    },
+    {
+      "id": "en-329",
+      "type": "hard-negative",
+      "lang": "en",
+      "expected": [],
+      "predicted": [
+        "NUMERIC"
+      ],
+      "detail": [
+        "NUMERIC:NUMBER(rule)"
+      ],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "MEDIUM"
+    },
+    {
+      "id": "ar-334",
+      "type": "hard-negative",
+      "lang": "ar",
+      "expected": [],
+      "predicted": [
+        "NETWORK"
+      ],
+      "detail": [
+        "NETWORK:IP_ADDRESS(rule)"
+      ],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "MEDIUM"
+    },
+    {
+      "id": "ar-337",
+      "type": "hard-negative",
+      "lang": "ar",
+      "expected": [],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:NATIONAL_ID(ner)"
+      ],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "HIGH"
+    },
+    {
+      "id": "ar-338",
+      "type": "hard-negative",
+      "lang": "ar",
+      "expected": [],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:NATIONAL_ID(ner)"
+      ],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "HIGH"
+    },
+    {
+      "id": "ar-344",
+      "type": "hard-negative",
+      "lang": "ar",
+      "expected": [],
+      "predicted": [
+        "NUMERIC"
+      ],
+      "detail": [
+        "NUMERIC:NUMBER(rule)"
+      ],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "MEDIUM"
+    },
+    {
+      "id": "ar-345",
+      "type": "hard-negative",
+      "lang": "ar",
+      "expected": [],
+      "predicted": [
+        "NUMERIC"
+      ],
+      "detail": [
+        "NUMERIC:NUMBER(rule)"
+      ],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "MEDIUM"
+    },
+    {
+      "id": "ar-347",
+      "type": "hard-negative",
+      "lang": "ar",
+      "expected": [],
+      "predicted": [
+        "LOCATION"
+      ],
+      "detail": [
+        "LOCATION:ADDRESS(ner)"
+      ],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "MEDIUM"
+    },
+    {
+      "id": "ar-350",
+      "type": "hard-negative",
+      "lang": "ar",
+      "expected": [],
+      "predicted": [
+        "LOCATION"
+      ],
+      "detail": [
+        "LOCATION:ADDRESS(ner)"
+      ],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "MEDIUM"
+    },
+    {
+      "id": "ar-354",
+      "type": "hard-negative",
+      "lang": "ar",
+      "expected": [],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:NATIONAL_ID(ner)"
+      ],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "HIGH"
+    },
+    {
+      "id": "ar-356",
+      "type": "hard-negative",
+      "lang": "ar",
+      "expected": [],
+      "predicted": [
+        "LOCATION"
+      ],
+      "detail": [
+        "LOCATION:ADDRESS(ner)"
+      ],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "MEDIUM"
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "en-001",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "private-key",
+      "expected": [
+        "CRYPTO"
+      ],
+      "predicted": [
+        "CRYPTO"
+      ],
+      "detail": [
+        "CRYPTO:PRIVATE_KEY(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 365.3094000000001
+    },
+    {
+      "id": "ar-002",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "private-key",
+      "expected": [
+        "CRYPTO"
+      ],
+      "predicted": [
+        "CRYPTO"
+      ],
+      "detail": [
+        "CRYPTO:PRIVATE_KEY(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 438.4251000000004
+    },
+    {
+      "id": "en-003",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "private-key",
+      "expected": [
+        "CRYPTO"
+      ],
+      "predicted": [
+        "CRYPTO"
+      ],
+      "detail": [
+        "CRYPTO:PRIVATE_KEY(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 483.417300000001
+    },
+    {
+      "id": "en-004",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "certificate",
+      "expected": [
+        "CRYPTO"
+      ],
+      "predicted": [
+        "CRYPTO"
+      ],
+      "detail": [
+        "CRYPTO:CERTIFICATE(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 292.1807000000008
+    },
+    {
+      "id": "ar-005",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "certificate",
+      "expected": [
+        "CRYPTO"
+      ],
+      "predicted": [
+        "CRYPTO"
+      ],
+      "detail": [
+        "CRYPTO:CERTIFICATE(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 397.47829999999885
+    },
+    {
+      "id": "en-006",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "certificate",
+      "expected": [
+        "CRYPTO"
+      ],
+      "predicted": [
+        "CRYPTO"
+      ],
+      "detail": [
+        "CRYPTO:CERTIFICATE(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 310.5578000000005
+    },
+    {
+      "id": "en-007",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "ssh-key",
+      "expected": [
+        "CRYPTO"
+      ],
+      "predicted": [
+        "CRYPTO"
+      ],
+      "detail": [
+        "CRYPTO:SSH_KEY(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 142.5666000000001
+    },
+    {
+      "id": "ar-008",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "ssh-key",
+      "expected": [
+        "CRYPTO"
+      ],
+      "predicted": [
+        "CRYPTO"
+      ],
+      "detail": [
+        "CRYPTO:SSH_KEY(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 107.01339999999982
+    },
+    {
+      "id": "en-009",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "ssh-key",
+      "expected": [
+        "CRYPTO"
+      ],
+      "predicted": [
+        "CRYPTO"
+      ],
+      "detail": [
+        "CRYPTO:SSH_KEY(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 122.82990000000063
+    },
+    {
+      "id": "en-010",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "connection-string",
+      "expected": [
+        "DEV_SECRET"
+      ],
+      "predicted": [
+        "DEV_SECRET"
+      ],
+      "detail": [
+        "DEV_SECRET:CONNECTION_STRING(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 60.46899999999914
+    },
+    {
+      "id": "ar-011",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "connection-string",
+      "expected": [
+        "DEV_SECRET"
+      ],
+      "predicted": [
+        "DEV_SECRET"
+      ],
+      "detail": [
+        "DEV_SECRET:CONNECTION_STRING(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 59.8158999999996
+    },
+    {
+      "id": "en-012",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "connection-string",
+      "expected": [
+        "DEV_SECRET"
+      ],
+      "predicted": [
+        "DEV_SECRET"
+      ],
+      "detail": [
+        "DEV_SECRET:CONNECTION_STRING(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 90.26760000000104
+    },
+    {
+      "id": "en-013",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "github-token",
+      "expected": [
+        "DEV_SECRET"
+      ],
+      "predicted": [
+        "DEV_SECRET"
+      ],
+      "detail": [
+        "DEV_SECRET:GITHUB_TOKEN(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 35.2554999999993
+    },
+    {
+      "id": "ar-014",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "github-token",
+      "expected": [
+        "DEV_SECRET"
+      ],
+      "predicted": [
+        "DEV_SECRET"
+      ],
+      "detail": [
+        "DEV_SECRET:GITHUB_TOKEN(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 89.16669999999976
+    },
+    {
+      "id": "en-015",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "github-token",
+      "expected": [
+        "DEV_SECRET"
+      ],
+      "predicted": [
+        "DEV_SECRET"
+      ],
+      "detail": [
+        "DEV_SECRET:GITHUB_TOKEN(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 88.67050000000017
+    },
+    {
+      "id": "en-016",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "npm-token",
+      "expected": [
+        "DEV_SECRET"
+      ],
+      "predicted": [
+        "DEV_SECRET"
+      ],
+      "detail": [
+        "DEV_SECRET:NPM_TOKEN(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 87.11419999999998
+    },
+    {
+      "id": "ar-017",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "npm-token",
+      "expected": [
+        "DEV_SECRET"
+      ],
+      "predicted": [
+        "DEV_SECRET"
+      ],
+      "detail": [
+        "DEV_SECRET:NPM_TOKEN(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 117.61990000000151
+    },
+    {
+      "id": "en-018",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "npm-token",
+      "expected": [
+        "DEV_SECRET"
+      ],
+      "predicted": [
+        "DEV_SECRET"
+      ],
+      "detail": [
+        "DEV_SECRET:NPM_TOKEN(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 44.79200000000128
+    },
+    {
+      "id": "en-019",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "env-secret",
+      "expected": [
+        "DEV_SECRET"
+      ],
+      "predicted": [
+        "DEV_SECRET"
+      ],
+      "detail": [
+        "DEV_SECRET:ENV_SECRET(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 83.9444999999996
+    },
+    {
+      "id": "ar-020",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "env-secret",
+      "expected": [
+        "DEV_SECRET"
+      ],
+      "predicted": [
+        "DEV_SECRET"
+      ],
+      "detail": [
+        "DEV_SECRET:ENV_SECRET(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 48.38600000000042
+    },
+    {
+      "id": "en-021",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "env-secret",
+      "expected": [
+        "DEV_SECRET"
+      ],
+      "predicted": [
+        "DEV_SECRET"
+      ],
+      "detail": [
+        "DEV_SECRET:ENV_SECRET(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 42.94810000000143
+    },
+    {
+      "id": "en-022",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "jwt",
+      "expected": [
+        "AUTH_SECRET"
+      ],
+      "predicted": [
+        "AUTH_SECRET"
+      ],
+      "detail": [
+        "AUTH_SECRET:JWT(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 96.09069999999883
+    },
+    {
+      "id": "ar-023",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "jwt",
+      "expected": [
+        "AUTH_SECRET"
+      ],
+      "predicted": [
+        "AUTH_SECRET"
+      ],
+      "detail": [
+        "AUTH_SECRET:JWT(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 120.02160000000003
+    },
+    {
+      "id": "en-024",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "jwt",
+      "expected": [
+        "AUTH_SECRET"
+      ],
+      "predicted": [
+        "AUTH_SECRET"
+      ],
+      "detail": [
+        "AUTH_SECRET:JWT(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 58.01209999999992
+    },
+    {
+      "id": "en-025",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "openai-key",
+      "expected": [
+        "AUTH_SECRET"
+      ],
+      "predicted": [
+        "AUTH_SECRET"
+      ],
+      "detail": [
+        "AUTH_SECRET:API_KEY(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 37.20919999999933
+    },
+    {
+      "id": "ar-026",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "openai-key",
+      "expected": [
+        "AUTH_SECRET"
+      ],
+      "predicted": [
+        "AUTH_SECRET"
+      ],
+      "detail": [
+        "AUTH_SECRET:API_KEY(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 36.20139999999992
+    },
+    {
+      "id": "en-027",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "openai-key",
+      "expected": [
+        "AUTH_SECRET"
+      ],
+      "predicted": [
+        "AUTH_SECRET"
+      ],
+      "detail": [
+        "AUTH_SECRET:API_KEY(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 37.88849999999911
+    },
+    {
+      "id": "en-028",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "aws-key",
+      "expected": [
+        "AUTH_SECRET"
+      ],
+      "predicted": [
+        "AUTH_SECRET"
+      ],
+      "detail": [
+        "AUTH_SECRET:API_KEY(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 24.462899999998626
+    },
+    {
+      "id": "ar-029",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "aws-key",
+      "expected": [
+        "AUTH_SECRET"
+      ],
+      "predicted": [
+        "AUTH_SECRET"
+      ],
+      "detail": [
+        "AUTH_SECRET:API_KEY(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 39.57999999999993
+    },
+    {
+      "id": "en-030",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "aws-key",
+      "expected": [
+        "AUTH_SECRET"
+      ],
+      "predicted": [
+        "AUTH_SECRET"
+      ],
+      "detail": [
+        "AUTH_SECRET:API_KEY(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 21.615600000000995
+    },
+    {
+      "id": "en-031",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "google-key",
+      "expected": [
+        "AUTH_SECRET"
+      ],
+      "predicted": [
+        "AUTH_SECRET"
+      ],
+      "detail": [
+        "AUTH_SECRET:API_KEY(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 37.472499999999854
+    },
+    {
+      "id": "ar-032",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "google-key",
+      "expected": [
+        "AUTH_SECRET"
+      ],
+      "predicted": [
+        "AUTH_SECRET"
+      ],
+      "detail": [
+        "AUTH_SECRET:API_KEY(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 26.434400000000096
+    },
+    {
+      "id": "en-033",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "google-key",
+      "expected": [
+        "AUTH_SECRET"
+      ],
+      "predicted": [
+        "AUTH_SECRET"
+      ],
+      "detail": [
+        "AUTH_SECRET:API_KEY(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 24.661200000000463
+    },
+    {
+      "id": "en-034",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "slack-token",
+      "expected": [
+        "AUTH_SECRET"
+      ],
+      "predicted": [
+        "AUTH_SECRET"
+      ],
+      "detail": [
+        "AUTH_SECRET:API_KEY(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 42.078300000001036
+    },
+    {
+      "id": "ar-035",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "slack-token",
+      "expected": [
+        "AUTH_SECRET"
+      ],
+      "predicted": [
+        "AUTH_SECRET"
+      ],
+      "detail": [
+        "AUTH_SECRET:API_KEY(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 40.427200000000084
+    },
+    {
+      "id": "en-036",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "slack-token",
+      "expected": [
+        "AUTH_SECRET"
+      ],
+      "predicted": [
+        "AUTH_SECRET"
+      ],
+      "detail": [
+        "AUTH_SECRET:API_KEY(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 48.50720000000001
+    },
+    {
+      "id": "en-037",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "stripe-key",
+      "expected": [
+        "AUTH_SECRET"
+      ],
+      "predicted": [
+        "AUTH_SECRET"
+      ],
+      "detail": [
+        "AUTH_SECRET:API_KEY(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 37.18839999999909
+    },
+    {
+      "id": "ar-038",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "stripe-key",
+      "expected": [
+        "AUTH_SECRET"
+      ],
+      "predicted": [
+        "AUTH_SECRET"
+      ],
+      "detail": [
+        "AUTH_SECRET:API_KEY(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 35.28160000000025
+    },
+    {
+      "id": "en-039",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "stripe-key",
+      "expected": [
+        "AUTH_SECRET"
+      ],
+      "predicted": [
+        "AUTH_SECRET"
+      ],
+      "detail": [
+        "AUTH_SECRET:API_KEY(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 38.62359999999899
+    },
+    {
+      "id": "en-040",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "api-key-assignment",
+      "expected": [
+        "AUTH_SECRET",
+        "KEYWORD"
+      ],
+      "predicted": [
+        "AUTH_SECRET",
+        "KEYWORD"
+      ],
+      "detail": [
+        "AUTH_SECRET:API_KEY(rule)",
+        "KEYWORD:KEYWORD(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 31.27979999999843
+    },
+    {
+      "id": "ar-041",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "api-key-assignment",
+      "expected": [
+        "AUTH_SECRET",
+        "KEYWORD"
+      ],
+      "predicted": [
+        "AUTH_SECRET",
+        "KEYWORD"
+      ],
+      "detail": [
+        "AUTH_SECRET:API_KEY(rule)",
+        "KEYWORD:KEYWORD(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 39.96570000000065
+    },
+    {
+      "id": "en-042",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "api-key-assignment",
+      "expected": [
+        "AUTH_SECRET",
+        "KEYWORD"
+      ],
+      "predicted": [
+        "AUTH_SECRET",
+        "KEYWORD"
+      ],
+      "detail": [
+        "AUTH_SECRET:API_KEY(rule)",
+        "KEYWORD:KEYWORD(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 45.94290000000001
+    },
+    {
+      "id": "en-043",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "bearer-header",
+      "expected": [
+        "AUTH_SECRET",
+        "KEYWORD"
+      ],
+      "predicted": [
+        "AUTH_SECRET",
+        "KEYWORD"
+      ],
+      "detail": [
+        "AUTH_SECRET:AUTH_HEADER(rule)",
+        "KEYWORD:KEYWORD(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 52.6859000000004
+    },
+    {
+      "id": "ar-044",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "bearer-header",
+      "expected": [
+        "AUTH_SECRET",
+        "KEYWORD"
+      ],
+      "predicted": [
+        "AUTH_SECRET",
+        "KEYWORD"
+      ],
+      "detail": [
+        "AUTH_SECRET:AUTH_HEADER(rule)",
+        "KEYWORD:KEYWORD(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 64.3747000000003
+    },
+    {
+      "id": "en-045",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "bearer-header",
+      "expected": [
+        "AUTH_SECRET",
+        "KEYWORD"
+      ],
+      "predicted": [
+        "AUTH_SECRET",
+        "KEYWORD"
+      ],
+      "detail": [
+        "AUTH_SECRET:AUTH_HEADER(rule)",
+        "KEYWORD:KEYWORD(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 49.30609999999979
+    },
+    {
+      "id": "en-046",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "password",
+      "expected": [
+        "AUTH_SECRET",
+        "KEYWORD"
+      ],
+      "predicted": [
+        "AUTH_SECRET",
+        "KEYWORD"
+      ],
+      "detail": [
+        "AUTH_SECRET:PASSWORD(rule)",
+        "KEYWORD:KEYWORD(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 36.69160000000011
+    },
+    {
+      "id": "ar-047",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "password",
+      "expected": [
+        "AUTH_SECRET",
+        "KEYWORD"
+      ],
+      "predicted": [
+        "AUTH_SECRET",
+        "KEYWORD"
+      ],
+      "detail": [
+        "AUTH_SECRET:PASSWORD(rule)",
+        "KEYWORD:KEYWORD(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 20.840500000000247
+    },
+    {
+      "id": "en-048",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "password",
+      "expected": [
+        "AUTH_SECRET",
+        "KEYWORD"
+      ],
+      "predicted": [
+        "AUTH_SECRET",
+        "KEYWORD"
+      ],
+      "detail": [
+        "AUTH_SECRET:PASSWORD(rule)",
+        "KEYWORD:KEYWORD(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 34.45900000000074
+    },
+    {
+      "id": "ar-049",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "password",
+      "expected": [
+        "AUTH_SECRET",
+        "KEYWORD"
+      ],
+      "predicted": [
+        "AUTH_SECRET",
+        "KEYWORD"
+      ],
+      "detail": [
+        "AUTH_SECRET:PASSWORD(rule)",
+        "KEYWORD:KEYWORD(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 64.54459999999926
+    },
+    {
+      "id": "en-050",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "password",
+      "expected": [
+        "AUTH_SECRET",
+        "KEYWORD"
+      ],
+      "predicted": [
+        "AUTH_SECRET",
+        "KEYWORD"
+      ],
+      "detail": [
+        "AUTH_SECRET:PASSWORD(rule)",
+        "KEYWORD:KEYWORD(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 68.17809999999918
+    },
+    {
+      "id": "en-051",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "otp",
+      "expected": [
+        "AUTH_SECRET"
+      ],
+      "predicted": [
+        "AUTH_SECRET"
+      ],
+      "detail": [
+        "AUTH_SECRET:PIN(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 25.240200000000186
+    },
+    {
+      "id": "ar-052",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "otp",
+      "expected": [
+        "AUTH_SECRET"
+      ],
+      "predicted": [
+        "AUTH_SECRET"
+      ],
+      "detail": [
+        "AUTH_SECRET:PIN(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 21.95799999999872
+    },
+    {
+      "id": "en-053",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "otp",
+      "expected": [
+        "AUTH_SECRET"
+      ],
+      "predicted": [
+        "AUTH_SECRET"
+      ],
+      "detail": [
+        "AUTH_SECRET:PIN(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 23.380999999999403
+    },
+    {
+      "id": "en-054",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "iban",
+      "expected": [
+        "FINANCIAL"
+      ],
+      "predicted": [
+        "FINANCIAL"
+      ],
+      "detail": [
+        "FINANCIAL:IBAN(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 36.608399999999165
+    },
+    {
+      "id": "ar-055",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "iban",
+      "expected": [
+        "FINANCIAL"
+      ],
+      "predicted": [
+        "FINANCIAL"
+      ],
+      "detail": [
+        "FINANCIAL:IBAN(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 40.91259999999966
+    },
+    {
+      "id": "en-056",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "iban",
+      "expected": [
+        "FINANCIAL"
+      ],
+      "predicted": [
+        "FINANCIAL"
+      ],
+      "detail": [
+        "FINANCIAL:IBAN(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 45.82060000000092
+    },
+    {
+      "id": "en-057",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "card",
+      "expected": [
+        "FINANCIAL"
+      ],
+      "predicted": [
+        "FINANCIAL"
+      ],
+      "detail": [
+        "FINANCIAL:CARD_NUMBER(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 38.70190000000002
+    },
+    {
+      "id": "ar-058",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "card",
+      "expected": [
+        "FINANCIAL"
+      ],
+      "predicted": [
+        "FINANCIAL"
+      ],
+      "detail": [
+        "FINANCIAL:CARD_NUMBER(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 48.173399999999674
+    },
+    {
+      "id": "en-059",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "card",
+      "expected": [
+        "FINANCIAL"
+      ],
+      "predicted": [
+        "FINANCIAL"
+      ],
+      "detail": [
+        "FINANCIAL:CARD_NUMBER(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 42.91560000000027
+    },
+    {
+      "id": "ar-060",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "card",
+      "expected": [
+        "FINANCIAL"
+      ],
+      "predicted": [
+        "FINANCIAL"
+      ],
+      "detail": [
+        "FINANCIAL:CARD_NUMBER(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 58.82180000000153
+    },
+    {
+      "id": "en-061",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "card",
+      "expected": [
+        "FINANCIAL"
+      ],
+      "predicted": [
+        "FINANCIAL"
+      ],
+      "detail": [
+        "FINANCIAL:CARD_NUMBER(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 84.0619999999999
+    },
+    {
+      "id": "en-062",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "cvv",
+      "expected": [
+        "FINANCIAL"
+      ],
+      "predicted": [
+        "FINANCIAL"
+      ],
+      "detail": [
+        "FINANCIAL:CVV(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 56.415899999999965
+    },
+    {
+      "id": "ar-063",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "cvv",
+      "expected": [
+        "FINANCIAL"
+      ],
+      "predicted": [
+        "FINANCIAL"
+      ],
+      "detail": [
+        "FINANCIAL:CVV(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 64.40189999999893
+    },
+    {
+      "id": "en-064",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "cvv",
+      "expected": [
+        "FINANCIAL"
+      ],
+      "predicted": [
+        "FINANCIAL"
+      ],
+      "detail": [
+        "FINANCIAL:CVV(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 110.84630000000107
+    },
+    {
+      "id": "ar-065",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "cvv",
+      "expected": [
+        "FINANCIAL"
+      ],
+      "predicted": [
+        "FINANCIAL"
+      ],
+      "detail": [
+        "FINANCIAL:CVV(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 36.53429999999935
+    },
+    {
+      "id": "en-066",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "cvv",
+      "expected": [
+        "FINANCIAL"
+      ],
+      "predicted": [
+        "FINANCIAL"
+      ],
+      "detail": [
+        "FINANCIAL:CVV(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 33.97439999999915
+    },
+    {
+      "id": "en-067",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "swift",
+      "expected": [
+        "FINANCIAL"
+      ],
+      "predicted": [
+        "FINANCIAL"
+      ],
+      "detail": [
+        "FINANCIAL:SWIFT(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 35.1908999999996
+    },
+    {
+      "id": "ar-068",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "swift",
+      "expected": [
+        "FINANCIAL"
+      ],
+      "predicted": [
+        "FINANCIAL"
+      ],
+      "detail": [
+        "FINANCIAL:SWIFT(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 19.478300000000672
+    },
+    {
+      "id": "en-069",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "swift",
+      "expected": [
+        "FINANCIAL"
+      ],
+      "predicted": [
+        "FINANCIAL"
+      ],
+      "detail": [
+        "FINANCIAL:SWIFT(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 37.59689999999864
+    },
+    {
+      "id": "en-070",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "bank-account",
+      "expected": [
+        "FINANCIAL"
+      ],
+      "predicted": [
+        "FINANCIAL"
+      ],
+      "detail": [
+        "FINANCIAL:BANK_ACCOUNT(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 62.852999999999156
+    },
+    {
+      "id": "ar-071",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "bank-account",
+      "expected": [
+        "FINANCIAL"
+      ],
+      "predicted": [
+        "FINANCIAL"
+      ],
+      "detail": [
+        "FINANCIAL:BANK_ACCOUNT(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 54.71989999999823
+    },
+    {
+      "id": "en-072",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "bank-account",
+      "expected": [
+        "FINANCIAL"
+      ],
+      "predicted": [
+        "FINANCIAL"
+      ],
+      "detail": [
+        "FINANCIAL:BANK_ACCOUNT(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 83.05529999999999
+    },
+    {
+      "id": "ar-073",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "bank-account",
+      "expected": [
+        "FINANCIAL"
+      ],
+      "predicted": [
+        "FINANCIAL"
+      ],
+      "detail": [
+        "FINANCIAL:BANK_ACCOUNT(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 70.11549999999988
+    },
+    {
+      "id": "en-074",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "bank-account",
+      "expected": [
+        "FINANCIAL"
+      ],
+      "predicted": [
+        "FINANCIAL"
+      ],
+      "detail": [
+        "FINANCIAL:BANK_ACCOUNT(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 94.67529999999897
+    },
+    {
+      "id": "en-075",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "saudi-id",
+      "expected": [
+        "PERSONAL_IDENTITY"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:NATIONAL_ID(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 39.16219999999885
+    },
+    {
+      "id": "ar-076",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "saudi-id",
+      "expected": [
+        "PERSONAL_IDENTITY"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:NATIONAL_ID(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 36.591200000000754
+    },
+    {
+      "id": "en-077",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "saudi-id",
+      "expected": [
+        "PERSONAL_IDENTITY"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:NATIONAL_ID(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 29.136099999999715
+    },
+    {
+      "id": "ar-078",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "saudi-id",
+      "expected": [
+        "PERSONAL_IDENTITY"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:NATIONAL_ID(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 70.57369999999901
+    },
+    {
+      "id": "en-079",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "saudi-id",
+      "expected": [
+        "PERSONAL_IDENTITY"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:NATIONAL_ID(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 27.176399999998466
+    },
+    {
+      "id": "en-080",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "passport",
+      "expected": [
+        "PERSONAL_IDENTITY"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:PASSPORT(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 17.31369999999879
+    },
+    {
+      "id": "ar-081",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "passport",
+      "expected": [
+        "PERSONAL_IDENTITY"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:PASSPORT(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 22.285499999999956
+    },
+    {
+      "id": "en-082",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "passport",
+      "expected": [
+        "PERSONAL_IDENTITY"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:PASSPORT(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 25.261899999999514
+    },
+    {
+      "id": "ar-083",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "passport",
+      "expected": [
+        "PERSONAL_IDENTITY"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:PASSPORT(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 30.363900000000285
+    },
+    {
+      "id": "en-084",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "passport",
+      "expected": [
+        "PERSONAL_IDENTITY"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:PASSPORT(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 37.34770000000026
+    },
+    {
+      "id": "en-085",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "ssn",
+      "expected": [
+        "PERSONAL_IDENTITY"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:SSN(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 22.269899999999325
+    },
+    {
+      "id": "ar-086",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "ssn",
+      "expected": [
+        "PERSONAL_IDENTITY"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:SSN(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 27.971299999999246
+    },
+    {
+      "id": "en-087",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "ssn",
+      "expected": [
+        "PERSONAL_IDENTITY"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:SSN(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 28.39389999999912
+    },
+    {
+      "id": "en-088",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "licence-id",
+      "expected": [
+        "PERSONAL_IDENTITY"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:ID_NUMBER(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 22.1875
+    },
+    {
+      "id": "ar-089",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "licence-id",
+      "expected": [
+        "PERSONAL_IDENTITY"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:ID_NUMBER(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 18.058899999999994
+    },
+    {
+      "id": "en-090",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "licence-id",
+      "expected": [
+        "PERSONAL_IDENTITY"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:ID_NUMBER(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 17.827799999999115
+    },
+    {
+      "id": "ar-091",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "licence-id",
+      "expected": [
+        "PERSONAL_IDENTITY"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:ID_NUMBER(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 25.066799999998693
+    },
+    {
+      "id": "en-092",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "licence-id",
+      "expected": [
+        "PERSONAL_IDENTITY"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:ID_NUMBER(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 22.199799999998504
+    },
+    {
+      "id": "en-093",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "mrn",
+      "expected": [
+        "HEALTH"
+      ],
+      "predicted": [
+        "HEALTH"
+      ],
+      "detail": [
+        "HEALTH:MEDICAL_RECORD(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 18.155000000000655
+    },
+    {
+      "id": "ar-094",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "mrn",
+      "expected": [
+        "HEALTH"
+      ],
+      "predicted": [
+        "HEALTH"
+      ],
+      "detail": [
+        "HEALTH:MEDICAL_RECORD(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 37.16389999999956
+    },
+    {
+      "id": "en-095",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "mrn",
+      "expected": [
+        "HEALTH"
+      ],
+      "predicted": [
+        "HEALTH"
+      ],
+      "detail": [
+        "HEALTH:MEDICAL_RECORD(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 23.915899999999965
+    },
+    {
+      "id": "ar-096",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "mrn",
+      "expected": [
+        "HEALTH"
+      ],
+      "predicted": [
+        "HEALTH"
+      ],
+      "detail": [
+        "HEALTH:MEDICAL_RECORD(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 43.240499999999884
+    },
+    {
+      "id": "en-097",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "mrn",
+      "expected": [
+        "HEALTH"
+      ],
+      "predicted": [
+        "HEALTH"
+      ],
+      "detail": [
+        "HEALTH:MEDICAL_RECORD(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 23.24120000000039
+    },
+    {
+      "id": "en-098",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "icd",
+      "expected": [
+        "HEALTH"
+      ],
+      "predicted": [
+        "HEALTH"
+      ],
+      "detail": [
+        "HEALTH:DIAGNOSIS_CODE(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 36.29039999999986
+    },
+    {
+      "id": "ar-099",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "icd",
+      "expected": [
+        "HEALTH"
+      ],
+      "predicted": [
+        "HEALTH"
+      ],
+      "detail": [
+        "HEALTH:DIAGNOSIS_CODE(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 50.044200000000274
+    },
+    {
+      "id": "en-100",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "icd",
+      "expected": [
+        "HEALTH"
+      ],
+      "predicted": [
+        "HEALTH"
+      ],
+      "detail": [
+        "HEALTH:DIAGNOSIS_CODE(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 24.094499999999243
+    },
+    {
+      "id": "en-101",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "email",
+      "expected": [
+        "CONTACT"
+      ],
+      "predicted": [
+        "CONTACT"
+      ],
+      "detail": [
+        "CONTACT:EMAIL(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 20.94340000000011
+    },
+    {
+      "id": "ar-102",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "email",
+      "expected": [
+        "CONTACT"
+      ],
+      "predicted": [
+        "CONTACT"
+      ],
+      "detail": [
+        "CONTACT:EMAIL(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 14.64010000000053
+    },
+    {
+      "id": "en-103",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "email",
+      "expected": [
+        "CONTACT"
+      ],
+      "predicted": [
+        "CONTACT"
+      ],
+      "detail": [
+        "CONTACT:EMAIL(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 15.957700000000841
+    },
+    {
+      "id": "ar-104",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "email",
+      "expected": [
+        "CONTACT"
+      ],
+      "predicted": [
+        "CONTACT"
+      ],
+      "detail": [
+        "CONTACT:EMAIL(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 21.048000000000684
+    },
+    {
+      "id": "en-105",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "email",
+      "expected": [
+        "CONTACT"
+      ],
+      "predicted": [
+        "CONTACT"
+      ],
+      "detail": [
+        "CONTACT:EMAIL(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 18.381400000000212
+    },
+    {
+      "id": "en-106",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "saudi-mobile",
+      "expected": [
+        "CONTACT"
+      ],
+      "predicted": [
+        "CONTACT"
+      ],
+      "detail": [
+        "CONTACT:PHONE(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 37.052700000000186
+    },
+    {
+      "id": "ar-107",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "saudi-mobile",
+      "expected": [
+        "CONTACT"
+      ],
+      "predicted": [
+        "CONTACT"
+      ],
+      "detail": [
+        "CONTACT:PHONE(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 71.41439999999966
+    },
+    {
+      "id": "en-108",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "saudi-mobile",
+      "expected": [
+        "CONTACT"
+      ],
+      "predicted": [
+        "CONTACT"
+      ],
+      "detail": [
+        "CONTACT:PHONE(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 39.88810000000012
+    },
+    {
+      "id": "ar-109",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "saudi-mobile",
+      "expected": [
+        "CONTACT"
+      ],
+      "predicted": [
+        "CONTACT"
+      ],
+      "detail": [
+        "CONTACT:PHONE(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 53.0088999999989
+    },
+    {
+      "id": "en-110",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "intl-phone",
+      "expected": [
+        "CONTACT"
+      ],
+      "predicted": [
+        "CONTACT"
+      ],
+      "detail": [
+        "CONTACT:PHONE(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 77.375
+    },
+    {
+      "id": "ar-111",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "intl-phone",
+      "expected": [
+        "CONTACT"
+      ],
+      "predicted": [
+        "CONTACT"
+      ],
+      "detail": [
+        "CONTACT:PHONE(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 65.60720000000038
+    },
+    {
+      "id": "en-112",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "intl-phone",
+      "expected": [
+        "CONTACT"
+      ],
+      "predicted": [
+        "CONTACT"
+      ],
+      "detail": [
+        "CONTACT:PHONE(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 29.738600000000588
+    },
+    {
+      "id": "en-113",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "ipv4",
+      "expected": [
+        "NETWORK"
+      ],
+      "predicted": [
+        "NETWORK"
+      ],
+      "detail": [
+        "NETWORK:IP_ADDRESS(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 52.48559999999998
+    },
+    {
+      "id": "ar-114",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "ipv4",
+      "expected": [
+        "NETWORK"
+      ],
+      "predicted": [
+        "NETWORK"
+      ],
+      "detail": [
+        "NETWORK:IP_ADDRESS(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 22.943700000001627
+    },
+    {
+      "id": "en-115",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "ipv4",
+      "expected": [
+        "NETWORK"
+      ],
+      "predicted": [
+        "NETWORK"
+      ],
+      "detail": [
+        "NETWORK:IP_ADDRESS(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 65.30179999999928
+    },
+    {
+      "id": "ar-116",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "ipv4",
+      "expected": [
+        "NETWORK"
+      ],
+      "predicted": [
+        "LOCATION",
+        "NETWORK"
+      ],
+      "detail": [
+        "LOCATION:ADDRESS(ner)",
+        "NETWORK:IP_ADDRESS(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 36.043000000001484
+    },
+    {
+      "id": "en-117",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "ipv6",
+      "expected": [
+        "NETWORK"
+      ],
+      "predicted": [
+        "NETWORK"
+      ],
+      "detail": [
+        "NETWORK:IP_ADDRESS(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 29.85280000000057
+    },
+    {
+      "id": "ar-118",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "ipv6",
+      "expected": [
+        "NETWORK"
+      ],
+      "predicted": [
+        "NETWORK"
+      ],
+      "detail": [
+        "NETWORK:IP_ADDRESS(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 26.069400000000314
+    },
+    {
+      "id": "en-119",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "ipv6",
+      "expected": [
+        "NETWORK"
+      ],
+      "predicted": [
+        "NETWORK"
+      ],
+      "detail": [
+        "NETWORK:IP_ADDRESS(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 24.954000000001543
+    },
+    {
+      "id": "en-120",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "mac",
+      "expected": [
+        "NETWORK"
+      ],
+      "predicted": [
+        "NETWORK"
+      ],
+      "detail": [
+        "NETWORK:MAC_ADDRESS(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 18.495100000000093
+    },
+    {
+      "id": "ar-121",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "mac",
+      "expected": [
+        "NETWORK"
+      ],
+      "predicted": [
+        "NETWORK"
+      ],
+      "detail": [
+        "NETWORK:MAC_ADDRESS(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 18.3666000000012
+    },
+    {
+      "id": "en-122",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "mac",
+      "expected": [
+        "NETWORK"
+      ],
+      "predicted": [
+        "NETWORK"
+      ],
+      "detail": [
+        "NETWORK:MAC_ADDRESS(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 20.111700000001292
+    },
+    {
+      "id": "ar-123",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "mac",
+      "expected": [
+        "NETWORK"
+      ],
+      "predicted": [
+        "NETWORK"
+      ],
+      "detail": [
+        "NETWORK:MAC_ADDRESS(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 18.15020000000004
+    },
+    {
+      "id": "en-124",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "mac",
+      "expected": [
+        "NETWORK"
+      ],
+      "predicted": [
+        "NETWORK"
+      ],
+      "detail": [
+        "NETWORK:MAC_ADDRESS(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 20.57339999999931
+    },
+    {
+      "id": "en-125",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "url",
+      "expected": [
+        "WEB_LINK"
+      ],
+      "predicted": [
+        "WEB_LINK"
+      ],
+      "detail": [
+        "WEB_LINK:URL(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 22.819500000001426
+    },
+    {
+      "id": "ar-126",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "url",
+      "expected": [
+        "WEB_LINK"
+      ],
+      "predicted": [
+        "WEB_LINK"
+      ],
+      "detail": [
+        "WEB_LINK:URL(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 23.090000000000146
+    },
+    {
+      "id": "en-127",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "url",
+      "expected": [
+        "WEB_LINK"
+      ],
+      "predicted": [
+        "WEB_LINK"
+      ],
+      "detail": [
+        "WEB_LINK:URL(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 31.10620000000199
+    },
+    {
+      "id": "ar-128",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "url",
+      "expected": [
+        "WEB_LINK"
+      ],
+      "predicted": [
+        "WEB_LINK"
+      ],
+      "detail": [
+        "WEB_LINK:URL(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 60.849300000001676
+    },
+    {
+      "id": "en-129",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "url",
+      "expected": [
+        "WEB_LINK"
+      ],
+      "predicted": [
+        "WEB_LINK"
+      ],
+      "detail": [
+        "WEB_LINK:URL(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 59.214499999998225
+    },
+    {
+      "id": "en-130",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "gps",
+      "expected": [
+        "LOCATION"
+      ],
+      "predicted": [
+        "LOCATION"
+      ],
+      "detail": [
+        "LOCATION:GPS(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 60.275399999998626
+    },
+    {
+      "id": "ar-131",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "gps",
+      "expected": [
+        "LOCATION"
+      ],
+      "predicted": [
+        "LOCATION"
+      ],
+      "detail": [
+        "LOCATION:GPS(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 43.69800000000032
+    },
+    {
+      "id": "en-132",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "gps",
+      "expected": [
+        "LOCATION"
+      ],
+      "predicted": [
+        "LOCATION"
+      ],
+      "detail": [
+        "LOCATION:GPS(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 38.20020000000295
+    },
+    {
+      "id": "ar-133",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "gps",
+      "expected": [
+        "LOCATION"
+      ],
+      "predicted": [
+        "LOCATION"
+      ],
+      "detail": [
+        "LOCATION:GPS(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 24.064000000002125
+    },
+    {
+      "id": "en-134",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "gps",
+      "expected": [
+        "LOCATION"
+      ],
+      "predicted": [
+        "LOCATION"
+      ],
+      "detail": [
+        "LOCATION:GPS(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 52.968800000002375
+    },
+    {
+      "id": "en-135",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "vin",
+      "expected": [
+        "VEHICLE"
+      ],
+      "predicted": [
+        "VEHICLE"
+      ],
+      "detail": [
+        "VEHICLE:VIN(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 91.4387999999999
+    },
+    {
+      "id": "ar-136",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "vin",
+      "expected": [
+        "VEHICLE"
+      ],
+      "predicted": [
+        "VEHICLE"
+      ],
+      "detail": [
+        "VEHICLE:VIN(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 50.56980000000112
+    },
+    {
+      "id": "en-137",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "vin",
+      "expected": [
+        "VEHICLE"
+      ],
+      "predicted": [
+        "VEHICLE"
+      ],
+      "detail": [
+        "VEHICLE:VIN(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 90.54399999999805
+    },
+    {
+      "id": "ar-138",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "vin",
+      "expected": [
+        "VEHICLE"
+      ],
+      "predicted": [
+        "VEHICLE"
+      ],
+      "detail": [
+        "VEHICLE:VIN(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 38.49339999999938
+    },
+    {
+      "id": "en-139",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "vin",
+      "expected": [
+        "VEHICLE"
+      ],
+      "predicted": [
+        "VEHICLE"
+      ],
+      "detail": [
+        "VEHICLE:VIN(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 48.289700000001176
+    },
+    {
+      "id": "en-140",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "saudi-vat",
+      "expected": [
+        "CORPORATE"
+      ],
+      "predicted": [
+        "CORPORATE"
+      ],
+      "detail": [
+        "CORPORATE:VAT_NUMBER(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 56.88359999999739
+    },
+    {
+      "id": "ar-141",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "saudi-vat",
+      "expected": [
+        "CORPORATE"
+      ],
+      "predicted": [
+        "CORPORATE"
+      ],
+      "detail": [
+        "CORPORATE:VAT_NUMBER(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 24.151600000001054
+    },
+    {
+      "id": "en-142",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "saudi-vat",
+      "expected": [
+        "CORPORATE"
+      ],
+      "predicted": [
+        "CORPORATE"
+      ],
+      "detail": [
+        "CORPORATE:VAT_NUMBER(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 25.202300000000832
+    },
+    {
+      "id": "en-143",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "cr",
+      "expected": [
+        "CORPORATE"
+      ],
+      "predicted": [
+        "CORPORATE"
+      ],
+      "detail": [
+        "CORPORATE:CR_NUMBER(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 34.38620000000083
+    },
+    {
+      "id": "ar-144",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "cr",
+      "expected": [
+        "CORPORATE"
+      ],
+      "predicted": [
+        "CORPORATE"
+      ],
+      "detail": [
+        "CORPORATE:CR_NUMBER(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 29.440699999999197
+    },
+    {
+      "id": "en-145",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "cr",
+      "expected": [
+        "CORPORATE"
+      ],
+      "predicted": [
+        "CORPORATE"
+      ],
+      "detail": [
+        "CORPORATE:CR_NUMBER(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 38.518299999999726
+    },
+    {
+      "id": "en-146",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "windows-path",
+      "expected": [
+        "FILE_PATH"
+      ],
+      "predicted": [
+        "FILE_PATH"
+      ],
+      "detail": [
+        "FILE_PATH:FILE_PATH(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 22.79110000000219
+    },
+    {
+      "id": "ar-147",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "windows-path",
+      "expected": [
+        "FILE_PATH"
+      ],
+      "predicted": [
+        "FILE_PATH"
+      ],
+      "detail": [
+        "FILE_PATH:FILE_PATH(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 26.132500000003347
+    },
+    {
+      "id": "en-148",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "windows-path",
+      "expected": [
+        "FILE_PATH"
+      ],
+      "predicted": [
+        "FILE_PATH"
+      ],
+      "detail": [
+        "FILE_PATH:FILE_PATH(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 22.484599999999773
+    },
+    {
+      "id": "en-149",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "unix-path",
+      "expected": [
+        "FILE_PATH"
+      ],
+      "predicted": [
+        "FILE_PATH"
+      ],
+      "detail": [
+        "FILE_PATH:FILE_PATH(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 19.430100000001403
+    },
+    {
+      "id": "ar-150",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "unix-path",
+      "expected": [
+        "FILE_PATH"
+      ],
+      "predicted": [
+        "FILE_PATH"
+      ],
+      "detail": [
+        "FILE_PATH:FILE_PATH(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 23.30159999999887
+    },
+    {
+      "id": "en-151",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "unix-path",
+      "expected": [
+        "FILE_PATH"
+      ],
+      "predicted": [
+        "FILE_PATH"
+      ],
+      "detail": [
+        "FILE_PATH:FILE_PATH(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 16.69080000000031
+    },
+    {
+      "id": "en-152",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "secret-file",
+      "expected": [
+        "FILE_PATH"
+      ],
+      "predicted": [
+        "FILE_PATH"
+      ],
+      "detail": [
+        "FILE_PATH:SECRET_FILE(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 13.201900000000023
+    },
+    {
+      "id": "ar-153",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "secret-file",
+      "expected": [
+        "FILE_PATH"
+      ],
+      "predicted": [
+        "FILE_PATH"
+      ],
+      "detail": [
+        "FILE_PATH:SECRET_FILE(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 16.06499999999869
+    },
+    {
+      "id": "en-154",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "secret-file",
+      "expected": [
+        "FILE_PATH"
+      ],
+      "predicted": [
+        "FILE_PATH"
+      ],
+      "detail": [
+        "FILE_PATH:SECRET_FILE(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 15.274600000000646
+    },
+    {
+      "id": "en-155",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "uuid",
+      "expected": [
+        "FINGERPRINT"
+      ],
+      "predicted": [
+        "FINGERPRINT"
+      ],
+      "detail": [
+        "FINGERPRINT:UUID(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 28.742599999997765
+    },
+    {
+      "id": "ar-156",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "uuid",
+      "expected": [
+        "FINGERPRINT"
+      ],
+      "predicted": [
+        "FINGERPRINT"
+      ],
+      "detail": [
+        "FINGERPRINT:UUID(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 52.045500000000175
+    },
+    {
+      "id": "en-157",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "uuid",
+      "expected": [
+        "FINGERPRINT"
+      ],
+      "predicted": [
+        "FINGERPRINT"
+      ],
+      "detail": [
+        "FINGERPRINT:UUID(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 39.64770000000135
+    },
+    {
+      "id": "en-158",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "hash",
+      "expected": [
+        "FINGERPRINT"
+      ],
+      "predicted": [
+        "FINGERPRINT"
+      ],
+      "detail": [
+        "FINGERPRINT:HASH(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 38.782600000002276
+    },
+    {
+      "id": "ar-159",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "hash",
+      "expected": [
+        "FINGERPRINT"
+      ],
+      "predicted": [
+        "FINGERPRINT"
+      ],
+      "detail": [
+        "FINGERPRINT:HASH(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 49.185700000001816
+    },
+    {
+      "id": "en-160",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "hash",
+      "expected": [
+        "FINGERPRINT"
+      ],
+      "predicted": [
+        "FINGERPRINT"
+      ],
+      "detail": [
+        "FINGERPRINT:HASH(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 33.1288999999997
+    },
+    {
+      "id": "en-161",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "imei",
+      "expected": [
+        "FINGERPRINT"
+      ],
+      "predicted": [
+        "FINANCIAL"
+      ],
+      "detail": [
+        "FINANCIAL:CARD_NUMBER(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "HIGH",
+      "ms": 15.855000000003201
+    },
+    {
+      "id": "ar-162",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "imei",
+      "expected": [
+        "FINGERPRINT"
+      ],
+      "predicted": [
+        "FINANCIAL"
+      ],
+      "detail": [
+        "FINANCIAL:CARD_NUMBER(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "HIGH",
+      "ms": 19.884699999998702
+    },
+    {
+      "id": "en-163",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "imei",
+      "expected": [
+        "FINGERPRINT"
+      ],
+      "predicted": [
+        "FINANCIAL"
+      ],
+      "detail": [
+        "FINANCIAL:CARD_NUMBER(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "HIGH",
+      "ms": 19.194299999999203
+    },
+    {
+      "id": "en-164",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "tracking",
+      "expected": [
+        "SHIPPING"
+      ],
+      "predicted": [
+        "SHIPPING"
+      ],
+      "detail": [
+        "SHIPPING:TRACKING_NUMBER(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 21.495999999999185
+    },
+    {
+      "id": "ar-165",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "tracking",
+      "expected": [
+        "SHIPPING"
+      ],
+      "predicted": [
+        "SHIPPING"
+      ],
+      "detail": [
+        "SHIPPING:TRACKING_NUMBER(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 19.82170000000042
+    },
+    {
+      "id": "en-166",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "tracking",
+      "expected": [
+        "SHIPPING"
+      ],
+      "predicted": [
+        "SHIPPING"
+      ],
+      "detail": [
+        "SHIPPING:TRACKING_NUMBER(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 16.461899999998423
+    },
+    {
+      "id": "ar-167",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "tracking",
+      "expected": [
+        "SHIPPING"
+      ],
+      "predicted": [
+        "SHIPPING"
+      ],
+      "detail": [
+        "SHIPPING:TRACKING_NUMBER(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 20.702799999999115
+    },
+    {
+      "id": "en-168",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "tracking",
+      "expected": [
+        "SHIPPING"
+      ],
+      "predicted": [
+        "SHIPPING"
+      ],
+      "detail": [
+        "SHIPPING:TRACKING_NUMBER(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 19.180700000000797
+    },
+    {
+      "id": "en-169",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "account-id",
+      "expected": [
+        "ACCOUNT"
+      ],
+      "predicted": [
+        "ACCOUNT"
+      ],
+      "detail": [
+        "ACCOUNT:ACCOUNT_ID(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 20.972900000000664
+    },
+    {
+      "id": "ar-170",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "account-id",
+      "expected": [
+        "ACCOUNT"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:ID_NUMBER(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "HIGH",
+      "ms": 21.90469999999914
+    },
+    {
+      "id": "en-171",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "account-id",
+      "expected": [
+        "ACCOUNT"
+      ],
+      "predicted": [
+        "ACCOUNT"
+      ],
+      "detail": [
+        "ACCOUNT:ACCOUNT_ID(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 15.315500000000611
+    },
+    {
+      "id": "ar-172",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "account-id",
+      "expected": [
+        "ACCOUNT"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:ID_NUMBER(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "HIGH",
+      "ms": 18.146600000000035
+    },
+    {
+      "id": "en-173",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "account-id",
+      "expected": [
+        "ACCOUNT"
+      ],
+      "predicted": [
+        "ACCOUNT"
+      ],
+      "detail": [
+        "ACCOUNT:ACCOUNT_ID(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 22.626499999998487
+    },
+    {
+      "id": "en-174",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "dob",
+      "expected": [
+        "DATETIME"
+      ],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "SAFE",
+      "ms": 26.398799999999028
+    },
+    {
+      "id": "ar-175",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "dob",
+      "expected": [
+        "DATETIME"
+      ],
+      "predicted": [
+        "DATETIME"
+      ],
+      "detail": [
+        "DATETIME:DATE_OF_BIRTH(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 22.01220000000103
+    },
+    {
+      "id": "en-176",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "dob",
+      "expected": [
+        "DATETIME"
+      ],
+      "predicted": [
+        "DATETIME"
+      ],
+      "detail": [
+        "DATETIME:DATE_OF_BIRTH(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 20.220900000000256
+    },
+    {
+      "id": "ar-177",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "dob",
+      "expected": [
+        "DATETIME"
+      ],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "SAFE",
+      "ms": 23.479200000001583
+    },
+    {
+      "id": "en-178",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "dob",
+      "expected": [
+        "DATETIME"
+      ],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "SAFE",
+      "ms": 22.692399999999907
+    },
+    {
+      "id": "en-179",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "user-agent",
+      "expected": [
+        "LOGS"
+      ],
+      "predicted": [
+        "LOGS"
+      ],
+      "detail": [
+        "LOGS:USER_AGENT(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 35.116900000000896
+    },
+    {
+      "id": "ar-180",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "user-agent",
+      "expected": [
+        "LOGS"
+      ],
+      "predicted": [
+        "LOGS"
+      ],
+      "detail": [
+        "LOGS:USER_AGENT(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 38.74919999999838
+    },
+    {
+      "id": "en-181",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "user-agent",
+      "expected": [
+        "LOGS"
+      ],
+      "predicted": [
+        "LOGS"
+      ],
+      "detail": [
+        "LOGS:USER_AGENT(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 38.377699999997276
+    },
+    {
+      "id": "ar-182",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "user-agent",
+      "expected": [
+        "LOGS"
+      ],
+      "predicted": [
+        "LOGS"
+      ],
+      "detail": [
+        "LOGS:USER_AGENT(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 38.92729999999938
+    },
+    {
+      "id": "en-183",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "user-agent",
+      "expected": [
+        "LOGS"
+      ],
+      "predicted": [
+        "LOGS"
+      ],
+      "detail": [
+        "LOGS:USER_AGENT(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 37.75109999999768
+    },
+    {
+      "id": "en-184",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "student-id",
+      "expected": [
+        "EDUCATION"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:NATIONAL_ID(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "HIGH",
+      "ms": 20.361000000000786
+    },
+    {
+      "id": "ar-185",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "student-id",
+      "expected": [
+        "EDUCATION"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:NATIONAL_ID(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "HIGH",
+      "ms": 25.716499999998632
+    },
+    {
+      "id": "en-186",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "student-id",
+      "expected": [
+        "EDUCATION"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:NATIONAL_ID(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "HIGH",
+      "ms": 19.441000000002532
+    },
+    {
+      "id": "ar-187",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "student-id",
+      "expected": [
+        "EDUCATION"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:NATIONAL_ID(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "HIGH",
+      "ms": 19.564299999998184
+    },
+    {
+      "id": "en-188",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "student-id",
+      "expected": [
+        "EDUCATION"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:NATIONAL_ID(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "HIGH",
+      "ms": 15.090400000000955
+    },
+    {
+      "id": "en-189",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "long-number",
+      "expected": [
+        "NUMERIC"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:NATIONAL_ID(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "HIGH",
+      "ms": 18.286999999996624
+    },
+    {
+      "id": "ar-190",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "long-number",
+      "expected": [
+        "NUMERIC"
+      ],
+      "predicted": [
+        "CORPORATE"
+      ],
+      "detail": [
+        "CORPORATE:TAX_ID(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 21.65060000000085
+    },
+    {
+      "id": "en-191",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "long-number",
+      "expected": [
+        "NUMERIC"
+      ],
+      "predicted": [
+        "NUMERIC"
+      ],
+      "detail": [
+        "NUMERIC:NUMBER(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 16.272499999999127
+    },
+    {
+      "id": "ar-192",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "long-number",
+      "expected": [
+        "NUMERIC"
+      ],
+      "predicted": [
+        "NUMERIC"
+      ],
+      "detail": [
+        "NUMERIC:NUMBER(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 18.24750000000131
+    },
+    {
+      "id": "en-193",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "long-number",
+      "expected": [
+        "NUMERIC"
+      ],
+      "predicted": [
+        "NUMERIC"
+      ],
+      "detail": [
+        "NUMERIC:NUMBER(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 17.06580000000031
+    },
+    {
+      "id": "en-194",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "keyword-only",
+      "expected": [
+        "KEYWORD"
+      ],
+      "predicted": [
+        "KEYWORD"
+      ],
+      "detail": [
+        "KEYWORD:KEYWORD(rule)"
+      ],
+      "expectedRisk": "LOW",
+      "predictedRisk": "LOW",
+      "ms": 14.641100000000733
+    },
+    {
+      "id": "ar-195",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "keyword-only",
+      "expected": [
+        "KEYWORD"
+      ],
+      "predicted": [
+        "KEYWORD"
+      ],
+      "detail": [
+        "KEYWORD:KEYWORD(rule)"
+      ],
+      "expectedRisk": "LOW",
+      "predictedRisk": "LOW",
+      "ms": 13.578600000000733
+    },
+    {
+      "id": "en-196",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "keyword-only",
+      "expected": [
+        "KEYWORD"
+      ],
+      "predicted": [
+        "KEYWORD"
+      ],
+      "detail": [
+        "KEYWORD:KEYWORD(rule)"
+      ],
+      "expectedRisk": "LOW",
+      "predictedRisk": "LOW",
+      "ms": 12.100200000000768
+    },
+    {
+      "id": "ar-197",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "keyword-only",
+      "expected": [
+        "KEYWORD"
+      ],
+      "predicted": [
+        "KEYWORD"
+      ],
+      "detail": [
+        "KEYWORD:KEYWORD(rule)"
+      ],
+      "expectedRisk": "LOW",
+      "predictedRisk": "LOW",
+      "ms": 14.895400000001246
+    },
+    {
+      "id": "en-198",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "keyword-only",
+      "expected": [
+        "KEYWORD"
+      ],
+      "predicted": [
+        "KEYWORD"
+      ],
+      "detail": [
+        "KEYWORD:KEYWORD(rule)"
+      ],
+      "expectedRisk": "LOW",
+      "predictedRisk": "LOW",
+      "ms": 11.864900000000489
+    },
+    {
+      "id": "ar-199",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "keyword-only",
+      "expected": [
+        "KEYWORD"
+      ],
+      "predicted": [
+        "KEYWORD"
+      ],
+      "detail": [
+        "KEYWORD:KEYWORD(rule)"
+      ],
+      "expectedRisk": "LOW",
+      "predictedRisk": "LOW",
+      "ms": 15.164499999998952
+    },
+    {
+      "id": "en-200",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "person",
+      "expected": [
+        "PERSONAL_IDENTITY"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:PERSON(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 14.465199999998731
+    },
+    {
+      "id": "ar-201",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "person",
+      "expected": [
+        "PERSONAL_IDENTITY"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:PERSON(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 16.90810000000056
+    },
+    {
+      "id": "en-202",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "person",
+      "expected": [
+        "PERSONAL_IDENTITY"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:PERSON(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 16.701600000000326
+    },
+    {
+      "id": "ar-203",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "person",
+      "expected": [
+        "PERSONAL_IDENTITY"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:PERSON(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 16.397100000001956
+    },
+    {
+      "id": "en-204",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "person",
+      "expected": [
+        "PERSONAL_IDENTITY"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:PERSON(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 14.518000000000029
+    },
+    {
+      "id": "ar-205",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "person",
+      "expected": [
+        "PERSONAL_IDENTITY"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:PERSON(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 19.204799999999523
+    },
+    {
+      "id": "en-206",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "address",
+      "expected": [
+        "LOCATION"
+      ],
+      "predicted": [
+        "LOCATION"
+      ],
+      "detail": [
+        "LOCATION:ADDRESS(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 17.037099999997736
+    },
+    {
+      "id": "ar-207",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "address",
+      "expected": [
+        "LOCATION"
+      ],
+      "predicted": [
+        "LOCATION"
+      ],
+      "detail": [
+        "LOCATION:ADDRESS(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 18.092499999998836
+    },
+    {
+      "id": "en-208",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "address",
+      "expected": [
+        "LOCATION"
+      ],
+      "predicted": [
+        "LOCATION"
+      ],
+      "detail": [
+        "LOCATION:ADDRESS(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 18.476399999999558
+    },
+    {
+      "id": "ar-209",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "address",
+      "expected": [
+        "LOCATION"
+      ],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "SAFE",
+      "ms": 24.117300000001705
+    },
+    {
+      "id": "en-210",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "address",
+      "expected": [
+        "LOCATION"
+      ],
+      "predicted": [
+        "LOCATION"
+      ],
+      "detail": [
+        "LOCATION:ADDRESS(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 17.157900000001973
+    },
+    {
+      "id": "ar-211",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "address",
+      "expected": [
+        "LOCATION"
+      ],
+      "predicted": [
+        "LOCATION"
+      ],
+      "detail": [
+        "LOCATION:ADDRESS(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 20.251500000002125
+    },
+    {
+      "id": "en-212",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "username",
+      "expected": [
+        "ACCOUNT"
+      ],
+      "predicted": [
+        "ACCOUNT"
+      ],
+      "detail": [
+        "ACCOUNT:USERNAME(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 21.504300000000512
+    },
+    {
+      "id": "ar-213",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "username",
+      "expected": [
+        "ACCOUNT"
+      ],
+      "predicted": [
+        "ACCOUNT"
+      ],
+      "detail": [
+        "ACCOUNT:USERNAME(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 42.047200000000885
+    },
+    {
+      "id": "en-214",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "username",
+      "expected": [
+        "ACCOUNT"
+      ],
+      "predicted": [
+        "ACCOUNT"
+      ],
+      "detail": [
+        "ACCOUNT:USERNAME(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 45.53769999999713
+    },
+    {
+      "id": "ar-215",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "username",
+      "expected": [
+        "ACCOUNT"
+      ],
+      "predicted": [
+        "ACCOUNT"
+      ],
+      "detail": [
+        "ACCOUNT:USERNAME(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 15.716899999999441
+    },
+    {
+      "id": "en-216",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "username",
+      "expected": [
+        "ACCOUNT"
+      ],
+      "predicted": [
+        "ACCOUNT"
+      ],
+      "detail": [
+        "ACCOUNT:USERNAME(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 13.29989999999816
+    },
+    {
+      "id": "ar-217",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "username",
+      "expected": [
+        "ACCOUNT"
+      ],
+      "predicted": [
+        "ACCOUNT"
+      ],
+      "detail": [
+        "ACCOUNT:USERNAME(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 16.39180000000124
+    },
+    {
+      "id": "en-218",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "tax-id",
+      "expected": [
+        "CORPORATE"
+      ],
+      "predicted": [
+        "CORPORATE"
+      ],
+      "detail": [
+        "CORPORATE:TAX_ID(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 18.389400000000023
+    },
+    {
+      "id": "ar-219",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "tax-id",
+      "expected": [
+        "CORPORATE"
+      ],
+      "predicted": [
+        "CORPORATE"
+      ],
+      "detail": [
+        "CORPORATE:TAX_ID(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 21.14300000000003
+    },
+    {
+      "id": "en-220",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "tax-id",
+      "expected": [
+        "CORPORATE"
+      ],
+      "predicted": [
+        "CORPORATE"
+      ],
+      "detail": [
+        "CORPORATE:TAX_ID(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 17.098300000001473
+    },
+    {
+      "id": "ar-221",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "tax-id",
+      "expected": [
+        "CORPORATE"
+      ],
+      "predicted": [
+        "CORPORATE"
+      ],
+      "detail": [
+        "CORPORATE:TAX_ID(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 19.3833999999988
+    },
+    {
+      "id": "en-222",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "tax-id",
+      "expected": [
+        "CORPORATE"
+      ],
+      "predicted": [
+        "CORPORATE"
+      ],
+      "detail": [
+        "CORPORATE:TAX_ID(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 16.712999999999738
+    },
+    {
+      "id": "ar-223",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "tax-id",
+      "expected": [
+        "CORPORATE"
+      ],
+      "predicted": [
+        "CORPORATE"
+      ],
+      "detail": [
+        "CORPORATE:TAX_ID(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 17.4571999999971
+    },
+    {
+      "id": "en-224",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "device-id",
+      "expected": [
+        "FINGERPRINT"
+      ],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "SAFE",
+      "ms": 22.087600000002567
+    },
+    {
+      "id": "ar-225",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "device-id",
+      "expected": [
+        "FINGERPRINT"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:ID_NUMBER(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "HIGH",
+      "ms": 26.317699999999604
+    },
+    {
+      "id": "en-226",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "device-id",
+      "expected": [
+        "FINGERPRINT"
+      ],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "SAFE",
+      "ms": 23.43970000000263
+    },
+    {
+      "id": "ar-227",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "device-id",
+      "expected": [
+        "FINGERPRINT"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:ID_NUMBER(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "HIGH",
+      "ms": 20.535100000000966
+    },
+    {
+      "id": "en-228",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "device-id",
+      "expected": [
+        "FINGERPRINT"
+      ],
+      "predicted": [
+        "ACCOUNT"
+      ],
+      "detail": [
+        "ACCOUNT:ACCOUNT_ID(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 18.449500000002445
+    },
+    {
+      "id": "ar-229",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "device-id",
+      "expected": [
+        "FINGERPRINT"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:ID_NUMBER(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "HIGH",
+      "ms": 23.181899999999587
+    },
+    {
+      "id": "en-230",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "licence-number",
+      "expected": [
+        "LEGAL"
+      ],
+      "predicted": [
+        "LEGAL"
+      ],
+      "detail": [
+        "LEGAL:LICENSE_NUMBER(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 15.72990000000209
+    },
+    {
+      "id": "ar-231",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "licence-number",
+      "expected": [
+        "LEGAL"
+      ],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "SAFE",
+      "ms": 18.594199999999546
+    },
+    {
+      "id": "en-232",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "licence-number",
+      "expected": [
+        "LEGAL"
+      ],
+      "predicted": [
+        "LEGAL"
+      ],
+      "detail": [
+        "LEGAL:LICENSE_NUMBER(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 14.681099999997969
+    },
+    {
+      "id": "ar-233",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "licence-number",
+      "expected": [
+        "LEGAL"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:ID_NUMBER(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "HIGH",
+      "ms": 14.192500000001019
+    },
+    {
+      "id": "en-234",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "licence-number",
+      "expected": [
+        "LEGAL"
+      ],
+      "predicted": [
+        "LEGAL"
+      ],
+      "detail": [
+        "LEGAL:LICENSE_NUMBER(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 14.971599999997125
+    },
+    {
+      "id": "ar-235",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "licence-number",
+      "expected": [
+        "LEGAL"
+      ],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:ID_NUMBER(ner)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "HIGH",
+      "ms": 17.340700000000652
+    },
+    {
+      "id": "en-236",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "multi",
+      "expected": [
+        "CONTACT",
+        "PERSONAL_IDENTITY"
+      ],
+      "predicted": [
+        "CONTACT",
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "CONTACT:EMAIL(rule)",
+        "PERSONAL_IDENTITY:NATIONAL_ID(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 21.29069999999774
+    },
+    {
+      "id": "en-237",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "multi",
+      "expected": [
+        "AUTH_SECRET",
+        "CONTACT",
+        "KEYWORD"
+      ],
+      "predicted": [
+        "AUTH_SECRET",
+        "CONTACT",
+        "KEYWORD"
+      ],
+      "detail": [
+        "AUTH_SECRET:PASSWORD(rule)",
+        "CONTACT:EMAIL(rule)",
+        "KEYWORD:KEYWORD(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 23.28280000000086
+    },
+    {
+      "id": "en-238",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "multi",
+      "expected": [
+        "CONTACT",
+        "FINANCIAL"
+      ],
+      "predicted": [
+        "CONTACT",
+        "FINANCIAL"
+      ],
+      "detail": [
+        "CONTACT:PHONE(rule)",
+        "FINANCIAL:CARD_NUMBER(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 28.3875999999982
+    },
+    {
+      "id": "en-239",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "multi",
+      "expected": [
+        "DEV_SECRET",
+        "NETWORK"
+      ],
+      "predicted": [
+        "DEV_SECRET",
+        "NETWORK"
+      ],
+      "detail": [
+        "DEV_SECRET:CONNECTION_STRING(rule)",
+        "NETWORK:IP_ADDRESS(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 33.41349999999875
+    },
+    {
+      "id": "en-240",
+      "lang": "en",
+      "kind": "sensitive",
+      "type": "multi",
+      "expected": [
+        "CONTACT",
+        "WEB_LINK"
+      ],
+      "predicted": [
+        "CONTACT",
+        "WEB_LINK"
+      ],
+      "detail": [
+        "CONTACT:EMAIL(rule)",
+        "WEB_LINK:URL(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 25.41779999999926
+    },
+    {
+      "id": "ar-241",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "multi",
+      "expected": [
+        "CONTACT",
+        "FINANCIAL"
+      ],
+      "predicted": [
+        "CONTACT",
+        "FINANCIAL"
+      ],
+      "detail": [
+        "CONTACT:EMAIL(rule)",
+        "FINANCIAL:IBAN(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 27.26009999999951
+    },
+    {
+      "id": "ar-242",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "multi",
+      "expected": [
+        "CONTACT",
+        "PERSONAL_IDENTITY"
+      ],
+      "predicted": [
+        "CONTACT",
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "CONTACT:PHONE(rule)",
+        "PERSONAL_IDENTITY:NATIONAL_ID(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 21.442299999998795
+    },
+    {
+      "id": "ar-243",
+      "lang": "ar",
+      "kind": "sensitive",
+      "type": "multi",
+      "expected": [
+        "AUTH_SECRET",
+        "KEYWORD",
+        "NETWORK"
+      ],
+      "predicted": [
+        "AUTH_SECRET",
+        "KEYWORD",
+        "NETWORK"
+      ],
+      "detail": [
+        "AUTH_SECRET:PASSWORD(rule)",
+        "KEYWORD:KEYWORD(rule)",
+        "NETWORK:IP_ADDRESS(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 20.865900000000693
+    },
+    {
+      "id": "mixed-244",
+      "lang": "mixed",
+      "kind": "sensitive",
+      "type": "multi",
+      "expected": [
+        "CONTACT"
+      ],
+      "predicted": [
+        "CONTACT"
+      ],
+      "detail": [
+        "CONTACT:EMAIL(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 18.558600000000297
+    },
+    {
+      "id": "mixed-245",
+      "lang": "mixed",
+      "kind": "sensitive",
+      "type": "multi",
+      "expected": [
+        "AUTH_SECRET"
+      ],
+      "predicted": [
+        "AUTH_SECRET"
+      ],
+      "detail": [
+        "AUTH_SECRET:API_KEY(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 29.731799999997747
+    },
+    {
+      "id": "mixed-246",
+      "lang": "mixed",
+      "kind": "sensitive",
+      "type": "multi",
+      "expected": [
+        "NETWORK"
+      ],
+      "predicted": [
+        "NETWORK"
+      ],
+      "detail": [
+        "NETWORK:IP_ADDRESS(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 22.122599999998783
+    },
+    {
+      "id": "mixed-247",
+      "lang": "mixed",
+      "kind": "sensitive",
+      "type": "multi",
+      "expected": [
+        "FINANCIAL"
+      ],
+      "predicted": [
+        "FINANCIAL"
+      ],
+      "detail": [
+        "FINANCIAL:CARD_NUMBER(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 28.181300000000192
+    },
+    {
+      "id": "mixed-248",
+      "lang": "mixed",
+      "kind": "sensitive",
+      "type": "multi",
+      "expected": [
+        "DEV_SECRET"
+      ],
+      "predicted": [
+        "DEV_SECRET"
+      ],
+      "detail": [
+        "DEV_SECRET:GITHUB_TOKEN(rule)"
+      ],
+      "expectedRisk": "HIGH",
+      "predictedRisk": "HIGH",
+      "ms": 29.337099999997008
+    },
+    {
+      "id": "mixed-249",
+      "lang": "mixed",
+      "kind": "sensitive",
+      "type": "multi",
+      "expected": [
+        "CONTACT"
+      ],
+      "predicted": [
+        "CONTACT"
+      ],
+      "detail": [
+        "CONTACT:PHONE(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 19.24040000000241
+    },
+    {
+      "id": "mixed-250",
+      "lang": "mixed",
+      "kind": "sensitive",
+      "type": "multi",
+      "expected": [
+        "FINGERPRINT"
+      ],
+      "predicted": [
+        "FINGERPRINT"
+      ],
+      "detail": [
+        "FINGERPRINT:UUID(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 32.18050000000221
+    },
+    {
+      "id": "mixed-251",
+      "lang": "mixed",
+      "kind": "sensitive",
+      "type": "multi",
+      "expected": [
+        "WEB_LINK"
+      ],
+      "predicted": [
+        "WEB_LINK"
+      ],
+      "detail": [
+        "WEB_LINK:URL(rule)"
+      ],
+      "expectedRisk": "MEDIUM",
+      "predictedRisk": "MEDIUM",
+      "ms": 32.32630000000063
+    },
+    {
+      "id": "en-252",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 16.344600000000355
+    },
+    {
+      "id": "en-253",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 15.83469999999943
+    },
+    {
+      "id": "en-254",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 16.199400000001333
+    },
+    {
+      "id": "en-255",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 14.825199999999313
+    },
+    {
+      "id": "en-256",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 14.901099999999133
+    },
+    {
+      "id": "en-257",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 17.754400000001624
+    },
+    {
+      "id": "en-258",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 18.23960000000079
+    },
+    {
+      "id": "en-259",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 14.518000000000029
+    },
+    {
+      "id": "en-260",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 11.444900000002235
+    },
+    {
+      "id": "en-261",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 14.518199999998615
+    },
+    {
+      "id": "en-262",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 11.574599999999919
+    },
+    {
+      "id": "en-263",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 16.304999999996653
+    },
+    {
+      "id": "en-264",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 13.637099999999919
+    },
+    {
+      "id": "en-265",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 15.18369999999777
+    },
+    {
+      "id": "en-266",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 14.199899999999616
+    },
+    {
+      "id": "en-267",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 11.078799999999319
+    },
+    {
+      "id": "en-268",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 15.27730000000156
+    },
+    {
+      "id": "en-269",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 13.275099999998929
+    },
+    {
+      "id": "en-270",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 13.263500000000931
+    },
+    {
+      "id": "en-271",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 14.769599999999627
+    },
+    {
+      "id": "en-272",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 11.106599999999162
+    },
+    {
+      "id": "en-273",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 12.9958000000006
+    },
+    {
+      "id": "en-274",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 13.239199999999983
+    },
+    {
+      "id": "en-275",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 11.554300000003423
+    },
+    {
+      "id": "en-276",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 13.977500000000873
+    },
+    {
+      "id": "en-277",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 15.11409999999887
+    },
+    {
+      "id": "en-278",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 15.11909999999989
+    },
+    {
+      "id": "en-279",
+      "lang": "en",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 14.22309999999925
+    },
+    {
+      "id": "ar-280",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 13.259299999997893
+    },
+    {
+      "id": "ar-281",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 18.38800000000265
+    },
+    {
+      "id": "ar-282",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 21.285699999996723
+    },
+    {
+      "id": "ar-283",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 19.36200000000099
+    },
+    {
+      "id": "ar-284",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 22.433099999998376
+    },
+    {
+      "id": "ar-285",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 20.473799999999756
+    },
+    {
+      "id": "ar-286",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 19.3833999999988
+    },
+    {
+      "id": "ar-287",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 20.81580000000031
+    },
+    {
+      "id": "ar-288",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 11.313500000000204
+    },
+    {
+      "id": "ar-289",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 15.654599999998027
+    },
+    {
+      "id": "ar-290",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 11.643400000000838
+    },
+    {
+      "id": "ar-291",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 18.138899999998102
+    },
+    {
+      "id": "ar-292",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 18.657999999999447
+    },
+    {
+      "id": "ar-293",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 16.03030000000217
+    },
+    {
+      "id": "ar-294",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 15.398799999999028
+    },
+    {
+      "id": "ar-295",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 14.089899999999034
+    },
+    {
+      "id": "ar-296",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 14.211999999999534
+    },
+    {
+      "id": "ar-297",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 13.279399999999441
+    },
+    {
+      "id": "ar-298",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 15.747700000003533
+    },
+    {
+      "id": "ar-299",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 17.852300000002288
+    },
+    {
+      "id": "ar-300",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 19.151499999999942
+    },
+    {
+      "id": "ar-301",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 18.494599999998172
+    },
+    {
+      "id": "ar-302",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 14.823100000001432
+    },
+    {
+      "id": "ar-303",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 13.753900000003341
+    },
+    {
+      "id": "ar-304",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 14.371399999999994
+    },
+    {
+      "id": "ar-305",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 13.683799999998882
+    },
+    {
+      "id": "ar-306",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "ordinary",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 13.834100000000035
+    },
+    {
+      "id": "en-307",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 13.753200000002835
+    },
+    {
+      "id": "en-308",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 17.19130000000223
+    },
+    {
+      "id": "en-309",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [
+        "NETWORK"
+      ],
+      "detail": [
+        "NETWORK:IP_ADDRESS(rule)"
+      ],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "MEDIUM",
+      "ms": 22.856299999999464
+    },
+    {
+      "id": "en-310",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 18.6958999999988
+    },
+    {
+      "id": "en-311",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 16.859599999999773
+    },
+    {
+      "id": "en-312",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [
+        "NUMERIC"
+      ],
+      "detail": [
+        "NUMERIC:NUMBER(rule)"
+      ],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "MEDIUM",
+      "ms": 17.204900000000634
+    },
+    {
+      "id": "en-313",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:NATIONAL_ID(ner)"
+      ],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "HIGH",
+      "ms": 19.721199999999953
+    },
+    {
+      "id": "en-314",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 18.099099999999453
+    },
+    {
+      "id": "en-315",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 13.937099999999191
+    },
+    {
+      "id": "en-316",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:PERSON(ner)"
+      ],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "MEDIUM",
+      "ms": 17.197900000002846
+    },
+    {
+      "id": "en-317",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 16.43120000000272
+    },
+    {
+      "id": "en-318",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 25.201600000000326
+    },
+    {
+      "id": "en-319",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [
+        "NUMERIC"
+      ],
+      "detail": [
+        "NUMERIC:NUMBER(rule)"
+      ],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "MEDIUM",
+      "ms": 18.612700000001496
+    },
+    {
+      "id": "en-320",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [
+        "NUMERIC"
+      ],
+      "detail": [
+        "NUMERIC:NUMBER(rule)"
+      ],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "MEDIUM",
+      "ms": 15.57890000000043
+    },
+    {
+      "id": "en-321",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 19.086199999997916
+    },
+    {
+      "id": "en-322",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 17.733400000000984
+    },
+    {
+      "id": "en-323",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 20.465700000000652
+    },
+    {
+      "id": "en-324",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 16.396899999999732
+    },
+    {
+      "id": "en-325",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 18.501499999998487
+    },
+    {
+      "id": "en-326",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 16.733899999999267
+    },
+    {
+      "id": "en-327",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 15.596599999997125
+    },
+    {
+      "id": "en-328",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 14.684900000000198
+    },
+    {
+      "id": "en-329",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [
+        "NUMERIC"
+      ],
+      "detail": [
+        "NUMERIC:NUMBER(rule)"
+      ],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "MEDIUM",
+      "ms": 16.94470000000001
+    },
+    {
+      "id": "en-330",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 15.978899999998248
+    },
+    {
+      "id": "en-331",
+      "lang": "en",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 16.27980000000025
+    },
+    {
+      "id": "ar-332",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 15.598500000000058
+    },
+    {
+      "id": "ar-333",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 16.434700000001612
+    },
+    {
+      "id": "ar-334",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [
+        "NETWORK"
+      ],
+      "detail": [
+        "NETWORK:IP_ADDRESS(rule)"
+      ],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "MEDIUM",
+      "ms": 21.68340000000171
+    },
+    {
+      "id": "ar-335",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 16.9362000000001
+    },
+    {
+      "id": "ar-336",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 17.91700000000128
+    },
+    {
+      "id": "ar-337",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:NATIONAL_ID(ner)"
+      ],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "HIGH",
+      "ms": 21.438200000000506
+    },
+    {
+      "id": "ar-338",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:NATIONAL_ID(ner)"
+      ],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "HIGH",
+      "ms": 21.758999999998196
+    },
+    {
+      "id": "ar-339",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 19.899199999999837
+    },
+    {
+      "id": "ar-340",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 25.021300000000338
+    },
+    {
+      "id": "ar-341",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 16.958600000001752
+    },
+    {
+      "id": "ar-342",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 15.503600000000006
+    },
+    {
+      "id": "ar-343",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 49.73919999999998
+    },
+    {
+      "id": "ar-344",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [
+        "NUMERIC"
+      ],
+      "detail": [
+        "NUMERIC:NUMBER(rule)"
+      ],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "MEDIUM",
+      "ms": 19.839199999998527
+    },
+    {
+      "id": "ar-345",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [
+        "NUMERIC"
+      ],
+      "detail": [
+        "NUMERIC:NUMBER(rule)"
+      ],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "MEDIUM",
+      "ms": 21.451100000002043
+    },
+    {
+      "id": "ar-346",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 22.639400000000023
+    },
+    {
+      "id": "ar-347",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [
+        "LOCATION"
+      ],
+      "detail": [
+        "LOCATION:ADDRESS(ner)"
+      ],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "MEDIUM",
+      "ms": 18.507400000002235
+    },
+    {
+      "id": "ar-348",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 17.28989999999976
+    },
+    {
+      "id": "ar-349",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 20.699800000002142
+    },
+    {
+      "id": "ar-350",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [
+        "LOCATION"
+      ],
+      "detail": [
+        "LOCATION:ADDRESS(ner)"
+      ],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "MEDIUM",
+      "ms": 19.363900000000285
+    },
+    {
+      "id": "ar-351",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 15.810199999999895
+    },
+    {
+      "id": "ar-352",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 19.544700000002194
+    },
+    {
+      "id": "ar-353",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 18.160800000001473
+    },
+    {
+      "id": "ar-354",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [
+        "PERSONAL_IDENTITY"
+      ],
+      "detail": [
+        "PERSONAL_IDENTITY:NATIONAL_ID(ner)"
+      ],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "HIGH",
+      "ms": 21.811499999999796
+    },
+    {
+      "id": "ar-355",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [],
+      "detail": [],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "SAFE",
+      "ms": 20.889100000000326
+    },
+    {
+      "id": "ar-356",
+      "lang": "ar",
+      "kind": "clean",
+      "type": "hard-negative",
+      "expected": [],
+      "predicted": [
+        "LOCATION"
+      ],
+      "detail": [
+        "LOCATION:ADDRESS(ner)"
+      ],
+      "expectedRisk": "SAFE",
+      "predictedRisk": "MEDIUM",
+      "ms": 26.46180000000095
+    }
+  ]
+}

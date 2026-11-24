@@ -1,0 +1,53 @@
+{
+  "date": "2026-11-24T21:21:55.236Z",
+  "runtime": "node v26.13.0, onnxruntime CPU, warm model",
+  "limitMs": 2500,
+  "runsPerSize": 50,
+  "result": {
+    "100 characters": {
+      "rulesOnlyMs": {
+        "runs": 50,
+        "median": 0.33,
+        "p95": 8.78,
+        "max": 37.48
+      },
+      "rulesAndModelMs": {
+        "runs": 50,
+        "median": 377.55,
+        "p95": 697.78,
+        "max": 835.45,
+        "overLimit": 0
+      }
+    },
+    "1000 characters": {
+      "rulesOnlyMs": {
+        "runs": 50,
+        "median": 0.88,
+        "p95": 4.96,
+        "max": 5.7
+      },
+      "rulesAndModelMs": {
+        "runs": 50,
+        "median": 2599.58,
+        "p95": 3788.59,
+        "max": 4419.15,
+        "overLimit": 29
+      }
+    },
+    "5000 characters": {
+      "rulesOnlyMs": {
+        "runs": 50,
+        "median": 1.66,
+        "p95": 10.14,
+        "max": 18.19
+      },
+      "rulesAndModelMs": {
+        "runs": 50,
+        "median": 2088.25,
+        "p95": 13499.87,
+        "max": 16937.97,
+        "overLimit": 21
+      }
+    }
+  }
+}

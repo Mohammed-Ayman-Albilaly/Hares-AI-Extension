@@ -1,0 +1,415 @@
+
+ RUN  v5.0.2 D:/Hares-AI-Extension
+
+ ✓ tests/unit/api-url.test.ts > API base URL > defaults to the production platform on HTTPS 2ms
+ ✓ tests/unit/api-url.test.ts > API base URL > accepts another HTTPS server, and plain HTTP only on this machine 0ms
+ ✓ tests/unit/api-url.test.ts > API base URL > refuses plain HTTP to a remote host and anything that is not a URL 0ms
+ ✓ tests/unit/api-url.test.ts > waiting for a sleeping server > retries a request that is safe to repeat while the server is not ready, then succeeds 36ms
+ ✓ tests/unit/api-url.test.ts > waiting for a sleeping server > stops after the allowed retries 2ms
+ ✓ tests/unit/api-url.test.ts > waiting for a sleeping server > does not retry by default, nor refusals such as a wrong password 1ms
+ ✓ tests/unit/api-url.test.ts > waiting for a sleeping server > gives up on one answer after the timeout, with its own error code 39ms
+ ✓ tests/unit/session.test.ts > login > stores the refresh token in local storage and the access token in session storage 38ms
+ ✓ tests/unit/session.test.ts > login > never stores the password anywhere 1ms
+ ✓ tests/unit/session.test.ts > login > INVALID_CREDENTIALS is thrown as an ApiError and nothing is stored 2ms
+ ✓ tests/unit/session.test.ts > login > ACCOUNT_NO_ACCESS is thrown as an ApiError and nothing is stored 1ms
+ ✓ tests/unit/session.test.ts > login > ACCOUNT_INACTIVE is thrown as an ApiError and nothing is stored 0ms
+ ✓ tests/unit/session.test.ts > login > RATE_LIMITED carries the Retry-After delay 1ms
+ ✓ tests/unit/session.test.ts > login > a network failure is an ApiError with status 0 0ms
+ ✓ tests/unit/session.test.ts > login > rejects an answer without a token pair 0ms
+ ✓ tests/unit/session.test.ts > refresh > rotates the refresh token and uses the new access token 1ms
+ ✓ tests/unit/session.test.ts > refresh > is single-flight: parallel callers share one refresh request 20ms
+ ✓ tests/unit/session.test.ts > refresh > a 401 on refresh ends the session 2ms
+ ✓ tests/unit/session.test.ts > refresh > a network failure or server error keeps the tokens for the next attempt 1ms
+ ✓ tests/unit/session.test.ts > authorised requests > send the access token as a Bearer header 1ms
+ ✓ tests/unit/session.test.ts > authorised requests > TOKEN_EXPIRED refreshes once and retries with the new token 1ms
+ ✓ tests/unit/session.test.ts > authorised requests > a second 401 after refreshing ends the session 1ms
+ ✓ tests/unit/session.test.ts > authorised requests > ACCOUNT_INACTIVE ends the session at once, without refreshing 1ms
+ ✓ tests/unit/session.test.ts > authorised requests > other errors pass through and keep the session 1ms
+ ✓ tests/unit/session.test.ts > authorised requests > without tokens there is nothing to send 0ms
+ ✓ tests/unit/session.test.ts > logout > tells the server, forgets the tokens and notifies listeners 0ms
+ ✓ tests/unit/session.test.ts > logout > signs out locally even when the server cannot be reached 0ms
+ ✓ tests/unit/topic-runner.test.ts > chunkText > returns a short message whole, and nothing for an empty one 2ms
+ ✓ tests/unit/topic-runner.test.ts > chunkText > cuts a long message into overlapping pieces that cover all of it 21ms
+ ✓ tests/unit/topic-runner.test.ts > chunkText > reads at most 6 pieces of a very long text: the first five and the last 1ms
+ ✓ tests/unit/topic-runner.test.ts > chunkText > still cuts a text without spaces 0ms
+ ✓ tests/unit/topic-runner.test.ts > reading the model output > finds the labels of a two-label and of a three-label model 0ms
+ ✓ tests/unit/topic-runner.test.ts > reading the model output > turns two logits into a probability 0ms
+ ✓ tests/unit/topic-runner.test.ts > scoreTopics > scores every hypothesis on its own, in order, in one pass 1ms
+ ✓ tests/unit/topic-runner.test.ts > scoreTopics > a message may match no topic 0ms
+ ✓ tests/unit/topic-runner.test.ts > scoreTopics > catches a topic that appears only at the end of a long text 0ms
+ ✓ tests/unit/topic-runner.test.ts > scoreTopics > does nothing without hypotheses or without text 0ms
+ ✓ tests/unit/topic-runner.test.ts > requestTopicScores > asks the background and returns the scores 7ms
+ ✓ tests/unit/topic-runner.test.ts > requestTopicScores > gives no scores while the model is still loading 1ms
+ ✓ tests/unit/topic-runner.test.ts > requestTopicScores > never throws: an unreachable background is an error outcome 1ms
+ ✓ tests/unit/topic-runner.test.ts > requestTopicScores > refuses a reply whose scores do not line up with the request 0ms
+ ✓ tests/unit/topic-runner.test.ts > requestTopicScores > does not hold the send past the timeout 4ms
+ ✓ tests/unit/ner-mapping.test.ts > entitiesToDetections > maps model types to our categories and placeholder labels 3ms
+ ✓ tests/unit/ner-mapping.test.ts > entitiesToDetections > drops the types that are always off (city names, plain dates, companies...) 1ms
+ ✓ tests/unit/ner-mapping.test.ts > entitiesToDetections > drops low-confidence results 0ms
+ ✓ tests/unit/ner-mapping.test.ts > entitiesToDetections > a model "credit card" must pass Luhn, a Saudi-format ID its checksum 1ms
+ ✓ tests/unit/ner-mapping.test.ts > entitiesToDetections > ignores spans outside the text 0ms
+ ✓ tests/unit/ner-mapping.test.ts > analysis with model detections > masks names and addresses found by the model, alongside the rules 10ms
+ ✓ tests/unit/ner-mapping.test.ts > analysis with model detections > on overlap the rule detection wins over the model 2ms
+ ✓ tests/unit/ner-mapping.test.ts > analysis with model detections > a policy can switch names off 1ms
+ ✓ tests/unit/log-event.test.ts > event content > a clean message is still an event: NONE / ALLOWED / no categories 12ms
+ ✓ tests/unit/log-event.test.ts > event content > a blocked message: highest risk, strictest action, distinct contract codes 4ms
+ ✓ tests/unit/log-event.test.ts > event content > a warned message 1ms
+ ✓ tests/unit/log-event.test.ts > event content > a sensitive word without a value is LOW and allowed 1ms
+ ✓ tests/unit/log-event.test.ts > event content > never repeats a category 1ms
+ ✓ tests/unit/log-event.test.ts > event content > contains no prompt text, and only contract fields 2ms
+ ✓ tests/unit/log-event.test.ts > event content > only reports codes from the 24 2ms
+ ✓ tests/unit/log-event.test.ts > event content > does not know an unsupported platform 0ms
+ ✓ tests/unit/log-event.test.ts > rule matches > a rule-only match: no categories, the rule id, and the rule risk and action 7ms
+ ✓ tests/unit/log-event.test.ts > rule matches > a rule with risk NONE is logged as is, with the rule action 1ms
+ ✓ tests/unit/log-event.test.ts > rule matches > a rule and a category in one message: both are reported 1ms
+ ✓ tests/unit/log-event.test.ts > rule matches > with several rules, the strictest action wins, then the highest risk, then bundle order 1ms
+ ✓ tests/unit/log-event.test.ts > rule matches > a rule id that is not a UUID is sent as no rule instead of losing the event 1ms
+ ✓ tests/unit/log-event.test.ts > user_decision > auto_sent → NONE 0ms
+ ✓ tests/unit/log-event.test.ts > user_decision > sent_original → SUBMITTED_ANYWAY 0ms
+ ✓ tests/unit/log-event.test.ts > user_decision > sent_revised → REVISION_USED 0ms
+ ✓ tests/unit/log-event.test.ts > user_decision > copied_revised → REVISION_USED 0ms
+ ✓ tests/unit/log-event.test.ts > user_decision > edited → EDITED 0ms
+ ✓ tests/unit/log-event.test.ts > user_decision > cancelled → CANCELLED 0ms
+ ✓ tests/unit/log-event.test.ts > user_decision > a blocked message can never be SUBMITTED_ANYWAY: the block dialog has no Confirm button 1ms
+ ✓ tests/unit/log-event.test.ts > classification_source > ready → LOCAL_AI 0ms
+ ✓ tests/unit/log-event.test.ts > classification_source > disabled → LOCAL 0ms
+ ✓ tests/unit/log-event.test.ts > classification_source > loading → LOCAL_ONLY_FALLBACK 0ms
+ ✓ tests/unit/log-event.test.ts > classification_source > timeout → LOCAL_ONLY_FALLBACK 0ms
+ ✓ tests/unit/log-event.test.ts > classification_source > error → LOCAL_ONLY_FALLBACK 1ms
+ ✓ tests/unit/log-event.test.ts > classification_source > idle → LOCAL_ONLY_FALLBACK 0ms
+ ✓ tests/unit/log-event.test.ts > event_time and validation > is UTC with Z, corrected by the server offset 0ms
+ ✓ tests/unit/log-event.test.ts > event_time and validation > isEventDraft accepts what the builder makes and rejects anything else 0ms
+ ✓ tests/unit/org-rules.test.ts > KEYWORD rules > match whole words only 15ms
+ ✓ tests/unit/org-rules.test.ts > KEYWORD rules > are case-insensitive for Latin letters 4ms
+ ✓ tests/unit/org-rules.test.ts > KEYWORD rules > take one word or phrase per line 3ms
+ ✓ tests/unit/org-rules.test.ts > KEYWORD rules > match a phrase as consecutive words with any whitespace or punctuation between them 2ms
+ ✓ tests/unit/org-rules.test.ts > KEYWORD rules > fold Arabic letter variants 27ms
+ ✓ tests/unit/org-rules.test.ts > KEYWORD rules > ignore Arabic diacritics and tatweel, and keep offsets in the original text 22ms
+ ✓ tests/unit/org-rules.test.ts > KEYWORD rules > do not treat regex characters as regex 21ms
+ ✓ tests/unit/org-rules.test.ts > KEYWORD rules > a definition with no words matches nothing 6ms
+ ✓ tests/unit/org-rules.test.ts > KEYWORD rules > normalising maps ranges back to the original text 0ms
+ ✓ tests/unit/org-rules.test.ts > PATTERN rules > are compiled with the flag i only 1ms
+ ✓ tests/unit/org-rules.test.ts > PATTERN rules > a definition that does not compile is skipped, the other rules still run 1ms
+ ✓ tests/unit/org-rules.test.ts > PATTERN rules > a very long definition is skipped 0ms
+ ✓ tests/unit/org-rules.test.ts > PATTERN rules > an empty match is ignored 0ms
+ ✓ tests/unit/org-rules.test.ts > rule detections in the analysis > carry the rule id, name and the level of the rule action 0ms
+ ✓ tests/unit/org-rules.test.ts > rule detections in the analysis > the action of the rule decides what the user sees 4ms
+ ✓ tests/unit/org-rules.test.ts > rule detections in the analysis > a rule with risk NONE still applies its action 0ms
+ ✓ tests/unit/org-rules.test.ts > rule detections in the analysis > the finding shows the rule name and the text is masked 0ms
+ ✓ tests/unit/org-rules.test.ts > rule detections in the analysis > a built-in detection and a rule match on the same text: the stricter wins 1ms
+ ✓ tests/unit/org-rules.test.ts > rule detections in the analysis > are found across two messages like any other value 1ms
+ ✓ tests/unit/topic-decision.test.ts > topicDetections > matches a topic whose score reaches its own threshold 4ms
+ ✓ tests/unit/topic-decision.test.ts > topicDetections > a short prompt scoring 0.34 is caught at the default 0.3 and missed at 0.5 0ms
+ ✓ tests/unit/topic-decision.test.ts > topicDetections > ignores missing or unusable scores 0ms
+ ✓ tests/unit/topic-decision.test.ts > topicDetections > a match carries the rule but no text of the message, and cannot be masked 1ms
+ ✓ tests/unit/topic-decision.test.ts > a TOPIC match in the send check > WARN: a confirm dialog with Confirm and Edit, and no revised version 10ms
+ ✓ tests/unit/topic-decision.test.ts > a TOPIC match in the send check > a TOPIC rule never blocks: one that arrives as BLOCK warns instead, and the user can still confirm 2ms
+ ✓ tests/unit/topic-decision.test.ts > a TOPIC match in the send check > a BLOCK topic next to an email still only warns, and the revised version masks the email 1ms
+ ✓ tests/unit/topic-decision.test.ts > a TOPIC match in the send check > WARN with an email: the revised version masks the email, and the user decides 1ms
+ ✓ tests/unit/topic-decision.test.ts > a TOPIC match in the send check > ALLOW: sent with a quiet notice 1ms
+ ✓ tests/unit/topic-decision.test.ts > a TOPIC match in the send check > below the threshold nothing happens 1ms
+ ✓ tests/unit/topic-decision.test.ts > a TOPIC match in the send check > two matched topics are listed separately 1ms
+ ✓ tests/unit/topic-decision.test.ts > a TOPIC match in the send check > a card number still blocks with a revised version when the topic only warns 1ms
+ ✓ tests/unit/topic-decision.test.ts > the log event of a TOPIC match > reports the rule id, no category, the rule risk and action, decided by the local model 1ms
+ ✓ tests/unit/topic-decision.test.ts > the log event of a TOPIC match > carries no score and no text 1ms
+ ✓ tests/unit/topic-decision.test.ts > the log event of a TOPIC match > a topic that arrives as BLOCK is logged as warned, never as blocked 1ms
+ ✓ tests/unit/topic-decision.test.ts > the log event of a TOPIC match > with several matches, the strictest rule is reported, topic or keyword 7ms
+ ✓ tests/unit/topic-decision.test.ts > the log event of a TOPIC match > a keyword rule can still block in the same message as a topic 1ms
+ ✓ tests/unit/topic-decision.test.ts > the log event of a TOPIC match > a topic and a category in one message: both are reported 1ms
+ ✓ tests/unit/topic-decision.test.ts > dialog wording > offers the revised version only when there is one 0ms
+stderr | tests/unit/policy-bundle.test.ts > policy sync > keeps the last policy when the bundle is malformed
+[hares] policy bundle rejected: unexpected shape
+
+ ✓ tests/unit/policy.test.ts > department policy > without a policy, behaves exactly like the built-in table 11ms
+ ✓ tests/unit/policy.test.ts > department policy > a label override changes one type without touching the rest of its category 11ms
+ ✓ tests/unit/policy.test.ts > department policy > a category override applies to every type in it 1ms
+ ✓ tests/unit/policy.test.ts > department policy > tier SAFE switches a type off entirely: not shown, not masked 1ms
+ ✓ tests/unit/policy.test.ts > department policy > disabled built-in patterns no longer match 1ms
+ ✓ tests/unit/policy.test.ts > department policy > organisation keyword rules are detected and masked, English and Arabic 21ms
+ ✓ tests/unit/policy.test.ts > department policy > keyword rules are whole words, never regex 4ms
+ ✓ tests/unit/policy.test.ts > user exceptions > an allowed exception is enforced as LOW but logged at the policy tier 1ms
+ ✓ tests/unit/policy.test.ts > user exceptions > is ignored when the policy does not allow it 1ms
+ ✓ tests/unit/policy.test.ts > user exceptions > exempting API_KEY does not exempt passwords in the same category 1ms
+ ✓ tests/unit/policy.test.ts > user exceptions > does not lower other data in the same message 1ms
+ ✓ tests/unit/policy.test.ts > user exceptions > stops applying after it expires 0ms
+ ✓ tests/unit/policy.test.ts > validatePolicy > rejects input without a valid version or department 1ms
+ ✓ tests/unit/policy.test.ts > validatePolicy > drops malformed fields and keeps the rest 1ms
+ ✓ tests/unit/policy.test.ts > disabled category > a switched-off type does not hide an enforced one it overlaps 0ms
+ ✓ tests/unit/policy.test.ts > disabled category > a name from the model is MEDIUM by default even though its category is HIGH 0ms
+ ✓ tests/unit/policy.test.ts > disabled category > switching a category off ignores the model labels mapped to it too 0ms
+ ✓ tests/unit/policy.test.ts > disabled category > a switched-off model detection does not mask over an enforced rule detection 0ms
+ ✓ tests/unit/policy-bundle.test.ts > parseBundle > accepts exactly one valid entry per category 4ms
+ ✓ tests/unit/policy-bundle.test.ts > parseBundle > rejects the whole bundle for null 0ms
+ ✓ tests/unit/policy-bundle.test.ts > parseBundle > rejects the whole bundle for no version 0ms
+ ✓ tests/unit/policy-bundle.test.ts > parseBundle > rejects the whole bundle for version 0 0ms
+ ✓ tests/unit/policy-bundle.test.ts > parseBundle > rejects the whole bundle for a missing category 0ms
+ ✓ tests/unit/policy-bundle.test.ts > parseBundle > rejects the whole bundle for a duplicate category 0ms
+ ✓ tests/unit/policy-bundle.test.ts > parseBundle > rejects the whole bundle for an unknown category 0ms
+ ✓ tests/unit/policy-bundle.test.ts > parseBundle > rejects the whole bundle for a bad action 0ms
+ ✓ tests/unit/policy-bundle.test.ts > parseBundle > rejects the whole bundle for a non-boolean enabled 0ms
+ ✓ tests/unit/policy-bundle.test.ts > parseBundle > keeps risk_level only when it is valid, and treats it as optional 0ms
+ ✓ tests/unit/policy-bundle.test.ts > parseBundle > drops TOPIC rules and malformed rules, keeps the others in order 0ms
+ ✓ tests/unit/policy-bundle.test.ts > bundleToPolicy > turns actions into enforcement levels and a disabled category into SAFE 1ms
+ ✓ tests/unit/policy-bundle.test.ts > bundleToPolicy > survives validation (what the content scripts load) 1ms
+ ✓ tests/unit/policy-bundle.test.ts > bundleToPolicy > the action decides what the user sees; the bundle risk is what is reported 10ms
+ ✓ tests/unit/policy-bundle.test.ts > bundleToPolicy > falls back to the built-in tier as the risk when the bundle has none 2ms
+ ✓ tests/unit/policy-bundle.test.ts > bundleToPolicy > a disabled category is neither detected nor masked 1ms
+ ✓ tests/unit/policy-bundle.test.ts > bundleToPolicy > a rule keeps its own risk and action 6ms
+ ✓ tests/unit/policy-bundle.test.ts > policy sync > does nothing while signed out 1ms
+ ✓ tests/unit/policy-bundle.test.ts > policy sync > stores a new bundle with its ETag 34ms
+ ✓ tests/unit/policy-bundle.test.ts > policy sync > sends If-None-Match and keeps the stored policy on 304 1ms
+ ✓ tests/unit/policy-bundle.test.ts > policy sync > records every check with its HTTP status 2ms
+ ✓ tests/unit/policy-bundle.test.ts > policy sync > sends no If-None-Match when no policy is stored 1ms
+ ✓ tests/unit/policy-bundle.test.ts > policy sync > keeps the last policy when the bundle is malformed 14ms
+ ✓ tests/unit/policy-bundle.test.ts > policy sync > keeps the last policy when the server is down or unreachable 1ms
+ ✓ tests/unit/policy-bundle.test.ts > policy sync > reports SIGNED_OUT when the check ends the session 1ms
+ ✓ tests/unit/policy-bundle.test.ts > policy sync > runs one check at a time 1ms
+ ✓ tests/unit/policy-bundle.test.ts > sign-in wording > has a message for every sign-in error 1ms
+ ✓ tests/unit/policy-bundle.test.ts > sign-in wording > explains an ended session, but not a sign-out the user chose 0ms
+ ✓ tests/unit/scenarios.test.ts > English prompts > en-safe-01: What is the capital of France? 12ms
+ ✓ tests/unit/scenarios.test.ts > English prompts > en-safe-02: Write a Python function that reverses a string. 2ms
+ ✓ tests/unit/scenarios.test.ts > English prompts > en-safe-03: Summarize this article about climate change in 3 bullet poin 0ms
+ ✓ tests/unit/scenarios.test.ts > English prompts > en-safe-04: Convert 25 Celsius to Fahrenheit and explain the formula. 0ms
+ ✓ tests/unit/scenarios.test.ts > English prompts > en-safe-05: My order arrived late, write a polite complaint email to the 0ms
+ ✓ tests/unit/scenarios.test.ts > English prompts > en-safe-06: Change the button color to #ff00aa and the border radius to  0ms
+ ↓ tests/unit/scenarios.test.ts > English prompts > [known gap] en-safe-07: Upgrade the package to version 1.2.3.4 please — Known false positive: a 4-part version number looks like an IPv4 address.
+ ✓ tests/unit/scenarios.test.ts > English prompts > en-low-01: I need a password reset link for my account 1ms
+ ✓ tests/unit/scenarios.test.ts > English prompts > en-low-02: Where should I store an api_key safely in a React app? 0ms
+ ✓ tests/unit/scenarios.test.ts > English prompts > en-low-03: This document is confidential, summarize it. 1ms
+ ✓ tests/unit/scenarios.test.ts > English prompts > en-med-01: Please reply to sara@example.com about the meeting 1ms
+ ✓ tests/unit/scenarios.test.ts > English prompts > en-med-02: Call me on 0551234567 after 5pm 1ms
+ ✓ tests/unit/scenarios.test.ts > English prompts > en-med-03: Our London office number is +44 20 7946 0958 0ms
+ ✓ tests/unit/scenarios.test.ts > English prompts > en-med-04: The staging server is at 10.0.0.12, why is it slow? 0ms
+ ✓ tests/unit/scenarios.test.ts > English prompts > en-med-05: My laptop MAC address is 00:1A:2B:3C:4D:5E 0ms
+ ✓ tests/unit/scenarios.test.ts > English prompts > en-med-06: Look up record 3f2a9c1e-5b7d-4e8a-9c21-7d4e5f6a8b90 in the l 0ms
+ ✓ tests/unit/scenarios.test.ts > English prompts > en-med-07: Open C:\Users\ali\Desktop\salaries.xlsx and explain the tota 0ms
+ ✓ tests/unit/scenarios.test.ts > English prompts > en-med-08: Why is my .env file not loading in Vite? 0ms
+ ✓ tests/unit/scenarios.test.ts > English prompts > en-med-09: Find restaurants near 24.7136, 46.6753 1ms
+ ✓ tests/unit/scenarios.test.ts > English prompts > en-med-10: Patient DOB: 1990-05-12, what vaccines are due? 0ms
+ ✓ tests/unit/scenarios.test.ts > English prompts > en-med-11: Where is my parcel? tracking number: 1Z999AA10123456784 0ms
+ ✓ tests/unit/scenarios.test.ts > English prompts > en-med-12: Decode this VIN 1HGCM82633A004352 for me 0ms
+ ✓ tests/unit/scenarios.test.ts > English prompts > en-med-13: Read https://docs.python.org/3/library/json.html and summari 0ms
+ ✓ tests/unit/scenarios.test.ts > English prompts > en-high-01: Is this card valid? 4111 1111 1111 1111 0ms
+ ✓ tests/unit/scenarios.test.ts > English prompts > en-high-02: the cvv: 123 keeps getting rejected 0ms
+ ✓ tests/unit/scenarios.test.ts > English prompts > en-high-03: Send the salary to SA03 8000 0000 6080 1016 7519 1ms
+ ✓ tests/unit/scenarios.test.ts > English prompts > en-high-04: My national ID is 1087654321, fill the form 0ms
+ ✓ tests/unit/scenarios.test.ts > English prompts > en-high-05: passport number: A12345678 expires next year 0ms
+ ✓ tests/unit/scenarios.test.ts > English prompts > en-high-06: Is 123-45-6789 a valid SSN format? 0ms
+ ✓ tests/unit/scenarios.test.ts > English prompts > en-high-07: Fix my config: password is Hunter2! and email ali@example.co 0ms
+ ✓ tests/unit/scenarios.test.ts > English prompts > en-high-08: my password for gmail is Hunter2! 1ms
+ ✓ tests/unit/scenarios.test.ts > English prompts > en-high-09: Why does sk-proj-abcdEFGH1234ijklMNOP5678 return 401? 0ms
+ ✓ tests/unit/scenarios.test.ts > English prompts > en-high-10: aws_access_key_id = AKIAIOSFODNN7EXAMPLE 0ms
+ ✓ tests/unit/scenarios.test.ts > English prompts > en-high-11: git push fails with token ghp_abcdefghijklmnopqrstuvwxyz0123 0ms
+ ✓ tests/unit/scenarios.test.ts > English prompts > en-high-12: Decode this: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOi 0ms
+ ✓ tests/unit/scenarios.test.ts > English prompts > en-high-13: -----BEGIN RSA PRIVATE KEY----- MIIEowIBAAKCAQEAfakefakefake 0ms
+ ✓ tests/unit/scenarios.test.ts > English prompts > en-high-14: connect with postgres://admin:S3cret@db.internal:5432/prod 0ms
+ ✓ tests/unit/scenarios.test.ts > English prompts > en-high-15: DB_PASSWORD=SuperSecret123 is in my env, is that ok? 0ms
+ ✓ tests/unit/scenarios.test.ts > English prompts > en-high-16: curl -H "Authorization: Bearer abcdef1234567890abcdef" https 0ms
+ ✓ tests/unit/scenarios.test.ts > English prompts > en-high-17: my OTP is 482913, why did login fail? 0ms
+ ↓ tests/unit/scenarios.test.ts > English prompts > [known gap] en-gap-01: My name is John Carter and I live at 12 Baker Street, London — Rules-only suite: names/addresses are found by the detection model (Phase 3, measured in eval/ner.eval.ts), not by the rules.
+ ↓ tests/unit/scenarios.test.ts > English prompts > [known gap] en-gap-02: Here are our unreleased Q3 merger terms with Acme, rewrite t — Context-only risk needs the decision model (Phase 4).
+ ✓ tests/unit/scenarios.test.ts > Arabic prompts > ar-safe-01: ما هي عاصمة فرنسا؟ 11ms
+ ✓ tests/unit/scenarios.test.ts > Arabic prompts > ar-safe-02: اكتب لي قصيدة قصيرة عن البحر 0ms
+ ✓ tests/unit/scenarios.test.ts > Arabic prompts > ar-safe-03: اشرح لي كيف يعمل التشفير بشكل مبسط 0ms
+ ✓ tests/unit/scenarios.test.ts > Arabic prompts > ar-safe-04: لخص هذا المقال في ثلاث نقاط 0ms
+ ✓ tests/unit/scenarios.test.ts > Arabic prompts > ar-safe-05: كم يساوي ٢٥ درجة مئوية بالفهرنهايت؟ 0ms
+ ✓ tests/unit/scenarios.test.ts > Arabic prompts > ar-safe-06: ابغى خطة مذاكرة لاختبار الرياضيات الأسبوع الجاي 0ms
+ ✓ tests/unit/scenarios.test.ts > Arabic prompts > ar-low-01: وين أحفظ الباسورد بشكل آمن؟ 0ms
+ ✓ tests/unit/scenarios.test.ts > Arabic prompts > ar-low-02: هذا المستند سري للغاية، لخصه لي 0ms
+ ✓ tests/unit/scenarios.test.ts > Arabic prompts > ar-low-03: كيف أغير كلمة المرور في جيميل؟ 0ms
+ ✓ tests/unit/scenarios.test.ts > Arabic prompts > ar-med-01: راسلني على ali@example.com بخصوص الاجتماع 0ms
+ ✓ tests/unit/scenarios.test.ts > Arabic prompts > ar-med-02: جوالي 0551234567 اتصل علي بعد العصر 0ms
+ ✓ tests/unit/scenarios.test.ts > Arabic prompts > ar-med-03: رقمي +966 55 123 4567 0ms
+ ✓ tests/unit/scenarios.test.ts > Arabic prompts > ar-med-04: تاريخ الميلاد: 1995/03/12 احسب عمري 0ms
+ ✓ tests/unit/scenarios.test.ts > Arabic prompts > ar-med-05: رقم الطلب: ORD-558812 متى يوصل؟ 0ms
+ ✓ tests/unit/scenarios.test.ts > Arabic prompts > ar-med-06: الرقم الجامعي 441000123 وش معدلي؟ 0ms
+ ✓ tests/unit/scenarios.test.ts > Arabic prompts > ar-med-07: السيرفر على 192.168.1.20 وما يرد 0ms
+ ✓ tests/unit/scenarios.test.ts > Arabic prompts > ar-med-08: دور لي مطاعم قريبة من 24.7136, 46.6753 0ms
+ ✓ tests/unit/scenarios.test.ts > Arabic prompts > ar-high-01: شف هذه هو الباسورد حقي : محمد_الو_تراها_ماهي_بيانات_سرية 0ms
+ ✓ tests/unit/scenarios.test.ts > Arabic prompts > ar-high-02: الباسورد هو Riyadh2024 0ms
+ ✓ tests/unit/scenarios.test.ts > Arabic prompts > ar-high-03: كلمة المرور: Abc@12345 0ms
+ ✓ tests/unit/scenarios.test.ts > Arabic prompts > ar-high-04: كلمة السر حقتي هي sm_9981 0ms
+ ✓ tests/unit/scenarios.test.ts > Arabic prompts > ar-high-05: كلمة المرور الخاصة بي: تفاحة 0ms
+ ✓ tests/unit/scenarios.test.ts > Arabic prompts > ar-high-06: رقم الهوية ١٠٨٧٦٥٤٣٢١ عبي النموذج 0ms
+ ✓ tests/unit/scenarios.test.ts > Arabic prompts > ar-high-07: هويتي 1087654321 0ms
+ ✓ tests/unit/scenarios.test.ts > Arabic prompts > ar-high-08: رقم الإقامة 2100000005 منتهي؟ 0ms
+ ✓ tests/unit/scenarios.test.ts > Arabic prompts > ar-high-09: حول المبلغ على الآيبان SA03 8000 0000 6080 1016 7519 0ms
+ ✓ tests/unit/scenarios.test.ts > Arabic prompts > ar-high-10: بطاقتي ٤١١١ ١١١١ ١١١١ ١١١١ ليش مرفوضة؟ 0ms
+ ✓ tests/unit/scenarios.test.ts > Arabic prompts > ar-high-11: رمز التحقق 482913 وصلني الحين 0ms
+ ✓ tests/unit/scenarios.test.ts > Arabic prompts > ar-high-12: الرقم السري للبطاقة 4821 0ms
+ ✓ tests/unit/scenarios.test.ts > Arabic prompts > ar-high-13: مفتاح الـ API حقي sk-proj-abcdEFGH1234ijklMNOP5678 ما يشتغل 0ms
+ ✓ tests/unit/scenarios.test.ts > Arabic prompts > ar-high-14: رقم الجواز A12345678 متى ينتهي؟ 0ms
+ ↓ tests/unit/scenarios.test.ts > Arabic prompts > [known gap] ar-gap-01: اسمي محمد العتيبي وأسكن في حي النرجس، الرياض — Rules-only suite: Arabic names/addresses are found by the detection model (Phase 3, measured in eval/ner.eval.ts), not by the rules.
+ ↓ tests/unit/scenarios.test.ts > Arabic prompts > [known gap] ar-gap-02: هذه شروط صفقة الاستحواذ غير المعلنة، صغها بشكل رسمي — Context-only risk needs the decision model (Phase 4).
+ ↓ tests/unit/scenarios.test.ts > Arabic prompts > [known gap] ar-gap-03: الباس حقي سمسم2020 — Slang 'الباس' without a separator is not recognised yet.
+ ✓ tests/unit/scenarios.test.ts > Conversations > conv-en-split-password: Password announced in one message, value in the next 1ms
+ ✓ tests/unit/scenarios.test.ts > Conversations > conv-en-split-card: Card number split across two messages 1ms
+ ✓ tests/unit/scenarios.test.ts > Conversations > conv-en-placeholders: Same value keeps the same placeholder across messages 1ms
+ ✓ tests/unit/scenarios.test.ts > Conversations > conv-en-revised-pasted-back: Revised text pasted back is not flagged again (no loop) 4ms
+ ✓ tests/unit/scenarios.test.ts > Conversations > conv-en-no-false-join: Unrelated numbers in consecutive messages are not joined 1ms
+ ✓ tests/unit/scenarios.test.ts > Conversations > conv-en-history-does-not-leak: A keyword in the previous message does not flag an unrelated next message 0ms
+ ✓ tests/unit/scenarios.test.ts > Conversations > conv-ar-split-password: الباسورد في رسالة والقيمة في الرسالة اللي بعدها 2ms
+ ✓ tests/unit/scenarios.test.ts > Conversations > conv-ar-split-card: رقم بطاقة بالأرقام العربية مقسوم على رسالتين 1ms
+ ✓ tests/unit/scenarios.test.ts > Conversations > conv-ar-otp: رمز التحقق يُذكر ثم يُرسل في رسالة منفصلة 1ms
+ ✓ tests/unit/scenarios.test.ts > Conversations > conv-ar-placeholders: نفس الإيميل ياخذ نفس البليسهولدر عبر المحادثة 1ms
+ ✓ tests/unit/scenarios.test.ts > Conversations > conv-mixed-iban: English then Arabic, IBAN in the second message 1ms
+ ✓ tests/unit/detectors.test.ts > validators > luhn / card 3ms
+ ✓ tests/unit/detectors.test.ts > validators > saudi national id / iqama 1ms
+ ✓ tests/unit/detectors.test.ts > validators > iban mod-97 and country length 1ms
+ ✓ tests/unit/detectors.test.ts > validators > jwt header must decode to JSON with alg 0ms
+ ✓ tests/unit/detectors.test.ts > detectWithRules > finds structured secrets with the right labels and offsets 9ms
+ ✓ tests/unit/detectors.test.ts > detectWithRules > detects API keys, JWT, connection strings, private keys 4ms
+ ✓ tests/unit/detectors.test.ts > detectWithRules > masks only the value after a password keyword 0ms
+ ✓ tests/unit/detectors.test.ts > detectWithRules > does not treat free text after "password" as a password 1ms
+ ✓ tests/unit/detectors.test.ts > detectWithRules > handles Arabic keywords and Eastern-Arabic digits 12ms
+ ✓ tests/unit/detectors.test.ts > detectWithRules > detects Saudi IBAN and mobile numbers 1ms
+ ✓ tests/unit/detectors.test.ts > detectWithRules > rejects look-alikes that fail validation 1ms
+ ✓ tests/unit/detectors.test.ts > detectWithRules > reports keywords without other detections 0ms
+ ✓ tests/unit/detectors.test.ts > mergeDetections > keeps the higher-tier span on overlap and sorts by start 0ms
+ ✓ tests/unit/interceptor-logic.test.ts > ApprovalStore (loop prevention) > lets the approved text through for the whole send window, then expires 2ms
+ ✓ tests/unit/interceptor-logic.test.ts > ApprovalStore (loop prevention) > does not let a different (edited) text through 0ms
+ ✓ tests/unit/interceptor-logic.test.ts > ApprovalStore (loop prevention) > keeps revised texts trusted for the session (copy-paste case) 0ms
+ ✓ tests/unit/interceptor-logic.test.ts > re-analysing a revised prompt > never flags placeholders as sensitive data again 13ms
+ ✓ tests/unit/interceptor-logic.test.ts > re-analysing a revised prompt > placeholder names alone do not count as keywords 0ms
+ ✓ tests/unit/interceptor-logic.test.ts > re-analysing a revised prompt > reports findings without raw values, highest tier first 2ms
+ ✓ tests/unit/interceptor-logic.test.ts > ConversationTracker > follows a new chat to its own URL after the first send 0ms
+ ✓ tests/unit/interceptor-logic.test.ts > ConversationTracker > starts fresh when the user opens a different conversation later 1ms
+stdout | tests/unit/policy-live.test.ts > an open page follows policy changes without a reload > a storage change event replaces the page copy
+[hares] policy in this page: version 15
+
+stdout | tests/unit/policy-live.test.ts > an open page follows policy changes without a reload > a storage change event replaces the page copy
+[hares] policy changed in storage: version 16
+
+stdout | tests/unit/policy-live.test.ts > an open page follows policy changes without a reload > even when the change event never arrives, the next scan reads the stored policy
+[hares] policy in this page: version 15
+
+stdout | tests/unit/policy-live.test.ts > an open page follows policy changes without a reload > even when the change event never arrives, the next scan reads the stored policy
+[hares] policy in this page: version 16
+
+stdout | tests/unit/policy-live.test.ts > an open page follows policy changes without a reload > a page that started before any policy was stored picks it up on the next scan
+[hares] policy in this page: version 3
+
+stdout | tests/unit/policy-live.test.ts > an open page follows policy changes without a reload > keeps the current policy if storage cannot be read
+[hares] policy in this page: version 15
+
+ ✓ tests/unit/policy-live.test.ts > an open page follows policy changes without a reload > a storage change event replaces the page copy 17ms
+ ✓ tests/unit/policy-live.test.ts > an open page follows policy changes without a reload > even when the change event never arrives, the next scan reads the stored policy 2ms
+ ✓ tests/unit/policy-live.test.ts > an open page follows policy changes without a reload > a page that started before any policy was stored picks it up on the next scan 1ms
+ ✓ tests/unit/policy-live.test.ts > an open page follows policy changes without a reload > keeps the current policy if storage cannot be read 3ms
+ ✓ tests/unit/masking-decision.test.ts > PlaceholderVault > masks with consistent numbered placeholders and leaves no raw value 11ms
+ ✓ tests/unit/masking-decision.test.ts > PlaceholderVault > round-trips mask → unmask to the original text 2ms
+ ✓ tests/unit/masking-decision.test.ts > PlaceholderVault > keeps placeholders stable across prompts in one conversation 1ms
+ ✓ tests/unit/masking-decision.test.ts > PlaceholderVault > restores from a snapshot and continues numbering 1ms
+ ✓ tests/unit/masking-decision.test.ts > PlaceholderVault > does not mask keyword-only detections 0ms
+ ✓ tests/unit/masking-decision.test.ts > PlaceholderVault > leaves unknown placeholders untouched on unmask 0ms
+ ✓ tests/unit/masking-decision.test.ts > decide > SAFE: plain send, no UI 1ms
+ ✓ tests/unit/masking-decision.test.ts > decide > LOW: keyword only → notice, send allowed, nothing to mask 1ms
+ ✓ tests/unit/masking-decision.test.ts > decide > MEDIUM: contact data → confirm, masked send offered 1ms
+ ✓ tests/unit/masking-decision.test.ts > decide > HIGH: original send is never allowed, masked send is 2ms
+ ✓ tests/unit/masking-decision.test.ts > decide > context model alone is capped at MEDIUM 0ms
+ ✓ tests/unit/masking-decision.test.ts > decide > uncertain context escalates to MEDIUM 0ms
+ ✓ tests/unit/masking-decision.test.ts > decide > works without a context result (model unavailable) 0ms
+ ✓ tests/unit/topic-rules.test.ts > parseTopicFields > keeps a valid description (trimmed) and threshold 3ms
+ ✓ tests/unit/topic-rules.test.ts > parseTopicFields > treats a missing and a null description the same: the rule cannot be enforced 0ms
+ ✓ tests/unit/topic-rules.test.ts > parseTopicFields > refuses a description outside 20 to 300 characters 0ms
+ ✓ tests/unit/topic-rules.test.ts > parseTopicFields > uses 0.3 when the threshold is missing, null or not a number 0ms
+ ✓ tests/unit/topic-rules.test.ts > parseTopicFields > moves a threshold outside 0.2 to 0.9 to the nearest limit 0ms
+ ✓ tests/unit/topic-rules.test.ts > TOPIC rules in the policy bundle > reads the rule as the platform sends it 1ms
+ ✓ tests/unit/topic-rules.test.ts > TOPIC rules in the policy bundle > skips a TOPIC rule saved before the English description existed, and keeps the others 0ms
+ ✓ tests/unit/topic-rules.test.ts > TOPIC rules in the policy bundle > accepts null in the new fields of KEYWORD and PATTERN rules 0ms
+ ✓ tests/unit/topic-rules.test.ts > TOPIC rules in the policy bundle > ignores fields it does not know, on the bundle and on a rule 2ms
+ ✓ tests/unit/topic-rules.test.ts > TOPIC rules in the policy bundle > survives storage: the stored policy validates with its TOPIC rule intact 2ms
+ ✓ tests/unit/topic-rules.test.ts > TOPIC rules in the policy bundle > drops a stored TOPIC rule whose description was tampered with 1ms
+ ✓ tests/unit/topic-rules.test.ts > topicRulesOf > lists the TOPIC rules with their position among all rules 0ms
+ ✓ tests/unit/topic-rules.test.ts > topicRulesOf > is empty for a policy without rules 0ms
+ ✓ tests/unit/topic-rules.test.ts > topicRulesOf > scores at most 10 topics, the first in bundle order 1ms
+ ✓ tests/unit/topic-rules.test.ts > TOPIC rules and the pattern matcher > a TOPIC rule never matches as a keyword or a pattern, even when its words are in the text 5ms
+ ✓ tests/unit/topic-rules.test.ts > sameHypotheses > scores can be reused when only the threshold, action or name of a rule changed 0ms
+ ✓ tests/unit/topic-rules.test.ts > sameHypotheses > a changed description, order or number of rules means asking the model again 0ms
+ ✓ tests/unit/ner-spans.test.ts > alignTokens > handles the tokenizer adding a leading space (entity at the very start) 3ms
+ ✓ tests/unit/ner-spans.test.ts > alignTokens > aligns Arabic sub-word pieces 1ms
+ ✓ tests/unit/ner-spans.test.ts > toWords + aggregateBio > a word takes the tag of its first piece (suffix tagged B- is ignored) 2ms
+ ✓ tests/unit/ner-spans.test.ts > toWords + aggregateBio > separates two different entities and skips O words 0ms
+ ✓ tests/unit/ner-spans.test.ts > toWords + aggregateBio > ignores special / unaligned tokens 0ms
+ ✓ tests/unit/ner-spans.test.ts > trimSpan > drops punctuation and spaces at the edges, Latin and Arabic 1ms
+ ✓ tests/unit/ner-spans.test.ts > joinAddressPieces > joins an Arabic address split by "رقم" and adds the street word before it 1ms
+ ✓ tests/unit/ner-spans.test.ts > joinAddressPieces > does not join addresses separated by other words, or other entity types 0ms
+ ✓ tests/unit/contract-categories.test.ts > contract category codes > there are exactly 24 distinct codes 3ms
+ ✓ tests/unit/contract-categories.test.ts > contract category codes > every internal category maps to a distinct contract code, except the internal ORG_RULE 2ms
+ ✓ tests/unit/contract-categories.test.ts > contract category codes > all 24 codes are reachable (no code is left without a category) 0ms
+ ✓ tests/unit/contract-categories.test.ts > contract category codes > every detection-model label maps to exactly one category with a contract code 2ms
+ ✓ tests/unit/contract-categories.test.ts > contract category codes > every rule pattern uses a category with a contract code 1ms
+ ✓ tests/unit/contract-categories.test.ts > contract category codes > agreed mapping for the model labels 0ms
+ ✓ tests/unit/contract-categories.test.ts > contract category codes > Saudi ID and IBAN are never reported as REGION_BANKING_IDENTITY 1ms
+ ✓ tests/unit/policy-fresh.test.ts > policy freshness settings > checks in the background at least every minute, never faster than Chrome allows alarms 3ms
+ ✓ tests/unit/policy-fresh.test.ts > policy freshness settings > a send re-checks only when the last check is older than 15 seconds 1ms
+ ✓ tests/unit/policy-fresh.test.ts > requestFreshPolicy > asks the background and returns when it answers 2ms
+ ✓ tests/unit/policy-fresh.test.ts > requestFreshPolicy > never throws when the background cannot be reached 1ms
+ ✓ tests/unit/policy-fresh.test.ts > requestFreshPolicy > does not hold the send past its timeout when the background is slow 4ms
+ ✓ tests/unit/schedule.test.ts > ensureAlarm > creates a missing alarm 4ms
+ ✓ tests/unit/schedule.test.ts > ensureAlarm > leaves a running alarm alone, so a service worker wake-up does not restart its period 0ms
+ ✓ tests/unit/schedule.test.ts > ensureAlarm > replaces an alarm whose period changed (new build) 0ms
+ ✓ tests/unit/schedule.test.ts > isCheckDue > is due when there was no check, or the record is unreadable 0ms
+ ✓ tests/unit/schedule.test.ts > isCheckDue > is due once the last check is 5 minutes old, not before 0ms
+ ✓ tests/unit/extension-context.test.ts > extension context > is valid while the extension id exists, invalid once it is gone 4ms
+ ✓ tests/unit/extension-context.test.ts > extension context > recognises the invalidated-context error 1ms
+ ✓ tests/unit/extension-context.test.ts > reportEvent after the extension was reloaded > sends the event while the context is valid 1ms
+ ✓ tests/unit/extension-context.test.ts > reportEvent after the extension was reloaded > does nothing, and logs nothing, once the context is gone 1ms
+ ✓ tests/unit/extension-context.test.ts > reportEvent after the extension was reloaded > swallows the invalidated error if it happens during the call 1ms
+ ✓ tests/unit/extension-context.test.ts > reportEvent after the extension was reloaded > still warns about other failures 1ms
+ ✓ tests/unit/reinject.test.ts > reinjectContentScripts > injects each script into the open tabs it matches 2ms
+ ✓ tests/unit/reinject.test.ts > reinjectContentScripts > skips a tab it cannot script and carries on with the others 0ms
+ ✓ tests/unit/reinject.test.ts > reinjectContentScripts > does nothing when no tab is open, or a tab has no id 0ms
+ ✓ tests/unit/reinject.test.ts > reinjectContentScripts > survives a failing tab query 0ms
+ ✓ tests/unit/protocol.test.ts > messaging protocol > recognizes a valid probe request 2ms
+ ✓ tests/unit/protocol.test.ts > messaging protocol > rejects messages that are not probe requests 0ms
+ ✓ tests/unit/protocol.test.ts > messaging protocol > recognizes a valid classify request 0ms
+ ✓ tests/unit/protocol.test.ts > messaging protocol > rejects classify requests that are missing a prompt 0ms
+ ✓ tests/unit/extension-id.test.ts > extension id > is the one Chrome derives from the manifest key 3ms
+ ✓ tests/unit/upload.test.ts > outbox > keeps order, ignores a duplicate log_id, and survives a new instance on the same storage 3ms
+ ✓ tests/unit/upload.test.ts > outbox > holds at most 500 events and drops the oldest 763ms
+ ✓ tests/unit/throttle.test.ts > createThrottle > is ready the first time, then only after the interval 2ms
+ ✓ tests/unit/throttle.test.ts > createThrottle > touch counts the work as just done: typing right after a send does not warm up again 0ms
+ ✓ tests/unit/throttle.test.ts > topic time limit > leaves room above the 1 to 2 seconds measured in Chrome, without holding a send for long 0ms
+stderr | tests/unit/upload.test.ts > uploader > VALIDATION_ERROR drops that event and carries on with the next
+[hares] event dropped: 400 VALIDATION_ERROR (request req-1)
+
+stderr | tests/unit/upload.test.ts > uploader > EVENT_TIME_OUT_OF_RANGE drops that event and carries on with the next
+[hares] event dropped: 400 EVENT_TIME_OUT_OF_RANGE (request req-1)
+
+stderr | tests/unit/upload.test.ts > uploader > PAYLOAD_TOO_LARGE drops that event and carries on with the next
+[hares] event dropped: 413 PAYLOAD_TOO_LARGE (request req-1)
+
+ ✓ tests/unit/upload.test.ts > outbox > does not lose events pushed at the same moment (two tabs) 1ms
+ ✓ tests/unit/upload.test.ts > outbox > ignores damaged entries in storage 0ms
+ ✓ tests/unit/upload.test.ts > uploader > sends the queue in order, one request per event, with the allowlisted body 26ms
+ ✓ tests/unit/upload.test.ts > uploader > a duplicate (200) counts as sent 1ms
+ ✓ tests/unit/upload.test.ts > uploader > every retry sends the same log_id 2ms
+ ✓ tests/unit/upload.test.ts > uploader > 5xx and offline: backs off and keeps the event; a success resets the backoff 3ms
+ ✓ tests/unit/upload.test.ts > uploader > the backoff doubles up to 5 minutes 0ms
+ ✓ tests/unit/upload.test.ts > uploader > offline (network error) keeps the event 1ms
+ ✓ tests/unit/upload.test.ts > uploader > 429 waits for Retry-After and keeps the event 1ms
+ ✓ tests/unit/upload.test.ts > uploader > VALIDATION_ERROR drops that event and carries on with the next 1ms
+ ✓ tests/unit/upload.test.ts > uploader > EVENT_TIME_OUT_OF_RANGE drops that event and carries on with the next 1ms
+ ✓ tests/unit/upload.test.ts > uploader > PAYLOAD_TOO_LARGE drops that event and carries on with the next 1ms
+ ✓ tests/unit/upload.test.ts > uploader > DEPARTMENT_INACTIVE pauses uploads, keeps the queue and the session, and resumes after a policy check 1ms
+ ✓ tests/unit/upload.test.ts > uploader > TOKEN_EXPIRED refreshes and sends the same event again 1ms
+ ✓ tests/unit/upload.test.ts > uploader > ACCOUNT_INACTIVE ends the session and stops without dropping the queue itself 1ms
+ ✓ tests/unit/upload.test.ts > uploader > sends nothing when signed out 0ms
+ ✓ tests/unit/upload.test.ts > uploader > drops events older than 89 days instead of sending them 0ms
+ ✓ tests/unit/upload.test.ts > uploader > flush runs once at a time 0ms
+ ✓ tests/unit/upload.test.ts > uploader > flush with a time limit stops before the queue is empty 0ms
+ ✓ tests/unit/upload.test.ts > uploader > reset forgets the pause and the backoff 0ms
+ ✓ tests/unit/upload.test.ts > server clock > stamps events with the server time when the device clock is wrong 1ms
+ ✓ tests/unit/upload.test.ts > server clock > ignores a difference of the header resolution, and a bad header 0ms
+ ✓ tests/unit/upload.test.ts > server clock > remembers the offset across a service worker restart 1ms
+
+ Test Files  25 passed (25)
+      Tests  366 passed | 6 skipped (372)
+   Start at  00:01:42
+   Duration  2.02s (transform 44%, import 28%, tests 20%, worker 9%)
+
+  Transform  transforming modules took 3.59s · 44% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+

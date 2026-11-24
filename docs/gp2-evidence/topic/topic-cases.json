@@ -1,0 +1,160 @@
+{
+  "$comment": "TOPIC-rule evaluation set. topics = what a department admin would write on the platform (a name and a description, in English and in Arabic). cases = prompts a user might send to an AI assistant. `topics` lists the topic ids the prompt belongs to: one id for a positive, [] for a negative. kind: 'positive' | 'near' (close to a topic but not about it; flagging it is a false alarm) | 'negative' (ordinary work prompt). All companies, people and figures are fictional.",
+  "topics": [
+    {
+      "id": "financials",
+      "name": { "en": "unreleased financial results", "ar": "النتائج المالية غير المعلنة" },
+      "description": {
+        "en": "This text discusses the company's financial results, revenue, profit or forecasts that have not been announced publicly.",
+        "ar": "هذا النص يتحدث عن نتائج الشركة المالية أو إيراداتها أو أرباحها أو توقعاتها التي لم تُعلن بعد."
+      }
+    },
+    {
+      "id": "mna",
+      "name": { "en": "mergers and acquisitions", "ar": "صفقات الاندماج والاستحواذ" },
+      "description": {
+        "en": "This text discusses a planned merger, acquisition or sale of a company or business unit.",
+        "ar": "هذا النص يتحدث عن صفقة اندماج أو استحواذ أو بيع شركة أو قطاع أعمال يجري التخطيط لها."
+      }
+    },
+    {
+      "id": "layoffs",
+      "name": { "en": "layoffs and restructuring", "ar": "تسريح الموظفين وإعادة الهيكلة" },
+      "description": {
+        "en": "This text discusses plans to lay off employees, cut jobs or restructure departments.",
+        "ar": "هذا النص يتحدث عن خطط لتسريح موظفين أو إلغاء وظائف أو إعادة هيكلة الإدارات."
+      }
+    },
+    {
+      "id": "legal",
+      "name": { "en": "legal disputes and lawsuits", "ar": "القضايا والنزاعات القانونية" },
+      "description": {
+        "en": "This text discusses a lawsuit, legal dispute, investigation or settlement involving the company.",
+        "ar": "هذا النص يتحدث عن دعوى قضائية أو نزاع قانوني أو تحقيق أو تسوية تخص الشركة."
+      }
+    },
+    {
+      "id": "security",
+      "name": { "en": "security vulnerabilities and incidents", "ar": "الثغرات والحوادث الأمنية" },
+      "description": {
+        "en": "This text discusses a security vulnerability, breach or cyber incident in the company's systems.",
+        "ar": "هذا النص يتحدث عن ثغرة أمنية أو اختراق أو حادثة سيبرانية في أنظمة الشركة."
+      }
+    },
+    {
+      "id": "contracts",
+      "name": { "en": "customer contracts and pricing", "ar": "عقود العملاء والأسعار" },
+      "description": {
+        "en": "This text discusses the terms, prices or discounts of a contract with a specific customer.",
+        "ar": "هذا النص يتحدث عن شروط أو أسعار أو خصومات عقد مع عميل محدد."
+      }
+    },
+    {
+      "id": "salaries",
+      "name": { "en": "employee salaries and performance reviews", "ar": "رواتب الموظفين وتقييم الأداء" },
+      "description": {
+        "en": "This text discusses the salary, bonus or performance review of specific employees.",
+        "ar": "هذا النص يتحدث عن راتب أو مكافأة أو تقييم أداء موظفين محددين."
+      }
+    },
+    {
+      "id": "roadmap",
+      "name": { "en": "unreleased product plans", "ar": "خطط المنتجات غير المعلنة" },
+      "description": {
+        "en": "This text discusses a product, feature or launch date that has not been announced yet.",
+        "ar": "هذا النص يتحدث عن منتج أو ميزة أو موعد إطلاق لم يُعلن عنه بعد."
+      }
+    }
+  ],
+  "cases": [
+    { "id": "fin-en-1", "lang": "en", "kind": "positive", "topics": ["financials"], "text": "Summarise our Q3 numbers before the earnings call: revenue came in at 412 million, 9% below guidance, and net profit dropped to 31 million." },
+    { "id": "fin-en-2", "lang": "en", "kind": "positive", "topics": ["financials"], "text": "Help me write the board memo explaining why we will miss this year's profit forecast by about 15%. This is not public yet." },
+    { "id": "fin-en-3", "lang": "en", "kind": "positive", "topics": ["financials"], "text": "Here is the draft income statement for the quarter that we publish next week. Can you check the margins and tell me what stands out?" },
+    { "id": "fin-ar-1", "lang": "ar", "kind": "positive", "topics": ["financials"], "text": "لخّص لي أرقام الربع الثالث قبل إعلانها: الإيرادات بلغت 412 مليون ريال، أقل من التوقعات بتسعة بالمئة، وصافي الربح انخفض إلى 31 مليون." },
+    { "id": "fin-ar-2", "lang": "ar", "kind": "positive", "topics": ["financials"], "text": "اكتب لي مذكرة لمجلس الإدارة تشرح سبب عدم تحقيق أرباح هذا العام المتوقعة. المعلومة لم تُنشر بعد." },
+    { "id": "fin-ar-3", "lang": "ar", "kind": "positive", "topics": ["financials"], "text": "هذي مسودة قائمة الدخل للربع الحالي اللي بنعلنها الأسبوع الجاي، راجع لي هوامش الربح وقل لي وش الملاحظات." },
+
+    { "id": "mna-en-1", "lang": "en", "kind": "positive", "topics": ["mna"], "text": "We are in talks to acquire Northwind Logistics for around 200 million. Draft the questions we should ask in due diligence." },
+    { "id": "mna-en-2", "lang": "en", "kind": "positive", "topics": ["mna"], "text": "Write a confidential note to the executive team about merging our retail arm with Bluepeak next year." },
+    { "id": "mna-en-3", "lang": "en", "kind": "positive", "topics": ["mna"], "text": "The owners want to sell the packaging division. Compare selling it to a competitor versus a private equity fund." },
+    { "id": "mna-ar-1", "lang": "ar", "kind": "positive", "topics": ["mna"], "text": "نحن في مفاوضات للاستحواذ على شركة النخبة للخدمات اللوجستية بحوالي 200 مليون ريال. اكتب لي أسئلة الفحص النافي للجهالة." },
+    { "id": "mna-ar-2", "lang": "ar", "kind": "positive", "topics": ["mna"], "text": "جهّز مذكرة سرية للإدارة التنفيذية عن خطة دمج قطاع التجزئة عندنا مع شركة القمة السنة القادمة." },
+    { "id": "mna-ar-3", "lang": "ar", "kind": "positive", "topics": ["mna"], "text": "الملاك يبغون يبيعون قطاع التغليف، قارن لي بين بيعه لمنافس أو لصندوق استثماري." },
+
+    { "id": "lay-en-1", "lang": "en", "kind": "positive", "topics": ["layoffs"], "text": "We plan to cut 120 positions in operations in January. Draft the announcement and a FAQ for managers." },
+    { "id": "lay-en-2", "lang": "en", "kind": "positive", "topics": ["layoffs"], "text": "Help me decide which teams to merge when we restructure the engineering department and reduce headcount by 20%." },
+    { "id": "lay-en-3", "lang": "en", "kind": "positive", "topics": ["layoffs"], "text": "Write a script for telling an employee that their role is being eliminated as part of the downsizing." },
+    { "id": "lay-ar-1", "lang": "ar", "kind": "positive", "topics": ["layoffs"], "text": "نخطط لإلغاء 120 وظيفة في إدارة العمليات في يناير. اكتب لي صيغة الإعلان وأسئلة متوقعة للمديرين." },
+    { "id": "lay-ar-2", "lang": "ar", "kind": "positive", "topics": ["layoffs"], "text": "ساعدني أحدد أي الفرق ندمجها في إعادة هيكلة قسم الهندسة مع تقليص عدد الموظفين عشرين بالمئة." },
+    { "id": "lay-ar-3", "lang": "ar", "kind": "positive", "topics": ["layoffs"], "text": "اكتب لي كلام أقوله لموظف بنستغني عنه ضمن خطة تسريح الموظفين الشهر الجاي." },
+
+    { "id": "leg-en-1", "lang": "en", "kind": "positive", "topics": ["legal"], "text": "A former supplier is suing us for breach of contract and asking for 8 million in damages. Outline our possible defences." },
+    { "id": "leg-en-2", "lang": "en", "kind": "positive", "topics": ["legal"], "text": "Summarise the regulator's investigation letter we received and suggest how our lawyers should reply." },
+    { "id": "leg-en-3", "lang": "en", "kind": "positive", "topics": ["legal"], "text": "We want to settle the lawsuit with the ex-employee out of court. Draft settlement terms." },
+    { "id": "leg-ar-1", "lang": "ar", "kind": "positive", "topics": ["legal"], "text": "مورد سابق رفع علينا دعوى قضائية بسبب الإخلال بالعقد ويطالب بتعويض 8 ملايين ريال. اكتب لي الدفوع الممكنة." },
+    { "id": "leg-ar-2", "lang": "ar", "kind": "positive", "topics": ["legal"], "text": "لخّص خطاب التحقيق اللي وصلنا من الجهة الرقابية واقترح كيف يرد عليه المحامي." },
+    { "id": "leg-ar-3", "lang": "ar", "kind": "positive", "topics": ["legal"], "text": "نبغى نسوي تسوية ودية في القضية المرفوعة من الموظف السابق، اكتب لي بنود التسوية." },
+
+    { "id": "sec-en-1", "lang": "en", "kind": "positive", "topics": ["security"], "text": "Our payment gateway has an SQL injection flaw in the refund endpoint that nobody has patched. How do we fix it quickly?" },
+    { "id": "sec-en-2", "lang": "en", "kind": "positive", "topics": ["security"], "text": "Attackers got into our customer database last night through a stolen admin account. Write the incident report." },
+    { "id": "sec-en-3", "lang": "en", "kind": "positive", "topics": ["security"], "text": "The pentest found that our internal VPN accepts expired certificates. Explain the risk to management." },
+    { "id": "sec-ar-1", "lang": "ar", "kind": "positive", "topics": ["security"], "text": "في بوابة الدفع عندنا ثغرة حقن SQL في خدمة الاسترجاع ولسا ما انحلت. كيف نصلحها بسرعة؟" },
+    { "id": "sec-ar-2", "lang": "ar", "kind": "positive", "topics": ["security"], "text": "تم اختراق قاعدة بيانات العملاء البارحة عن طريق حساب مدير مسروق. اكتب لي تقرير الحادثة." },
+    { "id": "sec-ar-3", "lang": "ar", "kind": "positive", "topics": ["security"], "text": "اختبار الاختراق أظهر أن الشبكة الداخلية تقبل شهادات منتهية. اشرح الخطر للإدارة." },
+
+    { "id": "con-en-1", "lang": "en", "kind": "positive", "topics": ["contracts"], "text": "Our contract with Alderon Bank gives them a 35% discount and a 90-day payment term. Draft the renewal with a smaller discount." },
+    { "id": "con-en-2", "lang": "en", "kind": "positive", "topics": ["contracts"], "text": "Compare the price per licence we charge Meridian Health with what we quoted Castle Insurance." },
+    { "id": "con-en-3", "lang": "en", "kind": "positive", "topics": ["contracts"], "text": "The customer wants us to remove the penalty clause from their service agreement. Rewrite section 7." },
+    { "id": "con-ar-1", "lang": "ar", "kind": "positive", "topics": ["contracts"], "text": "عقدنا مع بنك الريادة يعطيهم خصم 35% ومدة سداد 90 يوم. اكتب لي عرض التجديد بخصم أقل." },
+    { "id": "con-ar-2", "lang": "ar", "kind": "positive", "topics": ["contracts"], "text": "قارن لي سعر الرخصة اللي نبيعها لمستشفى الأمل بالسعر اللي عرضناه على شركة الدرع للتأمين." },
+    { "id": "con-ar-3", "lang": "ar", "kind": "positive", "topics": ["contracts"], "text": "العميل يطلب حذف بند الغرامة من اتفاقية الخدمة معه، أعد صياغة البند السابع." },
+
+    { "id": "sal-en-1", "lang": "en", "kind": "positive", "topics": ["salaries"], "text": "Omar earns 18,000 a month and Lina earns 14,500 for the same role. Help me justify the gap or fix it." },
+    { "id": "sal-en-2", "lang": "en", "kind": "positive", "topics": ["salaries"], "text": "Write the annual performance review for a developer on my team who missed three deadlines and should get the lowest rating." },
+    { "id": "sal-en-3", "lang": "en", "kind": "positive", "topics": ["salaries"], "text": "Here are the bonus amounts for each person in my sales team. Rank them and tell me who is overpaid." },
+    { "id": "sal-ar-1", "lang": "ar", "kind": "positive", "topics": ["salaries"], "text": "عمر راتبه 18 ألف في الشهر ولينا راتبها 14 ألف ونص لنفس الوظيفة. ساعدني أبرر الفرق أو أعدله." },
+    { "id": "sal-ar-2", "lang": "ar", "kind": "positive", "topics": ["salaries"], "text": "اكتب تقييم الأداء السنوي لمبرمج في فريقي تأخر في ثلاث مهام ويستحق أقل تقدير." },
+    { "id": "sal-ar-3", "lang": "ar", "kind": "positive", "topics": ["salaries"], "text": "هذي مبالغ المكافآت لكل واحد في فريق المبيعات، رتبهم وقل لي مين ياخذ أكثر من اللازم." },
+
+    { "id": "rod-en-1", "lang": "en", "kind": "positive", "topics": ["roadmap"], "text": "We launch the new mobile wallet on 14 March and nobody outside the company knows. Write the internal launch plan." },
+    { "id": "rod-en-2", "lang": "en", "kind": "positive", "topics": ["roadmap"], "text": "Our next release adds offline mode and voice search, both still secret. Suggest names for these features." },
+    { "id": "rod-en-3", "lang": "en", "kind": "positive", "topics": ["roadmap"], "text": "Draft the press release for the unannounced smart meter we are unveiling at the conference next quarter." },
+    { "id": "rod-ar-1", "lang": "ar", "kind": "positive", "topics": ["roadmap"], "text": "بنطلق المحفظة الرقمية الجديدة يوم 14 مارس ومحد برا الشركة يدري. اكتب لي خطة الإطلاق الداخلية." },
+    { "id": "rod-ar-2", "lang": "ar", "kind": "positive", "topics": ["roadmap"], "text": "الإصدار القادم يضيف وضع العمل بدون إنترنت والبحث الصوتي، وكلها لسا سرية. اقترح أسماء للميزتين." },
+    { "id": "rod-ar-3", "lang": "ar", "kind": "positive", "topics": ["roadmap"], "text": "اكتب البيان الصحفي للعداد الذكي اللي ما أعلنا عنه وبنكشفه في المؤتمر الربع القادم." },
+
+    { "id": "near-en-1", "lang": "en", "kind": "near", "topics": [], "text": "Explain how to read an income statement and what gross margin means, with a simple example." },
+    { "id": "near-en-2", "lang": "en", "kind": "near", "topics": [], "text": "Why did Disney buy Pixar in 2006, and was it a good deal?" },
+    { "id": "near-en-3", "lang": "en", "kind": "near", "topics": [], "text": "What are healthy ways to cope with stress after losing a job?" },
+    { "id": "near-en-4", "lang": "en", "kind": "near", "topics": [], "text": "What is the difference between civil law and common law systems?" },
+    { "id": "near-en-5", "lang": "en", "kind": "near", "topics": [], "text": "Explain what SQL injection is and how parameterised queries prevent it." },
+    { "id": "near-en-6", "lang": "en", "kind": "near", "topics": [], "text": "Give me a general template for a freelance service agreement." },
+    { "id": "near-en-7", "lang": "en", "kind": "near", "topics": [], "text": "What is the average salary of a software engineer in Germany?" },
+    { "id": "near-en-8", "lang": "en", "kind": "near", "topics": [], "text": "What features did Apple announce for the iPhone at its last public event?" },
+    { "id": "near-ar-1", "lang": "ar", "kind": "near", "topics": [], "text": "اشرح لي كيف أقرأ قائمة الدخل ووش معنى هامش الربح الإجمالي مع مثال بسيط." },
+    { "id": "near-ar-2", "lang": "ar", "kind": "near", "topics": [], "text": "ليش اشترت فيسبوك تطبيق واتساب عام 2014 وهل كانت صفقة ناجحة؟" },
+    { "id": "near-ar-3", "lang": "ar", "kind": "near", "topics": [], "text": "كيف أتعامل مع الضغط النفسي بعد فقدان الوظيفة؟" },
+    { "id": "near-ar-4", "lang": "ar", "kind": "near", "topics": [], "text": "ما الفرق بين القانون المدني والقانون التجاري؟" },
+    { "id": "near-ar-5", "lang": "ar", "kind": "near", "topics": [], "text": "اشرح لي وش هي ثغرة حقن SQL وكيف نحمي الموقع منها بشكل عام." },
+    { "id": "near-ar-6", "lang": "ar", "kind": "near", "topics": [], "text": "أعطني نموذج عام لعقد تقديم خدمات لمستقل." },
+    { "id": "near-ar-7", "lang": "ar", "kind": "near", "topics": [], "text": "كم متوسط راتب مهندس البرمجيات في السعودية؟" },
+    { "id": "near-ar-8", "lang": "ar", "kind": "near", "topics": [], "text": "وش المزايا اللي أعلنت عنها سامسونج في مؤتمرها الأخير؟" },
+
+    { "id": "neg-en-1", "lang": "en", "kind": "negative", "topics": [], "text": "What is the capital of France?" },
+    { "id": "neg-en-2", "lang": "en", "kind": "negative", "topics": [], "text": "Write a Python function that removes duplicates from a list while keeping the order." },
+    { "id": "neg-en-3", "lang": "en", "kind": "negative", "topics": [], "text": "Rewrite this sentence to sound more polite: send me the file today." },
+    { "id": "neg-en-4", "lang": "en", "kind": "negative", "topics": [], "text": "Plan a three-day trip to Istanbul for a family with two kids." },
+    { "id": "neg-en-5", "lang": "en", "kind": "negative", "topics": [], "text": "Give me five ideas for a team-building activity for ten people." },
+    { "id": "neg-en-6", "lang": "en", "kind": "negative", "topics": [], "text": "Translate 'thank you for your patience' into Spanish and Italian." },
+    { "id": "neg-en-7", "lang": "en", "kind": "negative", "topics": [], "text": "Explain the difference between TCP and UDP in simple terms." },
+    { "id": "neg-en-8", "lang": "en", "kind": "negative", "topics": [], "text": "Write a short agenda for a weekly project status meeting." },
+    { "id": "neg-ar-1", "lang": "ar", "kind": "negative", "topics": [], "text": "ما هي عاصمة اليابان؟" },
+    { "id": "neg-ar-2", "lang": "ar", "kind": "negative", "topics": [], "text": "اكتب لي دالة بايثون ترتب قائمة أرقام تصاعديًا." },
+    { "id": "neg-ar-3", "lang": "ar", "kind": "negative", "topics": [], "text": "أعد صياغة هذه الجملة بأسلوب رسمي: أرسل لي الملف اليوم." },
+    { "id": "neg-ar-4", "lang": "ar", "kind": "negative", "topics": [], "text": "اقترح لي برنامج رحلة ثلاثة أيام في أبها مع العائلة." },
+    { "id": "neg-ar-5", "lang": "ar", "kind": "negative", "topics": [], "text": "أعطني خمس أفكار لنشاط جماعي لفريق من عشرة أشخاص." },
+    { "id": "neg-ar-6", "lang": "ar", "kind": "negative", "topics": [], "text": "ترجم لي عبارة شكرًا على صبركم إلى الإنجليزية والفرنسية." },
+    { "id": "neg-ar-7", "lang": "ar", "kind": "negative", "topics": [], "text": "اشرح لي الفرق بين الذاكرة العشوائية والتخزين بشكل مبسط." },
+    { "id": "neg-ar-8", "lang": "ar", "kind": "negative", "topics": [], "text": "اكتب جدول أعمال قصير لاجتماع أسبوعي لمتابعة المشروع." }
+  ]
+}

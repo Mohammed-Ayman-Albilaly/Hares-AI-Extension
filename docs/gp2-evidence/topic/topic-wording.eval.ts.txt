@@ -1,0 +1,141 @@
+/**
+ * TOPIC-rule evaluation: how should the admin word the English description?
+ * Node, CPU. Not part of `npm test`.
+ * Run: npx vitest run -c vitest.eval.config.ts eval/topic-wording.eval.ts
+ *
+ * A hand test on one topic showed that a short description with plain nouns
+ * scored far higher than a long one with verbs and alternatives. This runs the
+ * same 80 prompts and 8 topics as eval/topic.eval.ts on the extension's model,
+ * with three wordings of every topic:
+ *
+ *   measured  the full sentence used in the first experiment
+ *             ("...plans to lay off employees, cut jobs or restructure departments.")
+ *   short     "This text discusses <a few plain nouns>."
+ *   about     "This text is about <a few plain nouns>."
+ *
+ * Writes eval/results/topic-wording-<date>.json.
+ */
+
+import { pipeline } from '@huggingface/transformers';
+import { mkdirSync, writeFileSync } from 'node:fs';
+import { it } from 'vitest';
+import { MODEL } from '../src/model/config';
+import data from '../tests/fixtures/topic-cases.json';
+
+/** The few plain nouns that name each topic. */
+const NOUNS: Record<string, string> = {
+  financials: 'unannounced financial results, revenue or profit',
+  mna: 'a merger, acquisition or sale of a company',
+  layoffs: 'layoffs, job cuts or restructuring',
+  legal: 'a lawsuit, legal dispute or investigation',
+  security: 'a security vulnerability, breach or cyber incident',
+  contracts: 'a customer contract, its prices or discounts',
+  salaries: 'employee salaries, bonuses or performance reviews',
+  roadmap: 'an unannounced product, feature or launch',
+};
+
+const WORDINGS: Record<string, (id: string, measured: string) => string> = {
+  measured: (_id, measured) => measured,
+  short: (id) => `This text discusses ${NOUNS[id]}.`,
+  about: (id) => `This text is about ${NOUNS[id]}.`,
+};
+
+const THRESHOLDS = [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.95];
+
+type Classifier = (
+  text: string,
+  labels: string[],
+  options: { hypothesis_template: string; multi_label: boolean },
+) => Promise<{ labels: string[]; scores: number[] }>;
+
+interface Scored {
+  id: string;
+  lang: string;
+  kind: string;
+  gold: string[];
+  scores: Record<string, number>;
+}
+
+const round = (n: number) => Math.round(n * 1000) / 1000;
+
+function metricsAt(rows: Scored[], t: number) {
+  const positives = rows.filter((r) => r.kind === 'positive');
+  const others = rows.filter((r) => r.kind !== 'positive');
+  const flagged = (r: Scored) => Object.entries(r.scores).filter(([, s]) => s >= t).map(([id]) => id);
+
+  let hit = 0;
+  let wrongTopic = 0;
+  for (const r of positives) {
+    const f = flagged(r);
+    if (r.gold.some((g) => f.includes(g))) hit += 1;
+    wrongTopic += f.filter((id) => !r.gold.includes(id)).length;
+  }
+  const alarms = (kind: string) => {
+    const set = others.filter((r) => r.kind === kind);
+    const hits = set.filter((r) => flagged(r).length > 0);
+    return { flagged: hits.length, of: set.length, ids: hits.map((r) => r.id) };
+  };
+  const near = alarms('near');
+  const negative = alarms('negative');
+  const recallOf = (lang: string) => {
+    const set = positives.filter((r) => r.lang === lang);
+    return set.filter((r) => r.gold.some((g) => (r.scores[g] ?? 0) >= t)).length / set.length;
+  };
+  return {
+    threshold: t,
+    recall: round(hit / positives.length),
+    recallEn: round(recallOf('en')),
+    recallAr: round(recallOf('ar')),
+    falseAlarm: round((near.flagged + negative.flagged) / others.length),
+    nearFlagged: `${near.flagged}/${near.of}`,
+    ordinaryFlagged: `${negative.flagged}/${negative.of}`,
+    wrongTopicFlags: wrongTopic,
+    missed: positives.filter((r) => !r.gold.some((g) => (r.scores[g] ?? 0) >= t)).map((r) => r.id),
+    falseIds: [...near.ids, ...negative.ids],
+  };
+}
+
+it('compares wordings of the topic description', async () => {
+  const classifier = (await pipeline('zero-shot-classification', MODEL.id, {
+    revision: MODEL.revision,
+    dtype: MODEL.dtype,
+  })) as unknown as Classifier;
+  await classifier('warm up', ['a test'], { hypothesis_template: '{}', multi_label: true });
+
+  const runs: Record<string, unknown>[] = [];
+  const overview: Record<string, unknown>[] = [];
+
+  for (const [wording, make] of Object.entries(WORDINGS)) {
+    const labels = data.topics.map((t) => make(t.id, t.description.en));
+    const idOf = new Map(labels.map((label, i) => [label, data.topics[i]!.id]));
+    const rows: Scored[] = [];
+    for (const c of data.cases) {
+      const out = await classifier(c.text, labels, { hypothesis_template: '{}', multi_label: true });
+      const scores: Record<string, number> = {};
+      out.labels.forEach((label, i) => {
+        scores[idOf.get(label)!] = round(out.scores[i] ?? 0);
+      });
+      rows.push({ id: c.id, lang: c.lang, kind: c.kind, gold: c.topics, scores });
+    }
+
+    const positives = rows.filter((r) => r.kind === 'positive');
+    const top1 = positives.filter((r) => {
+      const best = Object.entries(r.scores).sort((a, b) => b[1] - a[1])[0]?.[0];
+      return best !== undefined && r.gold.includes(best);
+    }).length / positives.length;
+    const sweep = THRESHOLDS.map((t) => metricsAt(rows, t));
+    for (const s of sweep) {
+      overview.push({ wording, threshold: s.threshold, recall: s.recall, recallEn: s.recallEn, recallAr: s.recallAr, near: s.nearFlagged, ordinary: s.ordinaryFlagged, wrongTopic: s.wrongTopicFlags });
+    }
+    runs.push({ wording, labels, top1: round(top1), sweep, rows });
+  }
+
+  console.table(overview);
+  mkdirSync('eval/results', { recursive: true });
+  const file = `eval/results/topic-wording-${new Date().toISOString().slice(0, 10)}.json`;
+  writeFileSync(
+    file,
+    JSON.stringify({ date: new Date().toISOString(), model: MODEL, runtime: 'node (onnxruntime CPU)', cases: data.cases.length, topics: data.topics.length, nouns: NOUNS, overview, runs }, null, 2),
+  );
+  console.log(`report written to ${file}`);
+});
