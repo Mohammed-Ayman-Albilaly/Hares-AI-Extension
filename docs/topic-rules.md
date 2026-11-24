@@ -2,7 +2,7 @@
 
 A TOPIC rule names a subject in words, for example "plans to lay off employees". The extension decides on the user's device whether a message is about that subject. The message text never leaves the device.
 
-Status: built in the extension and covered by unit tests. Not yet tested in a browser against a real bundle, because the platform does not send the two new fields yet.
+Status: built, covered by unit tests, and tested in Chrome on ChatGPT against the live platform on 2026-11-24 (see "Joint test"). One open problem: the check adds 2 to 3 seconds to every message, and the first message after a long idle can exceed the 4-second limit, in which case the topic is missed.
 
 ## How a message is judged
 
@@ -78,11 +78,38 @@ A TOPIC match is reported like a KEYWORD or PATTERN match: its `rule_id`, the ru
 - A full sentence works better than a short name: 83% against 48%.
 - Short prompts score around 0.35, so they are missed at 0.5 and caught at 0.3.
 - Five other models were tried (three embedding models, mDeBERTa, GLiClass); none came close. Their results are on the `experiment/topic-*` branches.
+- Wording of the description (branch `experiment/topic-short-descriptions`): a short form with plain nouns ("This text discusses layoffs, job cuts or restructuring.") is not better in general than a full sentence. At 0.5 both caught 83%, with 3 of 16 near-topic prompts flagged for the short form against 1 of 16. What clearly hurts is a long description crowded with verbs and alternatives: on one topic it caught 3 of 9 prompts where the others caught 8 or 9. The best wording varies by topic.
+
+## Joint test
+
+Chrome on ChatGPT, signed in to the live platform, 2026-11-24. The bundle had two TOPIC rules (layoffs: WARN at 0.3; salaries: ALLOW at 0.5) and one old rule with `definition_en: null`.
+
+| Message | Result | Enter to result |
+|---|---|---|
+| "We plan to cut 120 positions in January" | Warned by the layoffs rule | not timed |
+| The same idea in Arabic | Warned by the layoffs rule | not timed |
+| An Arabic message about two employees' salaries | Sent with the notice (salaries, ALLOW) | not timed |
+| "What is the capital of France?" | Sent, nothing shown | not timed |
+| Layoffs message with an email address, first try after about 50 idle minutes | **Topic missed**: the model took more than 4 seconds; only the email was shown | over 4 s |
+| The same message again | Warned: the topic and the email, with Send revised | 3.3 s |
+| A message about layoffs and bonuses | Warned, both rules listed, Confirm and Edit only | 3.1 s |
+| "What is the average salary of a software engineer in Germany?" | Sent with the notice: a false alert on the salaries rule, as predicted (score 0.63) | 2.0 s |
+| "What are healthy ways to cope with stress after losing a job?" | Sent, nothing shown | 2.6 s |
+| An ordinary request in Arabic | Sent, nothing shown | 2.2 s |
+
+- The old rule without an English description was not loaded.
+- The topic model loaded from disk in about 4.8 seconds.
+- The first four rows were run by hand; the rest were driven and timed by script (time from releasing Enter to the dialog, or to the end of the check).
+- The payloads of `POST /logs` were not inspected in the browser; the platform side confirms the events.
+
+## Known problems
+
+- **Speed.** With two TOPIC rules, every message waited 2 to 3.3 seconds before it was sent or the dialog appeared. In Node the same scoring took a fraction of a second: the browser runs the models on one CPU thread. How much of the wait is the topic model, the detection model and the policy check has not been separated.
+- **First message after a long idle.** It can exceed the 4-second limit, and then TOPIC rules are not applied to it. Seen once in the joint test.
 
 ## Not verified yet
 
-- Speed inside the browser. Scoring 8 topics took about 0.2 to 0.35 seconds per message in Node; the browser's WASM runtime may be slower, and the 4-second limit has not been checked against real use.
-- A joint test with the platform, once its bundle carries `definition_en` and `threshold`.
+- Speed with more than two TOPIC rules (up to 10 are allowed).
 - The 80 test prompts were written for the test; real topics from admins may behave differently.
 
 ## Trying it by hand
