@@ -31,7 +31,7 @@ import { requestEntities, warmUpDetector, type DetectorOutcome } from '../ner/cl
 import { entitiesToDetections } from '../ner/mapping';
 import { requestTopicScores, warmUpTopicModel } from '../topics/client';
 import { topicDetections } from '../topics/detect';
-import { topicRulesOf } from '../topics/rules';
+import { sameHypotheses, topicRulesOf } from '../topics/rules';
 import { ApprovalStore } from './approval';
 
 /** A model left alone for this long is run once before it is needed again. */
@@ -67,9 +67,10 @@ export function installInterceptor(adapter: PlatformAdapter): void {
    * when the policy has TOPIC rules, the decision model. Neither model can block
    * the send: one that is not ready or too slow simply contributes nothing.
    *
-   * The detection model does not depend on the policy, so it starts at once,
-   * while the policy is being checked; the decision model needs the policy's
-   * topics and starts right after.
+   * Nothing waits for the policy check, which is a network round trip of up to
+   * a second. The detection model does not depend on the policy at all. The
+   * decision model starts on the topics of the policy stored right now; in the
+   * rare case that the check brings different topics, it is asked again.
    */
   async function modelDetectionsFor(text: string) {
     const started = performance.now();
@@ -78,16 +79,21 @@ export function installInterceptor(adapter: PlatformAdapter): void {
       dismiss = showStatus('Hares AI: checking…');
     }, 300);
     const detecting = requestEntities(text);
-    // Always scan under the current policy: have the background check it if the
-    // last check is not recent, then read what is stored right now.
+    const score = (list: ReturnType<typeof topicRulesOf>) =>
+      list.length > 0 ? requestTopicScores(text, list.map((t) => t.hypothesis)) : null;
+    await policyState.refresh();
+    const storedTopics = topicRulesOf(policyState.policy);
+    const scoringStored = score(storedTopics);
+    // Always decide under the current policy: have the background check it if
+    // the last check is not recent, then read what is stored right now.
     await requestFreshPolicy();
     await policyState.refresh();
     const policyMs = Math.round(performance.now() - started);
     const topics = topicRulesOf(policyState.policy);
-    const [result, topicResult] = await Promise.all([
-      detecting,
-      topics.length > 0 ? requestTopicScores(text, topics.map((t) => t.hypothesis)) : null,
-    ]);
+    // Same descriptions in the same order: the scores already under way fit the
+    // new rules (their thresholds and actions are applied afterwards).
+    const scoring = sameHypotheses(storedTopics, topics) ? scoringStored : score(topics);
+    const [result, topicResult] = await Promise.all([detecting, scoring]);
     clearTimeout(indicator);
     (dismiss as (() => void) | null)?.();
     warm.touch();

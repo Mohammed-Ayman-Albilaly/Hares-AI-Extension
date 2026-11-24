@@ -53,6 +53,11 @@ export interface TopicRule {
   threshold: number;
 }
 
+/** Would the model be asked the same questions, in the same order? Then scores of one list fit the other. */
+export function sameHypotheses(a: readonly TopicRule[], b: readonly TopicRule[]): boolean {
+  return a.length === b.length && a.every((topic, i) => topic.hypothesis === b[i]!.hypothesis);
+}
+
 /** The TOPIC rules of a policy that can be enforced, in bundle order. */
 export function topicRulesOf(policy: Policy): TopicRule[] {
   const topics: TopicRule[] = [];

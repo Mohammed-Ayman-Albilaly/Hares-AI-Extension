@@ -7,6 +7,7 @@ import {
   MAX_TOPIC_RULES,
   TOPIC_THRESHOLD_DEFAULT,
   parseTopicFields,
+  sameHypotheses,
   topicRulesOf,
 } from '../../src/topics/rules';
 
@@ -134,5 +135,21 @@ describe('TOPIC rules and the pattern matcher', () => {
     const policy = bundleToPolicy(parseBundle(bundle([{ ...TOPIC, definition: 'falcon' }, KEYWORD]))!);
     const found = detectWithOrgRules('project falcon', policy);
     expect(found.map((d) => d.rule?.id)).toEqual(['k-1']);
+  });
+});
+
+describe('sameHypotheses', () => {
+  const rulesOf = (...rules: unknown[]) => topicRulesOf(bundleToPolicy(parseBundle(bundle(rules))!));
+  const other = { ...TOPIC, id: 'other', definition_en: 'This text discusses employee salaries, pay raises or bonuses.' };
+
+  it('scores can be reused when only the threshold, action or name of a rule changed', () => {
+    expect(sameHypotheses(rulesOf(TOPIC, other), rulesOf({ ...TOPIC, threshold: 0.5, action: 'ALLOW', name: 'x' }, other))).toBe(true);
+  });
+
+  it('a changed description, order or number of rules means asking the model again', () => {
+    expect(sameHypotheses(rulesOf(TOPIC, other), rulesOf(other, TOPIC))).toBe(false);
+    expect(sameHypotheses(rulesOf(TOPIC), rulesOf(TOPIC, other))).toBe(false);
+    expect(sameHypotheses(rulesOf(TOPIC), rulesOf({ ...TOPIC, definition_en: 'This text discusses layoffs, job cuts or restructuring.' }))).toBe(false);
+    expect(sameHypotheses([], [])).toBe(true);
   });
 });

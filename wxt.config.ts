@@ -78,6 +78,12 @@ export default defineConfig({
     content_security_policy: {
       extension_pages: "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';",
     },
+    // Make the extension's own pages cross-origin isolated. That gives the
+    // offscreen document SharedArrayBuffer, so the ONNX runtime runs the local
+    // models on several CPU threads instead of one. Measured in Chrome: a check
+    // that took 2 to 3.3 seconds takes 0.15 to 1.1 seconds (docs/topic-rules.md).
+    cross_origin_embedder_policy: { value: 'require-corp' },
+    cross_origin_opener_policy: { value: 'same-origin' },
   },
   vite: () => ({
     plugins: [localOrtWasmAssets()],

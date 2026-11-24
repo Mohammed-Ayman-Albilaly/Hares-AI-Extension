@@ -2,7 +2,7 @@
 
 A TOPIC rule names a subject in words, for example "plans to lay off employees". The extension decides on the user's device whether a message is about that subject. The message text never leaves the device.
 
-Status: built, covered by unit tests, and tested in Chrome on ChatGPT against the live platform on 2026-11-24 (see "Joint test"). One open problem: the check adds 2 to 3 seconds to every message, and the first message after a long idle can exceed the 4-second limit, in which case the topic is missed.
+Status: built, covered by unit tests, and tested in Chrome on ChatGPT against the live platform on 2026-11-24 (see "Joint test" and "Speed"). The first version added 2 to 3.3 seconds to every message; with the models on several threads a check now takes 0.15 to 1.7 seconds. Not yet checked: a first-time model download with the new isolation settings.
 
 ## How a message is judged
 
@@ -58,7 +58,7 @@ The dialog names the rule (`name`), and selects the safe button by default: Send
 - `Horizon-Labs/multilingual-zeroshot-small`, int8, about 268 MB, the same model the TOPIC experiments measured. It runs in the extension's worker on the CPU (WASM).
 - It is downloaded only when a policy with TOPIC rules is seen, once, and then loads from disk. With the detection model the total first download is about 536 MB.
 - A message longer than about 1200 characters is read in overlapping pieces (at most 6: the first five and the last), and the highest score of each topic is kept.
-- The send never waits on the model: while it is downloading, if it failed to load, or if scoring takes more than 4 seconds, TOPIC rules are **not applied** to that message. The page console says so (`topic rules not applied to this message`). Other protection is unaffected.
+- The send never waits on the model: while it is downloading, if it failed to load, or if scoring takes more than 6 seconds, TOPIC rules are **not applied** to that message. The page console says so (`topic rules not applied to this message`). Other protection is unaffected.
 
 ## Log events
 
@@ -102,10 +102,34 @@ Chrome on ChatGPT, signed in to the live platform, 2026-11-24. The bundle had tw
 - The first four rows were run by hand; the rest were driven and timed by script (time from releasing Enter to the dialog, or to the end of the check).
 - The payloads of `POST /logs` were not inspected in the browser; the platform side confirms the events.
 
+## Speed
+
+The first version made every message wait 2 to 3.3 seconds, and the first message after a long idle passed the limit, so its topic was missed (see "Joint test"). Four changes followed:
+
+1. **Several threads.** The manifest makes the extension's pages cross-origin isolated (`cross_origin_embedder_policy`, `cross_origin_opener_policy`), which lets the ONNX runtime use several CPU threads. This is the change that matters.
+2. **Warm-up.** Both models run once on nothing when the page opens and when the user starts typing after a minute's pause, so the real run is not the slow first one after idling.
+3. **Nothing waits for the policy check.** The detection model starts at once, and the topic model starts on the stored policy's topics; it is asked again only if the check brings different descriptions.
+4. **Limit.** The topic model's limit is 6 seconds instead of 4.
+
+Measured in Chrome on ChatGPT, 2026-11-24, two TOPIC rules, a 12-core laptop, 4 threads in use. Times are the extension's own, per message:
+
+| Message | Whole check | Policy check | Detection model | Topic model | Result |
+|---|---|---|---|---|---|
+| Layoffs with an email, first message after loading | 1.7 s | 0.86 s | 0.44 s | 0.64 s | Topic and email caught |
+| Layoffs and bonuses | 1.1 s | 0.74 s | 0.09 s | 0.29 s | Both rules |
+| Short layoffs message | 0.14 s | 0.03 s | 0.05 s | 0.09 s | Warned |
+| General salary question | 0.58 s | 0.02 s | 0.14 s | 0.30 s | Notice (false alert) |
+| Coping with job loss | 0.60 s | 0.49 s | 0.08 s | 0.11 s | Nothing |
+| Layoffs in Arabic | 0.30 s | 0.08 s | 0.15 s | 0.14 s | Warned |
+
+- These runs had changes 1, 2 and 4 and half of change 3 (the detection model already started early, the topic model still waited for the policy check). With the whole of change 3 the check should take about as long as the slower of the policy check and the two models; that has not been measured.
+- In one further run the check started about 3 seconds after Enter was pressed. The cause was not found; it did not repeat.
+- Before these changes the same messages took 2.0 to 3.3 seconds, single-threaded.
+
 ## Known problems
 
-- **Speed.** With two TOPIC rules, every message waited 2 to 3.3 seconds before it was sent or the dialog appeared. In Node the same scoring took a fraction of a second: the browser runs the models on one CPU thread. How much of the wait is the topic model, the detection model and the policy check has not been separated.
-- **First message after a long idle.** It can exceed the 4-second limit, and then TOPIC rules are not applied to it. Seen once in the joint test.
+- **First-time download under isolation is untested.** The models were already on disk in every run above. A new user downloads them from Hugging Face, and the isolation settings add rules for cross-origin requests. If that download were blocked, both models would stay off. Test by removing the extension, adding it again and watching the models load.
+- **Slower machines.** The numbers come from one 12-core laptop. With fewer cores the runtime uses fewer threads.
 
 ## Not verified yet
 
